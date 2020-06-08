@@ -2,7 +2,7 @@ package ${currentPackage};
 
 {config.servicePackage}.I${upperModelName}Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import ${config.basePackage}.bean.entity.${upperModelName};
+import ${config.beanPackage}.entity.${upperModelName};
 {config.daoPackage}.I${upperModelName}Dao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

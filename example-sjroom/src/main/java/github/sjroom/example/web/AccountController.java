@@ -1,9 +1,12 @@
 package github.sjroom.example.web;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import github.sjroom.core.page.PageResult;
+import github.sjroom.core.page.PageUtil;
 import github.sjroom.core.utils.BeanUtil;
 import github.sjroom.example.bean.entity.Account;
-import github.sjroom.example.bean.vo.*;
+import github.sjroom.example.bean.vo.AccountPageReqVo;
+import github.sjroom.example.bean.vo.AccountReqVo;
+import github.sjroom.example.bean.vo.AccountRespVo;
 import github.sjroom.example.service.IAccountService;
 import github.sjroom.example.service.IAccountServiceComp;
 import io.swagger.annotations.Api;
@@ -12,8 +15,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 /**
@@ -41,13 +42,9 @@ public class AccountController {
 	}
 
 	@ApiOperation("查看分页")
-	@PostMapping("list")
-	public List<Account> page(@RequestBody AccountPageReqVo reqVo)
-	{
-		LambdaQueryWrapper<Account> wrapper = new LambdaQueryWrapper<Account>()
-			.eq(Account::getId,33l);
-
-		return accountService.list(wrapper);
+	@PostMapping("page")
+	public PageResult page(@RequestBody AccountPageReqVo reqVo) {
+		return PageUtil.toPageResult(accountService.findPage(reqVo));
 	}
 
 	@ApiOperation("创建")

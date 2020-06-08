@@ -15,5 +15,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AccountPageReqVo extends PageReqParam {
 
-    // 业务按需添加分页参数
+	// 业务按需添加分页参数
+	private Long accountId;
 }
+

@@ -11,12 +11,12 @@ public class EnumGenerator {
     /**
      * sql模板
      */
-    public static final String SQL_INSERT_TMPLATE = "INSERT INTO `base`.`base_error_code`(`error_code_id`, `project_code`, `error_code`, `error_text`, `language`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) \n" +
+    public static final String SQL_INSERT_TMPLATE = "INSERT INTO `web`.`base_error_code`(`error_code_id`, `project_code`, `error_code`, `error_text`, `language`, `status`, `created_by`, `created_at`, `updated_by`, `updated_at`) \n" +
         "VALUES ({0}, '{1}', '{1}{2}', '{3}', 'zh', 1, 1, '2019-07-22 07:38:27', 1, '2019-07-22 07:38:27');";
     /**
      * sql模板
      */
-    public static final String SQL_DELETE_TMPLATE = "DELETE FROM `base`.`base_error_code` WHERE `project_code` = '{0}';";
+    public static final String SQL_DELETE_TMPLATE = "DELETE FROM `web`.`base_error_code` WHERE `project_code` = '{0}';";
 
     /**
      * 项目的短名称

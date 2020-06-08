@@ -1,22 +1,17 @@
 package ${currentPackage};
 
-import ${config.basePackage}.bean.vo.*;
+{config.beanPackage}.vo.*;
 import ${config.basePackage}.service.I${upperModelName}Service;
-import ${config.basePackage}.service.I${upperModelName}ServiceComp;
-import github.sjroom.base.center.client.vo.BatchOperationVo;
-import github.sjroom.base.center.client.vo.BatchStatusOperationVo;
-import github.sjroom.base.center.client.vo.OperationVo;
-import github.sjroom.core.page.PageResult;
+{config.basePackage}.service.I${upperModelName}ServiceComp;
+import github.sjroom.web.center.client.vo.BatchOperationVo;
+import github.sjroom.web.center.client.vo.BatchStatusOperationVo;
+import github.sjroom.web.center.client.vo.OperationVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import java.util.List;
 
 
 /**

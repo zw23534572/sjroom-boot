@@ -7,5 +7,51 @@
         <% for(var item in dbTableFieldInfoList) {%>${itemLP.index!=itemLP.size?item.column+",":item.column}<% } %>
     </sql>
 
-
+    <select id="selectPage" resultType="${config.voPackage}.${upperModelName}RespVo"
+            parameterType="${config.voPackage}.${upperModelName}ReqVo">
+        select
+        <include refid="Base_Column_List" />
+        from ${dbTableName}
+        <where>
+            <% for(var item in dbTableFieldInfoList) {
+                var isIgore=false;
+                for(var igoreitem in config.ignoreFieldArr){
+                if(item.column==igoreitem && igoreitem!="create_time" && igoreitem!="create_date"){
+                    isIgore = true;
+                    break;
+                  }
+                }
+                if(isIgore) continue;
+            %>
+                <% if (item.propertyType=='String') {%>
+                <if test="${item.property} != null and ${item.property} != ''">
+                    and ${item.column} = #{model.${item.property}}
+                </if>
+                <% } else if(item.propertyType=='Long' || item.propertyType=='Integer' || item.propertyType=='Byte') {%>
+                <if test="${item.property} != null and ${item.property} >= 0">
+                    and ${item.column} = #{model.${item.property}}
+                </if>
+                <% } else if(item.column=='create_time' || item.column=='create_date') {%>
+                <if test="startDate != null">
+                    and ${item.column} &gt;= #{model.startDate}
+                </if>
+                <if test="endDate != null">
+                    and ${item.column} &lt;= #{model.endDate}
+                </if>
+                <% } else {%>
+                <if test="${item.property} != null">
+                    and ${item.column} = #{model.${item.property}}
+                </if>
+                <% } %>
+                <% if(strutil.startWith(item.comment,"@status")) { %>
+                <if test="${item.property}s != null and ${item.property}s.size > 0">
+                    and ${item.column} in
+                    <foreach collection="model.${item.property}s" item="item" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <% } %>
+            <% } %>
+        </where>
+    </select>
 </mapper>

@@ -1,6 +1,6 @@
 package ${currentPackage};
 
-import ${config.basePackage}.bean.entity.${upperModelName};
+import ${config.beanPackage}.entity.${upperModelName};
 
 /**
  * <B>说明：${dbTableInfo.comment}服务</B><BR>

@@ -93,7 +93,7 @@ public class GenerateCode {
      */
     private static Properties getProperties() {
         // 读取配置文件
-        Resource resource = new ClassPathResource("generator.properties");
+		Resource resource = new ClassPathResource("generator.properties");
         Properties props = new Properties();
         try {
             return PropertiesLoaderUtils.loadProperties(resource);

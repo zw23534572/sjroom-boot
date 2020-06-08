@@ -2,7 +2,7 @@ package ${currentPackage};
 
 import ${config.daoPackage}.I${upperModelName}DaoComp;
 import ${config.daoPackage}.I${upperModelName}Dao;
-import ${config.basePackage}.bean.entity.${upperModelName};
+import ${config.beanPackage}.entity.${upperModelName};
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
