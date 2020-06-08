@@ -1,12 +1,13 @@
 package github.sjroom.example.service;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import github.sjroom.core.page.PageReqParam;
 import github.sjroom.example.bean.bo.AccountBo;
 import github.sjroom.example.bean.entity.Account;
-import github.sjroom.example.bean.vo.AccountPageReqVo;
 import github.sjroom.mybatis.service.BaseService;
-import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <B>说明：服务</B><BR>
@@ -15,13 +16,45 @@ import org.apache.ibatis.annotations.Param;
  * @version 1.0.0
  * @since 2019-12-16 14:14
  */
-public interface IAccountService extends BaseService<Account>{
+public interface IAccountService extends BaseService<Account> {
 
 	/**
-	 * 查询分页信息
+	 * 查看
 	 *
-	 * @param reqVo
+	 * @param accountId 业务主键Id
 	 * @return
 	 */
-	IPage<Account> findPage(AccountPageReqVo reqVo);
+	AccountBo findByBId(Long accountId);
+
+	/**
+	 * 列表
+	 *
+	 * @param accountIds 业务主键Id
+	 * @return
+	 */
+	List<AccountBo> findByBIds(Set<Long> accountIds);
+
+	/**
+	 * 列表
+	 *
+	 * @param accountBo 业务model
+	 * @return
+	 */
+	List<AccountBo> findList(AccountBo accountBo);
+
+	/**
+	 * 列表
+	 *
+	 * @param accountBo 业务model
+	 * @return 键值对
+	 */
+	Map<Long, AccountBo> findMap(AccountBo accountBo);
+
+	/**
+	 * 分页
+	 *
+	 * @param accountBo
+	 * @return
+	 */
+	IPage<AccountBo> findPage(AccountBo accountBo);
 }

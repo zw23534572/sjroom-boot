@@ -1,9 +1,11 @@
 package github.sjroom.example.bean.bo;
 
 import github.sjroom.core.page.PageReqParam;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.Set;
 
 
 /**
@@ -20,6 +22,11 @@ public class AccountBo extends PageReqParam {
 	 * 业务主键
 	 */
 	private Long accountId;
+	/**
+	 * 业务主键，批次
+	 */
+	private Set<Long> accountIds;
+
 	/**
 	 * 账号类型（0.超级管理员，1.普通管理员，2.业务管理员，3.业务人员）
 	 */

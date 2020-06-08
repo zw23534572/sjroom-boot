@@ -1,10 +1,10 @@
 package github.sjroom.example.dao;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import github.sjroom.example.bean.vo.AccountPageReqVo;
+import github.sjroom.example.bean.bo.AccountBo;
+import github.sjroom.example.bean.entity.Account;
 import github.sjroom.mybatis.mapper.IMapper;
 import org.apache.ibatis.annotations.Mapper;
-import github.sjroom.example.bean.entity.Account;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -23,5 +23,5 @@ public interface IAccountDao extends IMapper<Account> {
 	 * @param reqVo
 	 * @return
 	 */
-	IPage<Account> findPage(IPage page, @Param(value = "model") AccountPageReqVo reqVo);
+	IPage<Account> findPage(IPage page, @Param(value = "model") AccountBo reqVo);
 }

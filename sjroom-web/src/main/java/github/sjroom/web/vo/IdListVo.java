@@ -6,15 +6,16 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class IdListVo<T> {
 	@NotEmpty
-	protected List<T> idList;
+	protected Set<T> idList;
 
-	public static <R> IdListVo<R> of(List<R> list) {
+	public static <R> IdListVo<R> of(Set<R> list) {
 		return new IdListVo<>(list);
 	}
 }

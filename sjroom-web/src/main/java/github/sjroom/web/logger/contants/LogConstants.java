@@ -22,4 +22,20 @@ public interface LogConstants {
 	 * 日志路径
 	 */
 	String LOGGING_PATH_FILE = "logger/log4j2.xml";
+	/**
+	 * 错误信息
+	 */
+	String ERROR_MESSAGE = "errorMsg";
+	/**
+	 * 错误详细信息
+	 */
+	String ERROR_DETAIL_MESSAGE = "errorDetailMsg";
+	/**
+	 * 错误发生的时间
+	 */
+	String ERROR_DATE_TIME = "timestamp";
+	/**
+	 * 错误的code码
+	 */
+	String ERROR_CODE = "errorCode";
 }

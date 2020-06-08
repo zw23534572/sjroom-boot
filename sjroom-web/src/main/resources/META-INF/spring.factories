@@ -1,6 +1,9 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   github.sjroom.web.context.servlet.ControllerReqLogAspect,\
   github.sjroom.web.boot.DopStartEventListener,\
-  github.sjroom.web.web.json.JsonConfiguration
+  github.sjroom.web.json.JsonConfiguration,\
+  github.sjroom.web.context.servlet.ControllerExceptionAdvice
 org.springframework.context.ApplicationContextInitializer=\
   github.sjroom.web.logger.LogInitializer
+ 
+
