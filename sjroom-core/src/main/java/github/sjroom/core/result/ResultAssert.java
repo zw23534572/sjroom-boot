@@ -3,10 +3,7 @@ package github.sjroom.core.result;
 import github.sjroom.core.code.IResultCode;
 import github.sjroom.core.exception.BusinessException;
 import github.sjroom.core.exception.FrameworkException;
-import github.sjroom.core.utils2.UtilCollection;
-import github.sjroom.core.exception.BusinessException;
-import github.sjroom.core.exception.FrameworkException;
-import github.sjroom.core.utils2.UtilCollection;
+import github.sjroom.core.utils.CollectionUtil;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -97,7 +94,7 @@ public abstract class ResultAssert {
 	private static void throwFail0(IResultCode resultCode, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
 		BusinessException exception = new BusinessException(resultCode);
 		exception.setI18Args(i18Args);
-		if (!UtilCollection.isEmpty(dataPairs)) {
+		if (!CollectionUtil.isEmpty(dataPairs)) {
 			Map<String, Object> values = Stream.of(dataPairs)
 				.filter(v -> v != null && ObjectUtils.allNotNull(v.field, v.data))
 				.collect(Collectors.toMap(v -> v.field, v -> v.data));

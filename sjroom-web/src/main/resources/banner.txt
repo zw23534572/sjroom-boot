@@ -1,0 +1,1 @@
+${AnsiColor.BRIGHT_BLUE}:: ${spring.application.name}:: 🎉 🎉 🎉 :: Running Spring Boot ${spring-boot.version} :: @parent.artifactId@ @parent.version@ ${AnsiColor.DEFAULT}

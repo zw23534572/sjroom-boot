@@ -172,9 +172,9 @@ public class ReflectionUtils extends org.springframework.util.ReflectionUtils {
         } else if (returnType == BigDecimal.class) {
             return new BigDecimal(value.toString());
         } else if (returnType == LocalDate.class) {
-            return DateTimeUtil.parseDateTime(value.toString());
+            return 	LocalDate.parse(value.toString());
         } else if (returnType == LocalDateTime.class) {
-            return DateTimeUtil.parseDateTime(value.toString());
+            return LocalDateTime.parse(value.toString());
         }
         return value;
     }

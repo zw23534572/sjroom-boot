@@ -3,24 +3,24 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.sunvalley</groupId>
-    <artifactId>sjroom-parent</artifactId>
+    <groupId>github.sjroom</groupId>
+    <artifactId>sjroom-boot</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>sjroom</name>
-    <description>新数字化运营平台微服务父项目</description>
+    <description>sjroom-boot脚手架</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.5.RELEASE</version>
+        <version>2.1.11.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
         <!--  统一编译版本  -->
         <java.version>1.8</java.version>
-        <dop.framework.version>0.0.1-SNAPSHOT</dop.framework.version>
+        <sjroom.framework.version>0.0.1-SNAPSHOT</sjroom.framework.version>
         <spring.boot.version>2.1.5.RELEASE</spring.boot.version>
         <spring.cloud.version>Greenwich.RELEASE</spring.cloud.version>
         <spring.boot.admin.version>2.1.5</spring.boot.admin.version>
@@ -40,11 +40,10 @@
     </properties>
 
     <modules>
-        <module>sjroom-base</module>
+        <module>sjroom-web</module>
         <module>sjroom-core</module>
         <module>sjroom-mybatis</module>
-        <module>z-sjroom-example</module>
-        <!--        <module>example-spring-boot-starter</module>-->
+        <module>example-sjroom</module>
     </modules>
 
     <dependencies>
@@ -93,9 +92,19 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.sunvalley</groupId>
+                <groupId>github.sjroom</groupId>
                 <artifactId>sjroom-core</artifactId>
-                <version>${dop.framework.version}</version>
+                <version>${sjroom.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>github.sjroom</groupId>
+                <artifactId>sjroom-web</artifactId>
+                <version>${sjroom.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>github.sjroom</groupId>
+                <artifactId>sjroom-mybatis</artifactId>
+                <version>${sjroom.framework.version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>
@@ -123,19 +132,6 @@
                 <artifactId>feign-okhttp</artifactId>
                 <version>${openfeign.version}</version>
             </dependency>
-
-            <dependency>
-                <groupId>com.sunvalley</groupId>
-                <artifactId>sjroom-base</artifactId>
-                <version>${dop.framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sunvalley</groupId>
-                <artifactId>sjroom-mybatis</artifactId>
-                <version>${dop.framework.version}</version>
-            </dependency>
-
-
             <dependency>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-annotations</artifactId>

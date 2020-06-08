@@ -1,6 +1,6 @@
 package github.sjroom.mybatis.handler;
 
-import github.sjroom.core.utils2.UtilDate;
+import github.sjroom.core.utils.DateUtil;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.LocalDateTypeHandler;
 
@@ -23,6 +23,6 @@ public class DopLocalDateTypeHandler extends LocalDateTypeHandler {
 
 	@Override
 	public void setNonNullParameter(PreparedStatement ps, int i, LocalDate parameter, JdbcType jdbcType) throws SQLException {
-		ps.setObject(i, UtilDate.formatDateStr(parameter));
+		ps.setObject(i, DateUtil.formatDateStr(parameter));
 	}
 }

@@ -1,9 +1,0 @@
-dop:
-  server:
-    short-name: dzd
-
-## mybatis-plus
-mybatis-plus:
-  typeAliasesPackage: com.sunvalley.dop.resource.bean.entity
-  #配置mybaits自定义类型转换类所在的包
-  type-handlers-package: com.sunvalley.resource.center.handler

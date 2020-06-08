@@ -1,7 +1,7 @@
 //package github.sjroom.core.utils;
 //
 //import lombok.experimental.UtilityClass;
-//import org.springframework.util.StringUtils;
+//import org.springframework.utils.StringUtils;
 //
 ///**
 // * url处理工具类
@@ -9,7 +9,7 @@
 // * @author L.cm
 // */
 //@UtilityClass
-//public class UrlUtil extends org.springframework.web.util.UriUtils {
+//public class UrlUtil extends org.springframework.web.utils.UriUtils {
 //
 //    /**
 //     * url编码，默认为 utf-8

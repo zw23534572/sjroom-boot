@@ -1,240 +1,409 @@
 package github.sjroom.core.utils;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.experimental.UtilityClass;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Writer;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.ZoneOffset;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 /**
  * json 工具类
  *
- * @author L.cm
+ * @author manson.zhou
  */
 @UtilityClass
 public class JsonUtil {
 
-    /**
-     * 将对象序列化成json字符串
-     *
-     * @param object javaBean
-     * @return jsonString json字符串
-     */
-    public static String toJson(Object object) {
-        try {
-            return getInstance().writeValueAsString(object);
-        } catch (JsonProcessingException e) {
-            throw Exceptions.unchecked(e);
-        }
-    }
 
-    /**
-     * 将对象序列化成 json byte 数组
-     *
-     * @param object javaBean
-     * @return jsonString json字符串
-     */
-    public static byte[] toJsonAsBytes(Object object) {
-        try {
-            return getInstance().writeValueAsBytes(object);
-        } catch (JsonProcessingException e) {
-            throw Exceptions.unchecked(e);
-        }
-    }
+	public static final ObjectMapper mapper = newObjectMapper();
 
-    /**
-     * 将json字符串转成 JsonNode
-     *
-     * @param jsonString jsonString
-     * @return jsonString json字符串
-     */
-    public static JsonNode toJsonNode(String jsonString) {
-        try {
-            return getInstance().readTree(jsonString);
-        } catch (IOException e) {
-            throw Exceptions.unchecked(e);
-        }
-    }
+	public static ObjectMapper init(ObjectMapper mapper) {
+		mapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
+		mapper.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
+		mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+//        mapper.configure(SerializationFeature.WRITE_NULL_MAP_VALUES, false); // 不输出value=null的属性
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false); // 不知道的属性，不异常
+		mapper.setDateFormat(new SimpleDateFormat(DateUtil.PatternMvc));
+		mapper.setTimeZone(DateUtil.tzUTC);
 
-    /**
-     * 将json字符串转成 JsonNode
-     *
-     * @param in InputStream
-     * @return jsonString json字符串
-     */
-    public static JsonNode toJsonNode(InputStream in) {
-        try {
-            return getInstance().readTree(in);
-        } catch (IOException e) {
-            throw Exceptions.unchecked(e);
-        }
-    }
+		SimpleModule simpleModule = new SimpleModule("LongToStringModule");
+		simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
+		simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
+		simpleModule.addSerializer(BigDecimal.class, ToStringSerializer.instance);
+		mapper.registerModule(simpleModule);
 
-    /**
-     * 将json字符串转成 JsonNode
-     *
-     * @param content content
-     * @return jsonString json字符串
-     */
-    public static JsonNode toJsonNode(byte[] content) {
-        try {
-            return getInstance().readTree(content);
-        } catch (IOException e) {
-            throw Exceptions.unchecked(e);
-        }
-    }
+		JavaTimeModule timeModule = new JavaTimeModule();
+		timeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateUtil.DateFormatter));
+		timeModule.addSerializer(LocalDate.class, new LocalDateSerializer(DateUtil.DateFormatter));
+		mapper.registerModule(timeModule);
 
-    /**
-     * 将json字符串转成 JsonNode
-     *
-     * @param jsonParser JsonParser
-     * @return jsonString json字符串
-     */
-    public static JsonNode toJsonNode(JsonParser jsonParser) {
-        try {
-            return getInstance().readTree(jsonParser);
-        } catch (IOException e) {
-            throw Exceptions.unchecked(e);
-        }
-    }
+		mapper.findAndRegisterModules();
 
-    /**
-     * 将json byte 数组反序列化成对象
-     *
-     * @param bytes     json bytes
-     * @param valueType class
-     * @param <T>       T 泛型标记
-     * @return Bean
-     */
-    public static <T> T parse(byte[] bytes, Class<T> valueType) {
-        try {
-            return getInstance().readValue(bytes, valueType);
-        } catch (IOException e) {
-            throw Exceptions.unchecked(e);
-        }
-    }
+		return mapper;
+	}
 
-    /**
-     * 将json反序列化成对象
-     *
-     * @param jsonString jsonString
-     * @param valueType  class
-     * @param <T>        T 泛型标记
-     * @return Bean
-     */
-    public static <T> T parse(String jsonString, Class<T> valueType) {
-        try {
-            return getInstance().readValue(jsonString, valueType);
-        } catch (IOException e) {
-            throw Exceptions.unchecked(e);
-        }
-    }
+	private static ObjectMapper newObjectMapper() {
+		return init(new ObjectMapper());
+	}
 
-    /**
-     * 将json反序列化成对象
-     *
-     * @param in        InputStream
-     * @param valueType class
-     * @param <T>       T 泛型标记
-     * @return Bean
-     */
-    public static <T> T parse(InputStream in, Class<T> valueType) {
-        try {
-            return getInstance().readValue(in, valueType);
-        } catch (IOException e) {
-            throw Exceptions.unchecked(e);
-        }
-    }
+	public static String writerWithDefaultPrettyPrinter(Object value) {
+		try {
+			return mapper.writerWithDefaultPrettyPrinter().writeValueAsString(value);
+		} catch (IOException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
 
-    /**
-     * 将json反序列化成对象
-     *
-     * @param bytes         bytes
-     * @param typeReference 泛型类型
-     * @param <T>           T 泛型标记
-     * @return Bean
-     */
-    public static <T> T parse(byte[] bytes, TypeReference<?> typeReference) {
-        try {
-            return getInstance().readValue(bytes, typeReference);
-        } catch (IOException e) {
-            throw Exceptions.unchecked(e);
-        }
-    }
+	public static void writeValue(Writer writer, Object value) {
+		try {
+			mapper.writeValue(writer, value);
+		} catch (IOException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
 
-    /**
-     * 将json反序列化成对象
-     *
-     * @param jsonString    jsonString
-     * @param typeReference 泛型类型
-     * @param <T>           T 泛型标记
-     * @return Bean
-     */
-    public static <T> T parse(String jsonString, TypeReference<?> typeReference) {
-        try {
-            return getInstance().readValue(jsonString, typeReference);
-        } catch (IOException e) {
-            throw Exceptions.unchecked(e);
-        }
-    }
+	public static byte[] writerWithDefaultPrettyPrinterAsBytes(Object value) {
+		try {
+			return mapper.writerWithDefaultPrettyPrinter().writeValueAsBytes(value);
+		} catch (IOException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
 
-    /**
-     * 将json反序列化成对象
-     *
-     * @param in            InputStream
-     * @param typeReference 泛型类型
-     * @param <T>           T 泛型标记
-     * @return Bean
-     */
-    public static <T> T parse(InputStream in, TypeReference<?> typeReference) {
-        try {
-            return getInstance().readValue(in, typeReference);
-        } catch (IOException e) {
-            throw Exceptions.unchecked(e);
-        }
-    }
+	public static byte[] writeValueAsBytes(Object value) {
+		try {
+			return mapper.writeValueAsBytes(value);
+		} catch (IOException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
 
-    public static ObjectMapper getInstance() {
-        return JacksonHolder.INSTANCE;
-    }
+	/**
+	 * 将对象序列化成json字符串
+	 *
+	 * @param object javaBean
+	 * @return jsonString json字符串
+	 */
+	@Nullable
+	public static String toJson(@Nullable Object object) {
+		if (object == null) {
+			return null;
+		}
+		return writeValueAsString(object);
+	}
 
-    private static class JacksonHolder {
-        private static ObjectMapper INSTANCE = new JacksonObjectMapper();
-    }
+	public static String toString(Object value) {
+		return writeValueAsString(value);
+	}
 
-    private static class JacksonObjectMapper extends ObjectMapper {
-        private static final long serialVersionUID = 4288193147502386170L;
+	public static String writeValueAsString(Object value) {
+		try {
+			return mapper.writeValueAsString(value);
+		} catch (IOException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
 
-        JacksonObjectMapper() {
-            super();
-            super.setDateFormat(new SimpleDateFormat(DateUtil.PATTERN_DATETIME));
-            // 单引号
-            super.configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
-            super.configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true);
-            // 允许JSON字符串包含非引号控制字符（值小于32的ASCII字符，包含制表符和换行符）
-            super.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
-            // 忽略json字符串中不识别的属性
-            super.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            // 忽略无法转换的对象
-            super.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-            SimpleModule simpleModule = new SimpleModule("LongToStringModule");
-            simpleModule.addSerializer(Long.class, ToStringSerializer.instance);
-            simpleModule.addSerializer(Long.TYPE, ToStringSerializer.instance);
-            super.registerModule(simpleModule);
-            super.setTimeZone(TimeZone.getTimeZone(ZoneOffset.UTC));
-            super.findAndRegisterModules();
-        }
+	/**
+	 * 对象转换为map，如果是字符串，先转成json对象再转为map
+	 */
+	@SuppressWarnings("unchecked")
+	public static Map<String, Object> toMap(Object value) throws IllegalArgumentException {
+		if (value == null) {
+			return null;
+		}
+		if (value instanceof String) {
+			return toMap((String) value);
+		}
+		return mapper.convertValue(value, Map.class);
+	}
 
-    }
+	/**
+	 * 返回结果不为空
+	 */
+	@SuppressWarnings("unchecked")
+	public static Map<String, Object> toMap(String value) {
+		if (StringUtils.isEmpty(value)) {
+			return new HashMap<>();
+		}
+		try {
+			return mapper.readValue(value, Map.class);
+		} catch (IOException e) {
+			throw new IllegalArgumentException(value, e);
+		}
+	}
+
+	/**
+	 * 读取为指定类型
+	 *
+	 * @param content json 流（特殊处理：输入null返回null）
+	 * @return
+	 * @since 0.1.0
+	 */
+	public static JsonNode readTree(InputStream content) {
+		if (content == null) {
+			return null;
+		}
+		try {
+			return mapper.readTree(content);
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Json inputStream error", e);
+		}
+	}
+
+	/**
+	 * 读取为指定类型
+	 *
+	 * @param content json 流（特殊处理：输入null返回null）
+	 * @param type    目标类型
+	 * @return
+	 * @since 0.1.0
+	 */
+	public static <T> T readValue(InputStream content, Class<T> type) {
+		if (content == null) {
+			return null;
+		}
+		try {
+			return mapper.readValue(content, type);
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Json inputStream error", e);
+		}
+	}
+
+	/**
+	 * 读取为指定类型
+	 *
+	 * @param data json 流（特殊处理：输入null返回null）
+	 * @param type 目标类型
+	 * @return
+	 * @since 0.1.0
+	 */
+	public static <T> T readValue(byte[] data, Class<T> type) {
+		if (data == null) {
+			return null;
+		}
+		try {
+			return mapper.readValue(data, type);
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Json byte[] data error", e);
+		}
+	}
+
+	/**
+	 * 读取为指定类型
+	 *
+	 * @param content       json 流（特殊处理：输入null返回null）
+	 * @param typeReference 泛型
+	 * @return
+	 * @since 0.1.0
+	 */
+	public static <T> T readValue(InputStream content, TypeReference<T> typeReference) {
+		if (content == null) {
+			return null;
+		}
+		try {
+			return mapper.readValue(content, typeReference);
+		} catch (IOException e) {
+			throw new IllegalArgumentException("Json inputStream error", e);
+		}
+	}
+
+	/**
+	 * 读取为指定类型
+	 *
+	 * @param content json字符串（特殊处理：输入null返回null）
+	 * @param type    目标类型
+	 * @return
+	 * @since 0.1.0
+	 */
+	public static <T> T readValue(String content, Class<T> type) {
+		if (StringUtils.isBlank(content)) {
+			return null;
+		}
+		try {
+			return mapper.readValue(content, type);
+		} catch (IOException e) {
+			throw new IllegalArgumentException(content, e);
+		}
+	}
+
+	/**
+	 * 读取为指定类型
+	 *
+	 * @param content json字符串（特殊处理：输入null返回null）
+	 * @param type    目标类型
+	 * @return
+	 * @since 0.1.0
+	 */
+	public static <T> T readValue(String content, JavaType type) {
+		if (StringUtils.isBlank(content)) {
+			return null;
+		}
+		try {
+			return mapper.readValue(content, type);
+		} catch (IOException e) {
+			throw new IllegalArgumentException(content, e);
+		}
+	}
+
+	/**
+	 * 范型readValue json ==> Pager&lt;MyBean&gt;: readValue(json, Pager.class,
+	 * MyBean.class)<br>
+	 * json ==> List<Set<Integer>>: readValue(json, List.class, Integer.class)<br>
+	 */
+	public static <T> T readValue(String json, Class<?> parametrized, Class<?> parametersFor,
+								  Class<?>... parameterClasses) {
+		if (StringUtils.isBlank(json)) {
+			return null;
+		}
+
+		JavaType type;
+		if (parameterClasses == null || parameterClasses.length == 0) {
+			type = mapper.getTypeFactory().constructParametrizedType(parametrized, parametrized, parametersFor);
+		} else {
+			type = mapper.getTypeFactory().constructParametrizedType(parametrized, parametersFor, parameterClasses);
+		}
+
+		try {
+			return mapper.readValue(json, type);
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	public static <K, V> Map<K, V> readMap(InputStream content, Class<?> keyClass, Class<?> valueClass) {
+		if (content == null) {
+			return null;
+		}
+		try {
+			return mapper.readValue(content, mapper.getTypeFactory().constructMapType(Map.class, keyClass, valueClass));
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	@SuppressWarnings("rawtypes")
+	public static <T> T readMap(String content, Class<? extends Map> mapClass, Class<?> keyClass, Class<?> valueClass) {
+		if (StringUtils.isBlank(content)) {
+			return null;
+		}
+		try {
+			return mapper.readValue(content, mapper.getTypeFactory().constructMapType(mapClass, keyClass, valueClass));
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	public static <T> List<T> readList(InputStream content, Class<T> elementClass) {
+		if (content == null) {
+			return null;
+		}
+		try {
+			return mapper.readValue(content, mapper.getTypeFactory().constructCollectionLikeType(List.class, elementClass));
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	public static <T> List<T> readList(String content, Class<?> collectionClass, Class<T> elementClass) {
+		if (StringUtils.isBlank(content)) {
+			return null;
+		}
+		try {
+			return mapper.readValue(content, mapper.getTypeFactory()
+				.constructCollectionLikeType(collectionClass == null ? List.class : collectionClass, elementClass));
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	public static <T> List<T> readList(String content, Class<T> elementClass) {
+		return readList(content, null, elementClass);
+	}
+
+	/**
+	 * 转换为目标类，如果value是字符串，将被认为是json串<br>
+	 * 所以特别注意：'"abc"'是json字符串，目标类型是String时，转换结果为'abc'而不是'"abc"'<br>
+	 *
+	 * @param value
+	 * @param clazz
+	 * @return
+	 * @throws IllegalArgumentException
+	 */
+	@SuppressWarnings("unchecked")
+	public static <T> T convertValue(Object value, Class<T> clazz) throws IllegalArgumentException {
+		if (value == null) {
+			return null;
+		}
+		try {
+			if (value instanceof String) {
+				if (!String.class.equals(clazz) && ((String) value).isEmpty()) {
+					return null;
+				}
+				if (String.class.equals(clazz) && ((String) value).isEmpty()) {
+					return (T) value;
+				}
+				value = mapper.readTree((String) value);
+			}
+			return mapper.convertValue(value, clazz);
+		} catch (IOException e) {
+			throw new IllegalArgumentException(e);
+		}
+	}
+
+	public static <T> T convertValue(Object fromValue, JavaType toValueType) {
+		return mapper.convertValue(fromValue, toValueType);
+	}
+
+	public static <T> T convertValue(Object fromValue, TypeReference<T> toValueTypeRef) {
+		return mapper.convertValue(fromValue, toValueTypeRef);
+	}
+
+	public static TypeFactory getTypeFactory() {
+		return mapper.getTypeFactory();
+	}
+
+	public static MapType constructMapType(Class<?> keyClass, Class<?> valueClass) {
+		return getTypeFactory().constructMapType(Map.class, keyClass, valueClass);
+	}
+
+
+	public static <T> T readUpdate(T valueToUpdate, JsonNode src) {
+		ObjectReader reader = mapper.readerForUpdating(valueToUpdate);
+		try {
+			return reader.readValue(src);
+		} catch (IOException e) {
+			throw new IllegalStateException(e);
+		}
+	}
+
+	public static int asInt(JsonNode node, int defaultValue) {
+		return node == null ? defaultValue : node.asInt(defaultValue);
+	}
+
+	public static String asText(JsonNode node, String defaultValue) {
+		return node == null ? defaultValue : node.asText(defaultValue);
+	}
 }

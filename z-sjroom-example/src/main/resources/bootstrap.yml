@@ -1,9 +1,0 @@
-server:
-  port: 40150
-
-spring:
-  application:
-    name: "@artifactId@"
-  profiles:
-    active: "@activatedProfile@"
-

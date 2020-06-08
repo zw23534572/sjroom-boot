@@ -14,7 +14,7 @@ java 是专门针对web入口进行封装的基础组件，让使用者尽量少
 再声明以下pom文件即可.
 ```xml
 <dependency>
-    <groupId>com.sunvalley</groupId>
+    <groupId>github.sjroom</groupId>
     <artifactId>sjroom-mybatis</artifactId>
 </dependency>
 ```
@@ -119,7 +119,7 @@ configGenerator.setAuthor(System.getProperty("user.name"));
 
 //  ---  需要更改的值
 // 包名
-configGenerator.setBasePackage("com.sunvalley.dop.bc.message");
+configGenerator.setBasePackage("github.sjroom.dop.bc.message");
 // 需要生成的表,多个为 "sys_msg_info,sys_msg_info12,sys_msg_info33"
 configGenerator.setGenerateTableName("sys_msg_info");
 // 替换表名前缀
@@ -130,7 +130,7 @@ new AutoGenerator(configGenerator).run();
 ### 生成的结构如下. 以(sys_msg_info为例)
 ```xml
 ├──gen_code
-│   ├─com.sunvalley.dop.bc.message
+│   ├─github.sjroom.dop.bc.message
 │      ├─bean 		
 │         ├─bo         
 │           ├─MsgInfoPageReqBo.java   #分页对象
