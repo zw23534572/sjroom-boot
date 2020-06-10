@@ -1,14 +1,12 @@
 package github.sjroom.example.web;
 
 
-import github.sjroom.example.service.DemoService;
+import github.sjroom.example.service.IDictService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,14 +26,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class DictController {
 
 	@Autowired
-	private DemoService demoService;
+	private IDictService dictService;
 
 
 	@ApiOperation("refresh")
 	@RequestMapping("refresh")
 	public Long refresh() {
 
-		demoService.echo();
+		dictService.echo();
 		return 1l;
 	}
 

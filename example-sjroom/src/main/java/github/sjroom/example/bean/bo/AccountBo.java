@@ -1,6 +1,7 @@
 package github.sjroom.example.bean.bo;
 
 import github.sjroom.core.page.PageReqParam;
+import github.sjroom.mybatis.annotation.FillFieldName;
 import lombok.Builder;
 import lombok.Data;
 
@@ -26,7 +27,6 @@ public class AccountBo extends PageReqParam {
 	 * 业务主键，批次
 	 */
 	private Set<Long> accountIds;
-
 	/**
 	 * 账号类型（0.超级管理员，1.普通管理员，2.业务管理员，3.业务人员）
 	 */

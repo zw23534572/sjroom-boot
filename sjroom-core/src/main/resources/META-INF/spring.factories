@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   github.sjroom.core.swagger.SwaggerServletAutoConfiguration,\
-  github.sjroom.core.swagger.SwaggerConfiguration
+  github.sjroom.core.swagger.SwaggerConfiguration,\
+  github.sjroom.core.extension.SpringExtensionLoader

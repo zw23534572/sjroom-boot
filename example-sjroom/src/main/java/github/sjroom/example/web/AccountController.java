@@ -6,6 +6,7 @@ import github.sjroom.example.bean.vo.AccountPageReqVo;
 import github.sjroom.example.bean.vo.AccountReqVo;
 import github.sjroom.example.bean.vo.AccountRespVo;
 import github.sjroom.example.service.IAccountServiceComp;
+import github.sjroom.mybatis.annotation.FillField;
 import github.sjroom.web.vo.IdStatusListVo;
 import github.sjroom.web.vo.IdVo;
 import io.swagger.annotations.Api;
@@ -35,18 +36,21 @@ public class AccountController {
 
 	@ApiOperation(value = "查看", notes = "传入id")
 	@PostMapping("find")
+	@FillField
 	public AccountRespVo find(@Validated @RequestBody IdVo idVo) {
 		return accountServiceComp.find(idVo);
 	}
 
 	@ApiOperation("分页")
 	@PostMapping("page")
+	@FillField
 	public PageResult page(@Validated @RequestBody AccountPageReqVo reqVo) {
-		return PageUtil.toPageResult(accountServiceComp.page(reqVo));
+		return PageUtil.toPageResult(accountServiceComp.page(reqVo), AccountRespVo.class);
 	}
 
 	@ApiOperation("列表")
 	@PostMapping("list")
+	@FillField
 	public List<AccountRespVo> list(@Validated @RequestBody AccountReqVo reqVo) {
 		return accountServiceComp.list(reqVo);
 	}

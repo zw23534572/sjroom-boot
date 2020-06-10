@@ -74,8 +74,9 @@ public class AccountServiceImpl extends BaseServiceImpl<IAccountDao, Account> im
 	@Override
 	public IPage<AccountBo> findPage(AccountBo model) {
 		log.info("AccountServiceImpl findPage params:{}", model);
-		IPage<Account> modelPage = accountDao.findPage(PageUtil.toPage(model), model);
-//		IPage<Account> modelPage = super.page(PageUtil.toPage(model), this.query(accountBo));
+//		IPage<Account> modelPage = accountDao.findPage(PageUtil.toPage(model), model);
+
+		IPage<Account> modelPage = super.page(PageUtil.toPage(model), this.query(model));
 		return PageUtil.toPage(modelPage, AccountBo.class);
 	}
 

@@ -1,7 +1,6 @@
 package github.sjroom.example.service.comp;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import github.sjroom.core.page.PageResult;
 import github.sjroom.core.utils.BeanUtil;
 import github.sjroom.core.utils.CollectionUtil;
 import github.sjroom.example.bean.bo.AccountBo;
