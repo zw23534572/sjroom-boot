@@ -26,7 +26,7 @@ import java.util.*;
 /**
  * 填充字典值和用户名称
  *
- * @author george.ouyang
+ * @author manson.zhou
  */
 @Aspect
 @Configuration
