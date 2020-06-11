@@ -2,7 +2,6 @@ package github.sjroom.mybatis.fill;
 
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import github.sjroom.core.exception.BusinessException;
 import github.sjroom.core.extension.SpringExtensionLoader;
 import github.sjroom.core.page.PageResult;
@@ -34,8 +33,6 @@ import java.util.*;
 @Slf4j
 @SuppressWarnings("unchecked")
 public class FillFieldNameAspect {
-
-	private Map<Class, FillFieldNameObject> classFillFieldNameObjectMap = Maps.newHashMapWithExpectedSize(8);
 
 	/**
 	 * 1.拦截FillFieldNameText.class
@@ -75,58 +72,68 @@ public class FillFieldNameAspect {
 			retCollection = Lists.newArrayList(retVal);
 			retValObject = retVal;
 		}
-		FillFieldNameObject fillFieldNameObject = new FillFieldNameObject();
-		Class<?> retValObjectClass = retValObject.getClass();
-		if (classFillFieldNameObjectMap.get(retValObjectClass) == null) {
-			Field[] fields = retValObjectClass.getDeclaredFields();
 
-			for (Field field : fields) {
-				FillFieldName fillFieldName = field.getAnnotation(FillFieldName.class);
-				if (Objects.isNull(fillFieldName)) {
-					continue;
-				}
-				fillFieldNameObject.getFieldInfoSet().add(new FillFieldNameObject.FieldInfo(field, fillFieldName.invoke(),
-					fillFieldName.invokeMethod(), new HashSet<>(), new HashMap()));
-				classFillFieldNameObjectMap.put(retValObjectClass, fillFieldNameObject);
+		List<FillFieldObject> fillFieldObjects = new ArrayList<>();
+		Class<?> retValObjectClass = retValObject.getClass();
+		Field[] fields = retValObjectClass.getDeclaredFields();
+
+		for (Field field : fields) {
+			FillFieldName fillFieldName = field.getAnnotation(FillFieldName.class);
+			if (Objects.isNull(fillFieldName)) {
+				continue;
 			}
-		} else {
-			fillFieldNameObject = classFillFieldNameObjectMap.get(retValObjectClass);
+
+			FillFieldObject fillFieldObject = new FillFieldObject();
+			fillFieldObject.setField(field);
+			fillFieldObject.setInvokeClass(fillFieldName.invoke());
+			fillFieldObject.setInvokeMethod(fillFieldName.invokeMethod());
+			fillFieldObjects.add(fillFieldObject);
 		}
 
-		return fillVal(retVal, retCollection, fillFieldNameObject);
+		return fillVal(retVal, retCollection, fillFieldObjects);
 	}
 
 
 	/**
 	 * 开始反射赋值
 	 *
-	 * @param fillFieldNameObject
+	 * @param fillFieldObjects
 	 */
-	private Object fillVal(Object retVal, Collection retCollection, FillFieldNameObject fillFieldNameObject) {
-		if (CollectionUtil.isEmpty(fillFieldNameObject.getFieldInfoSet())) {
+	private Object fillVal(Object retVal, Collection retCollection, List<FillFieldObject> fillFieldObjects) {
+		if (CollectionUtil.isEmpty(fillFieldObjects)) {
 			return retVal;
 		}
 
 		// 获取所有值,将其变成集合
-		retCollection.forEach(o -> fillFieldNameObject.getFieldInfoSet().forEach(fieldInfo -> {
+		List<InvokeObject> invokeObjects = new ArrayList<>();
+		retCollection.forEach(obj -> fillFieldObjects.forEach(fieldInfo -> {
 			Field field = fieldInfo.getField();
 			field.setAccessible(true);
 			try {
-				if (ObjectUtil.isNotNull(field.get(o))) {
-					fieldInfo.getInvokeArgs().add(field.get(o));
+				if (ObjectUtil.isNotNull(field.get(obj))) {
+					InvokeObject invokeObject = new InvokeObject(fieldInfo.getInvokeClass(), fieldInfo.getInvokeMethod());
+					boolean isOrg = false;
+					for (InvokeObject orgInvokeObject : invokeObjects) {
+						if (orgInvokeObject.equals(invokeObject)) {
+							orgInvokeObject.getInvokeArgs().add(field.get(obj));
+							isOrg = true;
+						}
+					}
+					if (!isOrg) {
+						invokeObjects.add(invokeObject);
+					}
 				}
 			} catch (IllegalAccessException e) {
 				throw new BusinessException(e);
 			}
 		}));
 
-		Method orgThirdPartyMethod;
 		// 获取所有值,调用第三方法返回的值
-		fillFieldNameObject.getFieldInfoSet().forEach(fieldInfo -> {
+		invokeObjects.forEach(invokeObject -> {
 			try {
-				Object invokeClass = SpringExtensionLoader.getSpringBean(fieldInfo.getInvokeClass());
-				Method thirdPartyMethod = invokeClass.getClass().getMethod(fieldInfo.getInvokeMethod(), Set.class);
-				fieldInfo.setMapData((Map) thirdPartyMethod.invoke(invokeClass, fieldInfo.getInvokeArgs()));
+				Object invokeClass = SpringExtensionLoader.getSpringBean(invokeObject.getInvokeClass());
+				Method thirdPartyMethod = invokeClass.getClass().getMethod(invokeObject.getInvokeMethod(), Set.class);
+				invokeObject.setMapData((Map) thirdPartyMethod.invoke(invokeClass, invokeObject.getInvokeArgs()));
 			} catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
 				throw new BusinessException(e);
 			}
@@ -137,21 +144,26 @@ public class FillFieldNameAspect {
 		List<Object> objects = new ArrayList<>();
 		retCollection.forEach(obj -> {
 			Map<String, Object> propertyMap = new HashMap<>();
-			fillFieldNameObject.getFieldInfoSet().forEach(fieldInfo -> {
+			fillFieldObjects.forEach(fieldInfo -> {
 				try {
 					Field field = fieldInfo.getField();
 					String fieldText = field.getName().endsWith("Id") ? field.getName().substring(0, field.getName().lastIndexOf("Id")) : field.getName();
 					fieldText = fieldText + "Name";
 //					log.debug("进行赋值操作 fieldName:{} fieldText:{} fieldGet:{}", field.getName(), fieldText, field.get(obj));
-					Object fieldValue = fieldInfo.getMapData().get(field.get(obj));
-					if (fieldValue instanceof String) {
-						propertyMap.put(fieldText, fieldValue);
-					} else if (fieldValue == null) {
-						propertyMap.put(fieldText, StringPool.EMPTY);
-					} else {
-						Field valueField = this.getFields(fieldValue.getClass());
-						if (ObjectUtil.isNotNull(valueField)) {
-							propertyMap.put(fieldText, valueField.get(fieldValue));
+					InvokeObject invokeObject = new InvokeObject(fieldInfo.getInvokeClass(), fieldInfo.getInvokeMethod());
+					for (InvokeObject orgInvokeObject : invokeObjects) {
+						if (orgInvokeObject.equals(invokeObject)) {
+							Object fieldValue = orgInvokeObject.getMapData().get(field.get(obj));
+							if (fieldValue instanceof String) {
+								propertyMap.put(fieldText, fieldValue);
+							} else if (fieldValue == null) {
+								propertyMap.put(fieldText, StringPool.EMPTY);
+							} else {
+								Field valueField = this.getFields(fieldValue.getClass());
+								if (ObjectUtil.isNotNull(valueField)) {
+									propertyMap.put(fieldText, valueField.get(fieldValue));
+								}
+							}
 						}
 					}
 				} catch (IllegalAccessException e) {

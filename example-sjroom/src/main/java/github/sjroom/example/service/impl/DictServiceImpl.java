@@ -24,10 +24,18 @@ public class DictServiceImpl implements IDictService {
 		dict.setDictId(1);
 		dict.setDictName("test");
 
+		Dict dict2 = new Dict();
+		dict2.setDictId(2);
+		dict2.setDictName("test2");
+
+		Dict dict3 = new Dict();
+		dict3.setDictId(3);
+		dict3.setDictName("test3");
+
 		Map<Integer, Dict> mapStatus = new HashMap<>();
 		mapStatus.put(1, dict);
-		mapStatus.put(2, dict);
-		mapStatus.put(3, dict);
+		mapStatus.put(2, dict2);
+		mapStatus.put(3, dict3);
 		return mapStatus;
 	}
 }
