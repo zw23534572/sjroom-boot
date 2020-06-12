@@ -5,7 +5,6 @@ import github.sjroom.core.utils.CollectionUtil;
 import github.sjroom.core.utils.Exceptions;
 import github.sjroom.core.utils.JsonUtil;
 import github.sjroom.core.utils.ObjectUtil;
-import github.sjroom.web.code.CodeTranslator;
 import github.sjroom.web.logger.contants.LogConstants;
 import github.sjroom.web.utils.Util2Web;
 import lombok.ToString;
@@ -14,8 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.ThreadContext;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.validation.FieldError;
@@ -29,7 +26,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ValidationException;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 
 /**
@@ -42,10 +42,6 @@ import java.util.*;
 @RestControllerAdvice
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class ControllerExceptionAdvice implements InitializingBean {
-
-//	@Autowired
-//	private CodeTranslator codeTranslator;
-
 
 	@ExceptionHandler(Exception.class)
 	@ResponseBody
@@ -75,10 +71,8 @@ public class ControllerExceptionAdvice implements InitializingBean {
 				.orElse(String.valueOf(httpStatus));
 			// 断言异常
 		} else if (ex instanceof IllegalArgumentException
-			// 验证器异常
-			|| ex instanceof ValidationException
-			// servlet异常等
-			|| ex instanceof ServletException) {
+			|| ex instanceof ValidationException // 验证器异常
+			|| ex instanceof ServletException) {  // servlet异常等
 			// 404 处理
 			httpStatus = (ex instanceof NoHandlerFoundException) ? HttpServletResponse.SC_NOT_FOUND : HttpServletResponse.SC_BAD_REQUEST;
 			code = String.valueOf(httpStatus);
@@ -103,7 +97,6 @@ public class ControllerExceptionAdvice implements InitializingBean {
 		response.setStatus(httpStatus);
 
 		logException(request, httpStatus, response, ex);
-		fillException(request, httpStatus, response, ex, values);
 		fillDebug(request, ex, values);
 		return values;
 	}
@@ -147,27 +140,6 @@ public class ControllerExceptionAdvice implements InitializingBean {
 
 		default void print(String format, Object... arguments) {
 			this.log(format, arguments);
-		}
-	}
-
-	private static final int NONE_TRANSLATE_LENGTH = 3;
-
-	/**
-	 * 处理异常信息(国际化等)
-	 *
-	 * @param values
-	 */
-	protected void fillException(HttpServletRequest request, int httpStatus, HttpServletResponse response,
-								 Exception ex, Map<String, Object> values) {
-		// 国际化
-		String code = (String) values.get(LogConstants.ERROR_CODE);
-		if (code.length() > NONE_TRANSLATE_LENGTH) {
-			String message = (String) values.get(LogConstants.ERROR_MESSAGE);
-			Object[] i18Args = (ex instanceof BusinessException) ? ((BusinessException) ex).getI18Args() : null;
-			// 翻译错误码和错误信息
-//			CodeTranslator.TranslatedInfo translatedInfo = codeTranslator.translation(code, message, i18Args);
-//			values.put(LogConstants.ERROR_CODE, translatedInfo.getCode());
-//			values.put(LogConstants.ERROR_MESSAGE, translatedInfo.getMessage());
 		}
 	}
 

@@ -8,6 +8,6 @@ import java.util.Set;
 public interface IDictService {
 	void echo();
 
-	Map<Integer, Dict> findMap(Set<Long> ids);
+	Map<Integer, Dict> findMap(Set<Long> ids) throws Exception;
 }
 
