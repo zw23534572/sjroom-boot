@@ -16,7 +16,7 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
 @ConfigurationProperties("dop.async")
 public class DopAsyncProperties {
 	/**
-	 * 异步核心线程数，默认：2
+	 * 异步核心线程数，默认：8
 	 */
 	private int corePoolSize = 8;
 	/**

@@ -53,7 +53,10 @@ public class FillFieldNameAspect {
 			return retVal;
 		}
 		retVal = point.proceed();
-
+		if (ObjectUtil.isNull(retVal)) {
+			log.warn("aroundApi retVal is emtpy");
+			return retVal;
+		}
 		Object retValObject;
 		Collection retCollection;
 		if (retVal instanceof Collection) {

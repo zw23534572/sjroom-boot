@@ -37,7 +37,7 @@ public class AccountController {
 	@ApiOperation(value = "查看", notes = "传入id")
 	@PostMapping("find")
 	@FillField
-	public AccountRespVo find(@Validated @RequestBody IdVo idVo) {
+	public AccountRespVo find(@Validated @RequestBody IdVo<Long> idVo) {
 		return accountServiceComp.find(idVo);
 	}
 
