@@ -7,13 +7,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.util.Date;
 
-
 /**
  * <B>说明：</B><BR>
  *
  * @author manson.zhou
  * @version 1.0.0.
- * @date 2019-12-16 14:14
+ * @date 2020-06-15 16:23
  */
 @TableName("plat_account")
 @Data

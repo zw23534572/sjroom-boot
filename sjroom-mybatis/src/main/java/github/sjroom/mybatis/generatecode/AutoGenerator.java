@@ -79,11 +79,14 @@ public class AutoGenerator {
 			buildClass("bean.vo", "entity-request.java", "ReqVo");
 			buildClass("bean.vo", "entity-page.java", "PageReqVo");
 			buildClass("bean.vo", "entity-response.java", "RespVo");
-//			buildClass("bean.bo", "entity-request.java", "Bo");
+			buildClass("bean.bo", "entity-bo.java", "Bo");
 			buildClass("dao", "dao.java", "Dao");
 			buildClass("dao", "dao-comp.java", "DaoComp");
 			buildClass("dao.comp", "dao-comp-impl.java", "DaoCompImpl");
-			buildClass("dao", "dao.xml", "Dao");
+			if (this.config.getXmlPaging()) {
+				buildClass("dao", "dao.xml", "Dao");
+			}
+
 			System.out.println(tableName + "生成完成");
 		}
 	}

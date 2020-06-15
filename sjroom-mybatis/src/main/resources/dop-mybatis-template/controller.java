@@ -1,18 +1,21 @@
 package ${currentPackage};
 
-{config.beanPackage}.vo.*;
-import ${config.basePackage}.service.I${upperModelName}Service;
-{config.basePackage}.service.I${upperModelName}ServiceComp;
-import github.sjroom.web.center.client.vo.BatchOperationVo;
-import github.sjroom.web.center.client.vo.BatchStatusOperationVo;
-import github.sjroom.web.center.client.vo.OperationVo;
+import github.sjroom.core.page.PageResult;
+import github.sjroom.core.page.PageUtil;
+import ${config.voPackage}.${upperModelName}PageReqVo;
+import ${config.voPackage}.${upperModelName}ReqVo;
+import ${config.voPackage}.${upperModelName}RespVo;
+import ${config.servicePackage}.I${upperModelName}ServiceComp;
+import github.sjroom.mybatis.annotation.FillField;
+import github.sjroom.web.vo.IdStatusListVo;
+import github.sjroom.web.vo.IdVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 
 /**
  * <B>说明：${dbTableInfo.comment} 控制器</B><BR>
@@ -27,41 +30,45 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("${controllerMappingHyphen}")
 @Api("${dbTableInfo.comment} 控制器")
 public class ${upperModelName}Controller {
-    @Autowired
-    private I${upperModelName}Service ${lowerModelName}Service;
-    @Autowired
-    private I${upperModelName}ServiceComp ${lowerModelName}ServiceComp;
-
-    @ApiOperation(value = "查看详情", notes = "传入id")
-    @PostMapping("find")
-    public ${upperModelName}RespVo find(@RequestBody @Validated OperationVo operationVo) {
-        return new ${upperModelName}RespVo();
-    }
-
-    @ApiOperation("查看分页")
-    @PostMapping("page")
-    public PageResult<${upperModelName}RespVo> page(@RequestBody ${upperModelName}PageReqVo reqVo) {
-        return new PageResult<>();
-    }
-
-    @ApiOperation("创建")
-    @PostMapping("add")
-    public Long add(@RequestBody @Validated ${upperModelName}ReqVo ${lowerModelName}ReqVo) {
-    }
-
-    @ApiOperation("更新")
-    @PostMapping("modify")
-    public void modify(@RequestBody @Validated ${upperModelName}ReqVo ${lowerModelName}ReqVo) {
-    }
-
-    @ApiOperation(value = "删除", notes = "传入id")
-    @PostMapping("remove")
-    public void remove(@RequestBody @Validated BatchOperationVo batchOperationVo) {
-    }
-
-    @ApiOperation(value = "批量禁用/启用", notes = "传入id")
-    @PostMapping("status/modify")
-    public void statusModify(@RequestBody @Validated BatchStatusOperationVo statusOperationVo) {
-
-    }
+	@Autowired
+	private I${upperModelName}ServiceComp i${upperModelName}ServiceComp;
+	
+	@ApiOperation(value = "查看", notes = "传入id")
+	@PostMapping("find")
+	@FillField
+	public ${upperModelName}RespVo find(@Validated @RequestBody IdVo<Long> idVo) {
+		return i${upperModelName}ServiceComp.find(idVo);
+	}
+	
+	@ApiOperation("分页")
+	@PostMapping("page")
+	@FillField
+	public PageResult page(@Validated @RequestBody ${upperModelName}PageReqVo reqVo) {
+		return PageUtil.toPageResult(i${upperModelName}ServiceComp.page(reqVo), ${upperModelName}RespVo.class);
+	}
+	
+	@ApiOperation("列表")
+	@PostMapping("list")
+	@FillField
+	public List<${upperModelName}RespVo> list(@Validated @RequestBody ${upperModelName}ReqVo reqVo) {
+		return i${upperModelName}ServiceComp.list(reqVo);
+	}
+	
+	@ApiOperation("创建")
+	@PostMapping("create")
+	public Long create(@Validated @RequestBody ${upperModelName}ReqVo ${lowerModelName}ReqVo) {
+		return i${upperModelName}ServiceComp.create(${lowerModelName}ReqVo);
+	}
+	
+	@ApiOperation("更新")
+	@PostMapping("update")
+	public void update(@Validated @RequestBody ${upperModelName}ReqVo ${lowerModelName}ReqVo) {
+		i${upperModelName}ServiceComp.update(${lowerModelName}ReqVo);
+	}
+	
+	@ApiOperation(value = "批量更新", notes = "传入id")
+	@PostMapping("batch-update")
+	public void batchUpdate(@Validated @RequestBody IdStatusListVo idStatusListVo) {
+		i${upperModelName}ServiceComp.updateBatch(idStatusListVo);
+	}
 }

@@ -1,9 +1,11 @@
 package ${currentPackage};
 
-import org.apache.ibatis.annotations.Mapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import ${config.boPackage}.${upperModelName}Bo;
 import ${config.entityPackage}.${upperModelName};
-import ${config.voPackage}.${upperModelName}ReqVo;
-import ${config.voPackage}.${upperModelName}RespVo;
+import github.sjroom.mybatis.mapper.IMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
@@ -15,5 +17,12 @@ import java.util.List;
  */
 @Mapper
 public interface I${upperModelName}${fileSuffix} extends IMapper<${upperModelName}> {
-	List<${upperModelName}Response> selectPage(${upperModelName}Request ${lowerModelName}Request);
+
+	/**
+	 * 查询分页信息
+	 *
+	 * @param reqVo
+	 * @return
+	 */
+	IPage<${upperModelName}> findPage(IPage page, @Param(value = "model") ${upperModelName}Bo reqVo);
 }

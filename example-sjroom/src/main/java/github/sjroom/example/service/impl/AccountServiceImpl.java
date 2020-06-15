@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl extends BaseServiceImpl<IAccountDao, Account> implements IAccountService {
 
 	@Autowired
-	IAccountDao accountDao;
+	IAccountDao iAccountDao;
 
 	@Override
 	public AccountBo findByBId(Long bid) {
@@ -74,18 +74,29 @@ public class AccountServiceImpl extends BaseServiceImpl<IAccountDao, Account> im
 	@Override
 	public IPage<AccountBo> findPage(AccountBo model) {
 		log.info("AccountServiceImpl findPage params:{}", model);
-//		IPage<Account> modelPage = accountDao.findPage(PageUtil.toPage(model), model);
-
-		IPage<Account> modelPage = super.page(PageUtil.toPage(model), this.query(model));
+		IPage<Account> modelPage = iAccountDao.findPage(PageUtil.toPage(model), model);
 		return PageUtil.toPage(modelPage, AccountBo.class);
 	}
 
 	private LambdaQueryWrapper<Account> query(AccountBo model) {
-		return new LambdaQueryWrapper<Account>()
-			.eq(ObjectUtil.isNotNull(model.getAccountId()), Account::getAccountId, model.getAccountId())
-			.in(CollectionUtil.isNotEmpty(model.getAccountIds()), Account::getAccountId, model.getAccountIds())
-			.eq(ObjectUtil.isNotNull(model.getStatus()), Account::getStatus, model.getStatus())
-			.eq(StringUtil.isNotBlank(model.getLoginName()), Account::getLoginName, model.getLoginName());
+	    LambdaQueryWrapper<Account> wrapper = new LambdaQueryWrapper<Account>();
+			wrapper.eq(ObjectUtil.isNotNull(model.getAccountId()), Account::getAccountId, model.getAccountId());
+			wrapper.eq(ObjectUtil.isNotNull(model.getAccountType()), Account::getAccountType, model.getAccountType());
+			wrapper.eq(StringUtil.isNotBlank(model.getMobile()), Account::getMobile, model.getMobile());
+			wrapper.eq(StringUtil.isNotBlank(model.getEmail()), Account::getEmail, model.getEmail());
+			wrapper.eq(StringUtil.isNotBlank(model.getLoginName()), Account::getLoginName, model.getLoginName());
+			wrapper.eq(StringUtil.isNotBlank(model.getPassword()), Account::getPassword, model.getPassword());
+			wrapper.eq(StringUtil.isNotBlank(model.getSalt()), Account::getSalt, model.getSalt());
+			wrapper.eq(StringUtil.isNotBlank(model.getRealName()), Account::getRealName, model.getRealName());
+			wrapper.eq(StringUtil.isNotBlank(model.getAvatar()), Account::getAvatar, model.getAvatar());
+			wrapper.eq(ObjectUtil.isNotNull(model.getLanguage()), Account::getLanguage, model.getLanguage());
+			wrapper.eq(ObjectUtil.isNotNull(model.getLengthUnit()), Account::getLengthUnit, model.getLengthUnit());
+			wrapper.eq(ObjectUtil.isNotNull(model.getVolumeUnit()), Account::getVolumeUnit, model.getVolumeUnit());
+			wrapper.eq(ObjectUtil.isNotNull(model.getStatus()), Account::getStatus, model.getStatus());
+			wrapper.eq(ObjectUtil.isNotNull(model.getDistribution()), Account::getDistribution, model.getDistribution());
+			wrapper.eq(ObjectUtil.isNotNull(model.getLanded()), Account::getLanded, model.getLanded());
+			wrapper.eq(ObjectUtil.isNotNull(model.getLoginStatus()), Account::getLoginStatus, model.getLoginStatus());
+			wrapper.eq(ObjectUtil.isNotNull(model.getLastLoginTime()), Account::getLastLoginTime, model.getLastLoginTime());
+		return wrapper;
 	}
 }
-

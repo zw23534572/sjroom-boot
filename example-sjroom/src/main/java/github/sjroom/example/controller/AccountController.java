@@ -1,4 +1,4 @@
-package github.sjroom.example.web;
+package github.sjroom.example.controller;
 
 import github.sjroom.core.page.PageResult;
 import github.sjroom.core.page.PageUtil;
@@ -15,61 +15,60 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 
 /**
  * <B>说明： 控制器</B><BR>
  *
  * @author manson.zhou
  * @version 1.0.0
- * @since 2019-12-16 14:14
+ * @since 2020-06-15 16:23
  */
 @Slf4j
+@Validated
 @RestController
-@RequestMapping("api/account")
+@RequestMapping("account")
 @Api(" 控制器")
 public class AccountController {
 	@Autowired
-	private IAccountServiceComp accountServiceComp;
-
+	private IAccountServiceComp iAccountServiceComp;
+	
 	@ApiOperation(value = "查看", notes = "传入id")
 	@PostMapping("find")
 	@FillField
 	public AccountRespVo find(@Validated @RequestBody IdVo<Long> idVo) {
-		return accountServiceComp.find(idVo);
+		return iAccountServiceComp.find(idVo);
 	}
-
+	
 	@ApiOperation("分页")
 	@PostMapping("page")
 	@FillField
 	public PageResult page(@Validated @RequestBody AccountPageReqVo reqVo) {
-		return PageUtil.toPageResult(accountServiceComp.page(reqVo), AccountRespVo.class);
+		return PageUtil.toPageResult(iAccountServiceComp.page(reqVo), AccountRespVo.class);
 	}
-
+	
 	@ApiOperation("列表")
 	@PostMapping("list")
 	@FillField
 	public List<AccountRespVo> list(@Validated @RequestBody AccountReqVo reqVo) {
-		return accountServiceComp.list(reqVo);
+		return iAccountServiceComp.list(reqVo);
 	}
-
+	
 	@ApiOperation("创建")
 	@PostMapping("create")
 	public Long create(@Validated @RequestBody AccountReqVo accountReqVo) {
-		return accountServiceComp.create(accountReqVo);
+		return iAccountServiceComp.create(accountReqVo);
 	}
-
+	
 	@ApiOperation("更新")
 	@PostMapping("update")
 	public void update(@Validated @RequestBody AccountReqVo accountReqVo) {
-		accountServiceComp.update(accountReqVo);
+		iAccountServiceComp.update(accountReqVo);
 	}
-
+	
 	@ApiOperation(value = "批量更新", notes = "传入id")
 	@PostMapping("batch-update")
 	public void batchUpdate(@Validated @RequestBody IdStatusListVo idStatusListVo) {
-		accountServiceComp.updateBatch(idStatusListVo);
+		iAccountServiceComp.updateBatch(idStatusListVo);
 	}
 }

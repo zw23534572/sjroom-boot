@@ -47,5 +47,5 @@ public interface IAccountServiceComp {
 	/**
 	 * 批量更新
 	 */
-	void updateBatch(IdStatusListVo<Long,Integer> idStatusListVo);
+	void updateBatch(IdStatusListVo<Long, Integer> idStatusListVo);
 }

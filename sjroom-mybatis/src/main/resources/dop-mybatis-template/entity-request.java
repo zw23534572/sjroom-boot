@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * <B>说明：${dbTableInfo.comment}</B><BR>
  *
- * @author ${config.author}    cc ${fileSuffix}  ${fileSuffix=="ReqVo"}
+ * @author ${config.author}
  * @version 1.0.0.
  * @date ${date}
  */

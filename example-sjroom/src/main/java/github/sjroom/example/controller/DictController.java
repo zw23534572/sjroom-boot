@@ -1,4 +1,4 @@
-package github.sjroom.example.web;
+package github.sjroom.example.controller;
 
 
 import github.sjroom.example.service.IDictService;

@@ -7,9 +7,9 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * <B>说明：</B><BR>
  *
- * @author manson.zhou    cc ReqVo  true
+ * @author manson.zhou
  * @version 1.0.0.
- * @date 2019-12-16 14:14
+ * @date 2020-06-15 16:23
  */
 @Data
 public class AccountReqVo  {
@@ -64,22 +64,4 @@ public class AccountReqVo  {
 
     @ApiModelProperty("最近登录时间")
     private Date lastLoginTime;
-
-    @ApiModelProperty("租户ID")
-    private Long tenantId;
-
-    @ApiModelProperty("所属角色")
-    private Long ownRoleId;
-
-    @ApiModelProperty("创建人")
-    private Long createdBy;
-
-    @ApiModelProperty("创建时间")
-    private Date createdAt;
-
-    @ApiModelProperty("更新人")
-    private Long updatedBy;
-
-    @ApiModelProperty("更新时间")
-    private Date updatedAt;
 }

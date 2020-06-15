@@ -44,6 +44,7 @@ public class GenerateCode {
         configGenerator.setDbPassword(props.getProperty("spring.datasource.password"));
         configGenerator.setDbSchema(props.getProperty("spring.datasource.dbSchema"));
         configGenerator.setAuthor(System.getProperty("user.name"));
+		configGenerator.setXmlPaging(true);
 
 
         //  ---  需要更改的值

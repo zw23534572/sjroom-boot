@@ -1,13 +1,9 @@
 package github.sjroom.example.bean.vo;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import github.sjroom.example.service.IDictService;
-import github.sjroom.mybatis.annotation.FillFieldName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
 import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -15,13 +11,10 @@ import io.swagger.annotations.ApiModelProperty;
  *
  * @author manson.zhou
  * @version 1.0.0.
- * @date 2019-12-16 14:14
+ * @date 2020-06-15 16:23
  */
 @Data
-public class AccountRespVo {
-
-	@ApiModelProperty("代理主键")
-	private Long id;
+public class AccountRespVo  {
 
 	@ApiModelProperty("业务主键")
 	private Long accountId;
@@ -60,7 +53,6 @@ public class AccountRespVo {
 	private Integer volumeUnit;
 
 	@ApiModelProperty("状态")
-	@FillFieldName(invoke = IDictService.class)
 	private Integer status;
 
 	@ApiModelProperty("是否已分配公司（0.未分配 1.已分配）")
@@ -70,29 +62,9 @@ public class AccountRespVo {
 	private Integer landed;
 
 	@ApiModelProperty("登录状态")
-	@FillFieldName(invoke = IDictService.class)
 	private Integer loginStatus;
 
 	@ApiModelProperty("最近登录时间")
-	@JsonFormat(pattern = "yyyy-MM-dd")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date lastLoginTime;
-
-	@ApiModelProperty("租户ID")
-	private Long tenantId;
-
-	@ApiModelProperty("所属角色")
-	private Long ownRoleId;
-
-	@ApiModelProperty("创建人")
-	private Long createdBy;
-
-	@ApiModelProperty("创建时间")
-	private Date createdAt;
-
-	@ApiModelProperty("更新人")
-	private Long updatedBy;
-
-	@ApiModelProperty("更新时间")
-	private Date updatedAt;
-
 }

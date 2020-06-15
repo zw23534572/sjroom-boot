@@ -1,15 +1,60 @@
 package ${currentPackage};
 
-import ${config.beanPackage}.entity.${upperModelName};
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import ${config.boPackage}.${upperModelName}Bo;
+import ${config.entityPackage}.${upperModelName};
+import github.sjroom.mybatis.service.BaseService;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * <B>说明：${dbTableInfo.comment}服务</B><BR>
+ * <B>说明：服务</B><BR>
  *
- * @author ${config.author}
+ * @author manson.zhou
  * @version 1.0.0
- * @since ${date}
+ * @since 2019-12-16 14:14
  */
-public interface I${upperModelName}${fileSuffix} extends BaseService<${upperModelName}>{
+public interface I${upperModelName}Service extends BaseService<${upperModelName}> {
 
+	/**
+	 * 查看
+	 *
+	 * @param ${lowerModelName}Id 业务主键Id
+	 * @return
+	 */
+	${upperModelName}Bo findByBId(Long ${lowerModelName}Id);
 
+	/**
+	 * 列表
+	 *
+	 * @param ${lowerModelName}Ids 业务主键Id
+	 * @return
+	 */
+	List<${upperModelName}Bo> findByBIds(Set<Long> ${lowerModelName}Ids);
+
+	/**
+	 * 列表
+	 *
+	 * @param ${lowerModelName}Bo 业务model
+	 * @return
+	 */
+	List<${upperModelName}Bo> findList(${upperModelName}Bo ${lowerModelName}Bo);
+
+	/**
+	 * 列表
+	 *
+	 * @param ${lowerModelName}Bo 业务model
+	 * @return 键值对
+	 */
+	Map<Long, ${upperModelName}Bo> findMap(${upperModelName}Bo ${lowerModelName}Bo);
+
+	/**
+	 * 分页
+	 *
+	 * @param ${lowerModelName}Bo
+	 * @return
+	 */
+	IPage<${upperModelName}Bo> findPage(${upperModelName}Bo ${lowerModelName}Bo);
 }

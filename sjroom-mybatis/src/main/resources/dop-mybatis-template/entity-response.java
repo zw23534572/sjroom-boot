@@ -3,6 +3,7 @@ package ${currentPackage};
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
 <% if (fileSuffix=='RespVo') {%>import io.swagger.annotations.ApiModelProperty;<% } %>
 
 
@@ -15,24 +16,27 @@ import java.util.Date;
  */
 @Data
 public class ${upperModelName}${fileSuffix}  {
-<% for(var item in dbTableFieldInfoList) {%>
+<% for(var item in dbTableFieldInfoList) {
+	var isIgore=false;
+	for(var igoreitem in config.ignoreFieldArr){
+		if(item.column==igoreitem){
+		isIgore = true;
+		break;
+		}
+	}
+	if(isIgore) continue;
+	%>
 
-<% if (fileSuffix=="RespVo") {%>
-    @ApiModelProperty("${item.comment}")
-<% } else {%>
-    /**
-     * ${item.comment}
-     */
-<% } %>
-    private ${item.propertyType} ${item.property};
-    <% if(strutil.startWith(item.comment,"@status")) { %>
-
-    /**
-     * ${item.comment},状态描述
-     */
-    public String get${sputil.capitalize(item.property)}Desc(){
-        return ${upperModelName}${sputil.capitalize(item.property)}Enum.getMsg(this.${item.property});
-    }
-    <% }%>
+	<% if (fileSuffix=="RespVo") {%>
+	@ApiModelProperty("${item.comment}")
+	<% } else {%>
+	/**
+	 * ${item.comment}
+	 */
+	<% } %>
+	<% if (item.propertyType=="Date") {%>
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	<% } %>
+	private ${item.propertyType} ${item.property};
 <% }%>
 }

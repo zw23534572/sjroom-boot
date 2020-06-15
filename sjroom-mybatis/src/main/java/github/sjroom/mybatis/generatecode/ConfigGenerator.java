@@ -62,11 +62,15 @@ public class ConfigGenerator {
 	 * 作者名称
 	 */
 	private String author;
+	/**
+	 * xml分页,默认为false
+	 */
+	private Boolean xmlPaging = false;
 
 	/**
 	 * 忽略的字段
 	 */
-	private String[] ignoreFieldArr = new String[]{"id", "create_time", "create_user", "update_time", "update_user", "update_date", "create_date", "yn"};
+	private String[] ignoreFieldArr = new String[]{"id", "created_by", "created_at", "updated_by", "updated_at", "update_date"};
 
 	/**
 	 * 所有包名

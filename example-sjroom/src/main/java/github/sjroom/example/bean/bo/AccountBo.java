@@ -1,12 +1,9 @@
 package github.sjroom.example.bean.bo;
 
 import github.sjroom.core.page.PageReqParam;
-import github.sjroom.mybatis.annotation.FillFieldName;
-import lombok.Builder;
 import lombok.Data;
-
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
-import java.util.Set;
 
 
 /**
@@ -14,19 +11,18 @@ import java.util.Set;
  *
  * @author manson.zhou
  * @version 1.0.0.
- * @date 2019-12-16 14:14
+ * @date 2020-06-15 16:23
  */
 @Data
 public class AccountBo extends PageReqParam {
-
+	/**
+	 * 代理主键
+	 */
+	private Long id;
 	/**
 	 * 业务主键
 	 */
 	private Long accountId;
-	/**
-	 * 业务主键，批次
-	 */
-	private Set<Long> accountIds;
 	/**
 	 * 账号类型（0.超级管理员，1.普通管理员，2.业务管理员，3.业务人员）
 	 */
@@ -91,4 +87,20 @@ public class AccountBo extends PageReqParam {
 	 * 最近登录时间
 	 */
 	private Date lastLoginTime;
+	/**
+	 * 创建人
+	 */
+	private Long createdBy;
+	/**
+	 * 创建时间
+	 */
+	private Date createdAt;
+	/**
+	 * 更新人
+	 */
+	private Long updatedBy;
+	/**
+	 * 更新时间
+	 */
+	private Date updatedAt;
 }
