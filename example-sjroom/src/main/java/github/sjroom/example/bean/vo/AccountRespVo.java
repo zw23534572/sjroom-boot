@@ -1,9 +1,7 @@
 package github.sjroom.example.bean.vo;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -65,6 +63,5 @@ public class AccountRespVo  {
 	private Integer loginStatus;
 
 	@ApiModelProperty("最近登录时间")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date lastLoginTime;
 }

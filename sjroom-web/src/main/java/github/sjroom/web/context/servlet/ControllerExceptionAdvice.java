@@ -118,9 +118,9 @@ public class ControllerExceptionAdvice implements InitializingBean {
 //			logPrinter.print("[trace.enabled].request={}", UtilJson.toString(Util2Web.getRequestInfo(request)), ex);
 //		} else
 		if (logger.isDebugEnabled()) {
-			logPrinter.print("[debug.enabled].query={}, params={}", request.getQueryString(), JsonUtil.toString(request.getParameterMap()), ex);
+			logPrinter.print("[debug.enabled].query={}, params={}", request.getQueryString(), JsonUtil.toJson(request.getParameterMap()), ex);
 		} else if (logger.isInfoEnabled() && bizError) {// 非bizError,强制按warn输出,降低日志量
-			logPrinter.print("[info.enabled].params={}, ex:", JsonUtil.toString(request.getParameterMap()), ex);
+			logPrinter.print("[info.enabled].params={}, ex:", JsonUtil.toJson(request.getParameterMap()), ex);
 		} else if (logger.isWarnEnabled()) {
 			logPrinter.print("[warn.enabled].ex={}", "name:" + ex.getClass().getSimpleName() + ",message:" + ex.getMessage());
 		}

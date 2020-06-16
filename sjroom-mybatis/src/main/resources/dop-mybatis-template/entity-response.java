@@ -3,7 +3,6 @@ package ${currentPackage};
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.util.Date;
-import com.fasterxml.jackson.annotation.JsonFormat;
 <% if (fileSuffix=='RespVo') {%>import io.swagger.annotations.ApiModelProperty;<% } %>
 
 
@@ -33,9 +32,6 @@ public class ${upperModelName}${fileSuffix}  {
 	/**
 	 * ${item.comment}
 	 */
-	<% } %>
-	<% if (item.propertyType=="Date") {%>
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	<% } %>
 	private ${item.propertyType} ${item.property};
 <% }%>

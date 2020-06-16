@@ -25,9 +25,9 @@ import java.util.Optional;
 @Slf4j
 public class ControllerCallContextFilter extends HttpFilter {
 
-
 	@Override
 	protected void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+		log.info("ControllerCallContextFilter doFilter request:{}", request);
 		try {
 			setPlatContext(request);
 			setBusinessContext(request);
@@ -43,16 +43,14 @@ public class ControllerCallContextFilter extends HttpFilter {
 	private void setPlatContext(HttpServletRequest request) {
 		Optional.ofNullable(request.getHeader(ContextConstants.PLAT_CONTEXT_ID))
 			.filter(s -> !StringUtils.isEmpty(s))
-			.map(s -> JsonUtil.readValue(Base64Util.decode(s), PlatContext.class))
+			.map(s -> JsonUtil.parse(Base64Util.decode(s), PlatContext.class))
 			.ifPresent(PlatContextHolders::setContext);
 	}
 
 	private void setBusinessContext(HttpServletRequest request) {
 		Optional.ofNullable(request.getHeader(ContextConstants.BUSINESS_CONTEXT_ID))
 			.filter(s -> !StringUtils.isEmpty(s))
-			.map(s -> JsonUtil.readValue(Base64Util.decode(s), BusinessContext.class))
+			.map(s -> JsonUtil.parse(Base64Util.decode(s), BusinessContext.class))
 			.ifPresent(BusinessContextHolders::setContext);
 	}
-
-
 }
