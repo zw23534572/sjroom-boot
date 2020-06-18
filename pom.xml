@@ -29,7 +29,7 @@
         <mybatis.plus.version>3.2.0</mybatis.plus.version>
         <beetl.version>2.7.3</beetl.version>
         <redisson.version>3.10.7</redisson.version>
-        <beanutils.version>1.9.3</beanutils.version>
+        <beanutils.version>1.9.4</beanutils.version>
         <fastjson.version>1.2.36</fastjson.version>
 
     </properties>
