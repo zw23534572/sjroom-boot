@@ -3,7 +3,7 @@ package github.sjroom.example.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import github.sjroom.example.bean.bo.AccountBo;
 import github.sjroom.example.bean.entity.Account;
-import github.sjroom.mybatis.service.BaseService;
+import github.sjroom.core.mybatis.service.BaseService;
 
 import java.util.List;
 import java.util.Map;

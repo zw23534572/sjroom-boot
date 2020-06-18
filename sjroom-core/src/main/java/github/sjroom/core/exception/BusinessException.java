@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * 业务异常
@@ -36,9 +35,6 @@ public class BusinessException extends RuntimeException {
 
 	public BusinessException(IResultCode resultCode) {
 		this(resultCode.getCode(), resultCode.getMsg());
-		Optional.ofNullable(resultCode.getHttpStatus())
-			.map(v -> v.getStatusCode())
-			.ifPresent(v -> this.setHttpStatus(v));
 	}
 
 	public BusinessException(IResultCode resultCode, Object[] i18Args) {

@@ -1,8 +1,8 @@
 package github.sjroom.example.bean.bo;
 
-import github.sjroom.core.page.PageReqParam;
+import github.sjroom.core.mybatis.page.PageReqParam;
 import lombok.Data;
-import javax.validation.constraints.NotBlank;
+
 import java.util.Date;
 
 

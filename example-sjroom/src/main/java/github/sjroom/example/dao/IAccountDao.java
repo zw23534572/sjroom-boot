@@ -3,10 +3,9 @@ package github.sjroom.example.dao;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import github.sjroom.example.bean.bo.AccountBo;
 import github.sjroom.example.bean.entity.Account;
-import github.sjroom.mybatis.mapper.IMapper;
+import github.sjroom.core.mybatis.mapper.IMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import java.util.List;
 
 /**
  * <B>说明：</B><BR>

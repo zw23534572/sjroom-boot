@@ -2,7 +2,7 @@ package github.sjroom.example.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import github.sjroom.core.page.PageUtil;
+import github.sjroom.core.mybatis.page.PageUtil;
 import github.sjroom.core.utils.BeanUtil;
 import github.sjroom.core.utils.CollectionUtil;
 import github.sjroom.core.utils.ObjectUtil;
@@ -11,7 +11,7 @@ import github.sjroom.example.bean.bo.AccountBo;
 import github.sjroom.example.bean.entity.Account;
 import github.sjroom.example.dao.IAccountDao;
 import github.sjroom.example.service.IAccountService;
-import github.sjroom.mybatis.service.impl.BaseServiceImpl;
+import github.sjroom.core.mybatis.service.impl.BaseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

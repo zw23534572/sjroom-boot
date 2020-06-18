@@ -1,13 +1,7 @@
 package ${currentPackage};
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import ${config.boPackage}.${upperModelName}Bo;
-import ${config.entityPackage}.${upperModelName};
-import github.sjroom.mybatis.service.BaseService;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+{config.entityPackage}.${upperModelName};
 
 /**
  * <B>说明：服务</B><BR>

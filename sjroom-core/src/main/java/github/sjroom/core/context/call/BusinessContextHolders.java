@@ -1,7 +1,6 @@
 package github.sjroom.core.context.call;
 
-import github.sjroom.core.code.ApiCoreCode;
-import github.sjroom.core.result.ResultAssert;
+import github.sjroom.core.ResultAssert;
 import github.sjroom.core.code.ApiCoreCode;
 import org.springframework.lang.Nullable;
 
@@ -49,8 +48,8 @@ public class BusinessContextHolders {
     }
 
     @Nullable
-    public static Long getXRoleId() {
-        return getAttrByFunc(BusinessContext::getRoleId);
+    public static Long getXUserId() {
+        return getAttrByFunc(BusinessContext::getUserId);
     }
 
     @Nullable

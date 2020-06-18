@@ -1,11 +1,10 @@
 package ${currentPackage};
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import github.sjroom.mybatis.core.${sys};
-import github.sjroom.mybatis.annotation.TableBId;
+import github.sjroom.core.mybatis.core.${sys};
+import github.sjroom.core.mybatis.annotation.TableBId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import java.util.Date;
 
 /**
  * <B>说明：${dbTableInfo.comment}</B><BR>

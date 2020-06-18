@@ -1,6 +1,6 @@
 package github.sjroom.example.bean.entity;
 
-import github.sjroom.mybatis.annotation.FillFieldName;
+import github.sjroom.core.mybatis.annotation.FillFieldName;
 import lombok.Data;
 
 

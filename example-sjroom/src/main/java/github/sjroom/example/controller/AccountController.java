@@ -1,12 +1,12 @@
 package github.sjroom.example.controller;
 
-import github.sjroom.core.page.PageResult;
-import github.sjroom.core.page.PageUtil;
+import github.sjroom.core.mybatis.page.PageResult;
+import github.sjroom.core.mybatis.page.PageUtil;
 import github.sjroom.example.bean.vo.AccountPageReqVo;
 import github.sjroom.example.bean.vo.AccountReqVo;
 import github.sjroom.example.bean.vo.AccountRespVo;
 import github.sjroom.example.service.IAccountServiceComp;
-import github.sjroom.mybatis.annotation.FillField;
+import github.sjroom.core.mybatis.annotation.FillField;
 import github.sjroom.web.vo.IdStatusListVo;
 import github.sjroom.web.vo.IdVo;
 import io.swagger.annotations.Api;
@@ -14,7 +14,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

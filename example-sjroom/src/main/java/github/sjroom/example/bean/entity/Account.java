@@ -1,8 +1,8 @@
 package github.sjroom.example.bean.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import github.sjroom.mybatis.core.BaseEntity;
-import github.sjroom.mybatis.annotation.TableBId;
+import github.sjroom.core.mybatis.core.BaseEntity;
+import github.sjroom.core.mybatis.annotation.TableBId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.util.Date;

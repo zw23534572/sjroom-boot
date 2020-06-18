@@ -1,9 +1,6 @@
 package ${currentPackage};
 
-import github.sjroom.core.page.PageReqParam;
 import lombok.Data;
-import javax.validation.constraints.NotBlank;
-import java.util.Date;
 
 
 /**

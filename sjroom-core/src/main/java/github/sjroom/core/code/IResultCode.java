@@ -1,8 +1,5 @@
 package github.sjroom.core.code;
 
-import github.sjroom.core.result.HttpStatus;
-import github.sjroom.core.result.HttpStatus;
-
 import java.io.Serializable;
 
 /**
@@ -24,12 +21,4 @@ public interface IResultCode extends Serializable {
 	 * @return 消息
 	 */
 	String getMsg();
-
-	/**
-	 *
-	 * @return http code
-	 */
-	default IHttpStatus getHttpStatus() {
-		return HttpStatus.InternalError;
-	}
 }

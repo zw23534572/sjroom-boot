@@ -1,12 +1,10 @@
 package ${currentPackage};
 
-import github.sjroom.core.page.PageResult;
-import github.sjroom.core.page.PageUtil;
-import ${config.voPackage}.${upperModelName}PageReqVo;
-import ${config.voPackage}.${upperModelName}ReqVo;
+{config.voPackage}.${upperModelName}PageReqVo;
+{config.voPackage}.${upperModelName}ReqVo;
 import ${config.voPackage}.${upperModelName}RespVo;
-import ${config.servicePackage}.I${upperModelName}ServiceComp;
-import github.sjroom.mybatis.annotation.FillField;
+{config.servicePackage}.I${upperModelName}ServiceComp;
+import github.sjroom.core.mybatis.annotation.FillField;
 import github.sjroom.web.vo.IdStatusListVo;
 import github.sjroom.web.vo.IdVo;
 import io.swagger.annotations.Api;
@@ -15,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 /**
  * <B>说明：${dbTableInfo.comment} 控制器</B><BR>

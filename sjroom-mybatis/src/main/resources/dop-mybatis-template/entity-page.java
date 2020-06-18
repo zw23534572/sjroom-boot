@@ -1,6 +1,5 @@
 package ${currentPackage};
 
-import github.sjroom.core.page.PageReqParam;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

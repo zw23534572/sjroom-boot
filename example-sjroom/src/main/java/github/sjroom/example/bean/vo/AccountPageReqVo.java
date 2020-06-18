@@ -1,6 +1,6 @@
 package github.sjroom.example.bean.vo;
 
-import github.sjroom.core.page.PageReqParam;
+import github.sjroom.core.mybatis.page.PageReqParam;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

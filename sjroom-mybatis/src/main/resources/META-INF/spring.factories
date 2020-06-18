@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  github.sjroom.mybatis.config.MybatisPlusConfig,\
-  github.sjroom.mybatis.fill.FillFieldNameAspect

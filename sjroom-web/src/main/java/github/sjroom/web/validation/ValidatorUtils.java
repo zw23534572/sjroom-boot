@@ -2,7 +2,7 @@ package github.sjroom.web.validation;
 
 
 import github.sjroom.core.code.CommonsCode;
-import github.sjroom.core.result.ResultAssert;
+import github.sjroom.core.ResultAssert;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;

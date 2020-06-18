@@ -1,12 +1,9 @@
 package ${currentPackage};
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import ${config.boPackage}.${upperModelName}Bo;
-import ${config.entityPackage}.${upperModelName};
-import github.sjroom.mybatis.mapper.IMapper;
+{config.entityPackage}.${upperModelName};
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import java.util.List;
 
 /**
  * <B>说明：${dbTableInfo.comment}</B><BR>

@@ -1,28 +1,13 @@
 package ${currentPackage};
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import github.sjroom.core.page.PageUtil;
-import github.sjroom.core.utils.BeanUtil;
-import github.sjroom.core.utils.CollectionUtil;
-import github.sjroom.core.utils.ObjectUtil;
-import github.sjroom.core.utils.StringUtil;
 import ${config.boPackage}.${upperModelName}Bo;
-import ${config.entityPackage}.${upperModelName};
-import ${config.daoPackage}.I${upperModelName}Dao;
-import ${config.servicePackage}.I${upperModelName}Service;
-import github.sjroom.mybatis.service.impl.BaseServiceImpl;
+{config.entityPackage}.${upperModelName};
+{config.daoPackage}.I${upperModelName}Dao;
+{config.servicePackage}.I${upperModelName}Service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * <B>说明：服务实现</B><BR>
