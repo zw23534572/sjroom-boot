@@ -61,11 +61,6 @@ public class BusinessException extends RuntimeException {
 		this.code = code;
 	}
 
-//    @Override
-//    public String getMessage() {
-//        return "values=" + values + ",msg=" + super.getMessage();
-//    }
-
 	public final static String StateCode = "stateCode";
 	public final static String StateMsg = "stateMsg";
 	public final static String DetailMsg = "detailMsg";

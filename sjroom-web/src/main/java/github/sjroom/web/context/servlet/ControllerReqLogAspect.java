@@ -74,8 +74,7 @@ public class ControllerReqLogAspect {
 		long startNs = System.nanoTime();
 
 		// 打印执行时间
-		printRequestLog(request, logger, requestURI, requestMethod);
-
+		printRequestLog(request, logger, requestURI, requestMethod, point);
 
 		Class<?> returnType = method.getReturnType();
 
@@ -93,23 +92,23 @@ public class ControllerReqLogAspect {
 	}
 
 
-	private void printRequestLog(HttpServletRequest request, Logger logger, String requestURI, String requestMethod) {
+	private void printRequestLog(HttpServletRequest request, Logger logger, String requestURI, String requestMethod, ProceedingJoinPoint point) {
 		try {
 
 			if (logger == null //兼容单元测试
 				|| !logger.isDebugEnabled()) {
 				return;
 			}
-//            Object[] args = point.getArgs();
+
 			// 构建成一条长 日志，避免并发下日志错乱
 			StringBuilder beforeReqLog = new StringBuilder(300);
 			// 日志参数
 			List<Object> beforeReqArgs = new ArrayList<>();
-			beforeReqLog.append("\n\n================  Request Start  ================\n");
 			// 打印路由
-			beforeReqLog.append("===> {}: {}\n");
+			beforeReqLog.append("============> Request {}: {} params:{}\n");
 			beforeReqArgs.add(requestMethod);
 			beforeReqArgs.add(requestURI);
+			beforeReqArgs.add(JsonUtil.toJson(point.getArgs()));
 
 			// 只打印透传的 header，打印时 Base64 解密
 			Stream.of(ContextConstants.PLAT_CONTEXT_ID, ContextConstants.BUSINESS_CONTEXT_ID)
@@ -121,7 +120,6 @@ public class ControllerReqLogAspect {
 						beforeReqArgs.add(Base64Util.decode(headerValue));
 					}
 				});
-			beforeReqLog.append("================   Request End   ================\n");
 			logger.info(beforeReqLog.toString(), beforeReqArgs.toArray());
 		} catch (Exception e) {
 			logger.warn("printRequestLog failed;ex:{},msg:{}", e.getClass(), e.getMessage());
@@ -136,7 +134,6 @@ public class ControllerReqLogAspect {
 			}
 			// aop 执行后的日志
 			StringBuilder afterReqLog = new StringBuilder(200);
-			afterReqLog.append("\n\n================  Response Start  ================\n");
 			// 日志参数
 			List<Object> afterReqArgs = new ArrayList<>();
 			// 非 null 打印返回结构体
@@ -145,11 +142,10 @@ public class ControllerReqLogAspect {
 				afterReqArgs.add(JsonUtil.toJson(result));
 			}
 			long tookMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - startNs);
-			afterReqLog.append("<=== {}: {} ({} ms)\n");
+			afterReqLog.append("<============ Response Result {}: {} ({} ms)\n");
 			afterReqArgs.add(requestMethod);
 			afterReqArgs.add(requestURI);
 			afterReqArgs.add(tookMs);
-			afterReqLog.append("================   Response End   ================\n");
 
 			logger.info(afterReqLog.toString(), afterReqArgs.toArray());
 		} catch (Exception e) {
