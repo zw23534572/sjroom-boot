@@ -1,6 +1,6 @@
 package github.sjroom.core.mybatis.mapper;
 
-import github.sjroom.core.code.IResultCode;
+import github.sjroom.core.code.IErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,7 +11,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum SystemCode implements IResultCode {
+public enum SystemCode implements IErrorCode {
     /**
      * 系统未知异常
      */

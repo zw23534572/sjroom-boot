@@ -41,28 +41,24 @@ public class AccountServiceImpl extends BaseServiceImpl<IAccountDao, Account> im
 
 	@Override
 	public AccountBo findByBId(Long bid) {
-		log.info("AccountServiceImpl findByBId params:{}", bid);
 		Account account = super.getByBId(bid);
 		return BeanUtil.copy(account, AccountBo.class);
 	}
 
 	@Override
 	public List<AccountBo> findByBIds(Set<Long> accountIds) {
-		log.info("AccountServiceImpl findByBIds params:{}", accountIds);
 		List<Account> accounts = super.getBatchBIds(accountIds);
 		return BeanUtil.copy(accounts, AccountBo.class);
 	}
 
 	@Override
 	public List<AccountBo> findList(AccountBo accountBo) {
-		log.info("AccountServiceImpl findList params:{}", accountBo);
 		List<Account> accounts = super.list(this.query(accountBo));
 		return BeanUtil.copy(accounts, AccountBo.class);
 	}
 
 	@Override
 	public Map<Long, AccountBo> findMap(AccountBo accountBo) {
-		log.info("AccountServiceImpl findMap params:{}", accountBo);
 		List<AccountBo> accountBos = this.findList(accountBo);
 		if (CollectionUtil.isEmpty(accountBos)) {
 			log.warn("AccountServiceImpl find accountBos is empty");
@@ -73,7 +69,6 @@ public class AccountServiceImpl extends BaseServiceImpl<IAccountDao, Account> im
 
 	@Override
 	public IPage<AccountBo> findPage(AccountBo model) {
-		log.info("AccountServiceImpl findPage params:{}", model);
 		IPage<Account> modelPage = iAccountDao.findPage(PageUtil.toPage(model), model);
 		return PageUtil.toPage(modelPage, AccountBo.class);
 	}

@@ -1,8 +1,11 @@
 package github.sjroom.example.bean.vo;
 
 import github.sjroom.core.mybatis.page.PageReqParam;
+import github.sjroom.web.validation.annotation.Range;
+import github.sjroom.web.validation.annotation.Telephone;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 
 /**
  * 订单分页请求模型
@@ -15,5 +18,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class AccountPageReqVo extends PageReqParam {
 
-    // 业务按需添加分页参数
+	// 业务按需添加分页参数
+	@Range(format = "[\"aa\",\"bb\"]")
+	String page;
 }

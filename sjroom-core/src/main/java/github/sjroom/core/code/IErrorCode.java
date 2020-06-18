@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author L.cm
  */
-public interface IResultCode extends Serializable {
+public interface IErrorCode extends Serializable {
 	/**
 	 * 返回的code码
 	 *

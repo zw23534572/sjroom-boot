@@ -1,4 +1,4 @@
-package github.sjroom.web.code;
+package github.sjroom.core.code;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.i18n.LocaleContextHolder;

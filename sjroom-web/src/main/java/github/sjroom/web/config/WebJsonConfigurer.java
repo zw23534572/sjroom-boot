@@ -1,4 +1,4 @@
-package github.sjroom.web;
+package github.sjroom.web.config;
 
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;

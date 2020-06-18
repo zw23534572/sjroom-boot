@@ -1,5 +1,6 @@
-package github.sjroom.web.result;
+package github.sjroom.web.config;
 
+import github.sjroom.core.RespVo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
@@ -30,13 +31,12 @@ public class ResultWrapper implements ResponseBodyAdvice<Object> {
 	public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType,
 								  Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request,
 								  ServerHttpResponse response) {
-		// 如果返回的已经是包装类(是CommonResponse子孙类),则直接返回
-		if (body != null && body instanceof Result) {
+		if (body != null && body instanceof RespVo) {
 			return body;
 		}
 
 		// 修改返回值类型
-		return new Result(body);
+		return RespVo.success(body);
 	}
 
 }

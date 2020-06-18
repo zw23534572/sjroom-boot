@@ -1,6 +1,6 @@
 package github.sjroom.core.exception;
 
-import github.sjroom.core.code.IResultCode;
+import github.sjroom.core.code.IErrorCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,11 +33,11 @@ public class BusinessException extends RuntimeException {
 	public BusinessException() {
 	}
 
-	public BusinessException(IResultCode resultCode) {
+	public BusinessException(IErrorCode resultCode) {
 		this(resultCode.getCode(), resultCode.getMsg());
 	}
 
-	public BusinessException(IResultCode resultCode, Object[] i18Args) {
+	public BusinessException(IErrorCode resultCode, Object[] i18Args) {
 		this(resultCode);
 		setI18Args(i18Args);
 	}
@@ -56,10 +56,4 @@ public class BusinessException extends RuntimeException {
 		super(msg, cause);
 		this.code = code;
 	}
-
-	public final static String StateCode = "stateCode";
-	public final static String StateMsg = "stateMsg";
-	public final static String DetailMsg = "detailMsg";
-	public final static String InnerError = "SYS00101";
-
 }

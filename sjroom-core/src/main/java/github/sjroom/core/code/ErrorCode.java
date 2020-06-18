@@ -14,12 +14,22 @@ import lombok.Getter;
  * @version 1.0.0
  * @since 2019-05-27 08:34
  */
-@Getter
-@AllArgsConstructor
-public enum ApiCoreCode implements IResultCode {
-    NO_PLAT_CONTEXT("COR00201", "平台调用上下文为空"),
-    NO_CALL_CONTEXT("COR00101", "业务调用上下文为空");
+public interface ErrorCode extends IErrorCode {
+	/**
+	 * SYS00200-成功
+	 */
+	String SUCCESS = "SYS00200";
+	/**
+	 * SYS00400-参数错误
+	 */
+	String PARAM_ERROR = "SYS00400";
+	/**
+	 * SYS00500-系统错误
+	 */
+	String SYSTEM_ERROR = "SYS00500";
+	/**
+	 * SYS00201-平台调用上下文为空
+	 */
+	String NO_CONTEXT = "SYS00201";
 
-    private String code;
-    private String msg;
 }

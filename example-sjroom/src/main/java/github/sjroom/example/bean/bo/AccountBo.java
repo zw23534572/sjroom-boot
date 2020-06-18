@@ -2,6 +2,7 @@ package github.sjroom.example.bean.bo;
 
 import github.sjroom.core.mybatis.page.PageReqParam;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
@@ -14,6 +15,7 @@ import java.util.Date;
  * @date 2020-06-15 16:23
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class AccountBo extends PageReqParam {
 	/**
 	 * 代理主键

@@ -1,4 +1,4 @@
-package github.sjroom.web.code;
+package github.sjroom.core.code;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;

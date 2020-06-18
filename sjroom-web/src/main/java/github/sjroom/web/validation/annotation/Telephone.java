@@ -1,8 +1,5 @@
 package github.sjroom.web.validation.annotation;
-
-
 import github.sjroom.web.validation.annotation.handler.TelephoneValidatorHandler;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.ElementType;
@@ -14,7 +11,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = TelephoneValidatorHandler.class)
 public @interface Telephone {
-	String message() default "格式错误";
+	String message() default "手机号码格式错误";
 
 	String regexp() default "^1(3|4|5|7|8)\\d{9}$";
 

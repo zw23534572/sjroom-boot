@@ -1,8 +1,6 @@
-package github.sjroom.core;
+package github.sjroom.core.exception;
 
-import github.sjroom.core.code.IResultCode;
-import github.sjroom.core.exception.BusinessException;
-import github.sjroom.core.exception.FrameworkException;
+import github.sjroom.core.code.IErrorCode;
 import github.sjroom.core.utils.CollectionUtil;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,14 +16,14 @@ import java.util.stream.Stream;
  * @Date: 2019/7/10 9:36
  * @Desc: (业务代码)逻辑验证/断言工具类
  */
-public abstract class ResultAssert {
+public abstract class Assert {
 
 	/**
 	 * 异常抛出
 	 *
 	 * @param rCode
 	 */
-	public static void throwFail(IResultCode rCode) throws BusinessException {
+	public static void throwFail(IErrorCode rCode) throws BusinessException {
 		throwFail0(rCode,null);
 	}
 
@@ -36,23 +34,23 @@ public abstract class ResultAssert {
 	 * @param resultCode
 	 * @param i18Args
 	 */
-	public static void throwOnFalse(boolean expression, IResultCode resultCode, Object... i18Args) throws BusinessException {
+	public static void throwOnFalse(boolean expression, IErrorCode resultCode, Object... i18Args) throws BusinessException {
 		throwOnFalse0(expression, resultCode, null, i18Args);
 	}
 
-	public static void throwFail(IResultCode rCode, Object... i18nArgs) throws BusinessException {
+	public static void throwFail(IErrorCode rCode, Object... i18nArgs) throws BusinessException {
 		throwFail0(rCode, null, i18nArgs);
 	}
 
-	public static void throwOnFalseWithData(boolean expression, IResultCode resultCode, DataPair... dataPairs) throws BusinessException {
+	public static void throwOnFalseWithData(boolean expression, IErrorCode resultCode, DataPair... dataPairs) throws BusinessException {
 		throwOnFalse0(expression, resultCode, dataPairs);
 	}
 
-	public static void throwOnFalseWithData(boolean expression, IResultCode resultCode, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
+	public static void throwOnFalseWithData(boolean expression, IErrorCode resultCode, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
 		throwOnFalse0(expression, resultCode, dataPairs, i18Args);
 	}
 
-	public static void throwFailWithData(IResultCode resultCode, DataPair... dataPairs) throws BusinessException {
+	public static void throwFailWithData(IErrorCode resultCode, DataPair... dataPairs) throws BusinessException {
 		throwFail0(resultCode, dataPairs);
 	}
 
@@ -85,13 +83,13 @@ public abstract class ResultAssert {
 	 * @param i18Args
 	 * @throws BusinessException
 	 */
-	private static void throwOnFalse0(boolean expression, IResultCode resultCode, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
+	private static void throwOnFalse0(boolean expression, IErrorCode resultCode, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
 		if (!expression) {
 			throwFail0(resultCode, dataPairs, i18Args);
 		}
 	}
 
-	private static void throwFail0(IResultCode resultCode, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
+	private static void throwFail0(IErrorCode resultCode, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
 		BusinessException exception = new BusinessException(resultCode);
 		exception.setI18Args(i18Args);
 		if (!CollectionUtil.isEmpty(dataPairs)) {
@@ -120,7 +118,7 @@ public abstract class ResultAssert {
 	@Getter
 	@Setter
 	@Builder
-	public static class ResultCode implements IResultCode {
+	public static class ResultCode implements IErrorCode {
 		private String code;
 		private String msg;
 	}

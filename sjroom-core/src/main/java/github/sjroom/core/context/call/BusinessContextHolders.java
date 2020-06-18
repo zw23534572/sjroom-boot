@@ -1,7 +1,7 @@
 package github.sjroom.core.context.call;
 
-import github.sjroom.core.ResultAssert;
-import github.sjroom.core.code.ApiCoreCode;
+import github.sjroom.core.exception.Assert;
+import github.sjroom.core.code.ErrorCode;
 import org.springframework.lang.Nullable;
 
 import java.util.Optional;
@@ -19,7 +19,7 @@ public class BusinessContextHolders {
 
     public static BusinessContext getBusinessContext(boolean check) {
         BusinessContext context = contextLocal.get();
-        ResultAssert.throwOnFalse(!check || context != null, ApiCoreCode.NO_CALL_CONTEXT);
+//        Assert.throwOnFalse(!check || context != null, ErrorCode.NO_CONTEXT);
         return context;
     }
 

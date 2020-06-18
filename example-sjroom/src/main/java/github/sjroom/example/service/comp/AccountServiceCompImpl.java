@@ -36,14 +36,12 @@ public class AccountServiceCompImpl implements IAccountServiceComp {
 
 	@Override
 	public AccountRespVo find(IdVo<Long> idVo) {
-		log.info("find params:{}", idVo);
 		AccountBo accountBo = accountService.findByBId(idVo.getId());
 		return BeanUtil.copy(accountBo, AccountRespVo.class);
 	}
 
 	@Override
 	public IPage page(AccountPageReqVo reqVo) {
-		log.info("page params:{}", reqVo);
 		IPage<AccountBo> accountBoIPage = accountService.findPage(this.buildParams(reqVo));
 		this.buildResult(accountBoIPage.getRecords());
 		return accountBoIPage;
@@ -51,14 +49,12 @@ public class AccountServiceCompImpl implements IAccountServiceComp {
 
 	@Override
 	public List<AccountRespVo> list(AccountReqVo reqVo) {
-		log.info("list params:{}", reqVo);
 		List<AccountBo> accountBos = accountService.findList(BeanUtil.copy(reqVo, AccountBo.class));
 		return BeanUtil.copy(accountBos, AccountRespVo.class);
 	}
 
 	@Override
 	public Long create(AccountReqVo reqVo) {
-		log.info("create params:{}", reqVo);
 		AccountBo accountBo = this.validatedParams(reqVo);
 		Account account = this.fetchEntityData(accountBo);
 		accountService.save(account);
@@ -67,7 +63,6 @@ public class AccountServiceCompImpl implements IAccountServiceComp {
 
 	@Override
 	public void update(AccountReqVo reqVo) {
-		log.info("update params:{}", reqVo);
 		AccountBo accountBo = this.validatedParams(reqVo);
 		Account account = this.fetchEntityData(accountBo);
 		account.setUpdatedAt(new Date());
@@ -76,8 +71,6 @@ public class AccountServiceCompImpl implements IAccountServiceComp {
 
 	@Override
 	public void updateBatch(IdStatusListVo<Long, Integer> idStatusListVo) {
-		log.info("batchUpdate params:{}", idStatusListVo);
-
 		List<Account> accounts = accountService.getBatchBIds(idStatusListVo.getIdList());
 		if (CollectionUtil.isEmpty(accounts)) {
 			log.warn("AccountServiceCompImpl accountBos is empty");

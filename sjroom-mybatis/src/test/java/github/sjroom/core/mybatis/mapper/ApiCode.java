@@ -1,6 +1,6 @@
 package github.sjroom.core.mybatis.mapper;
 
-import github.sjroom.core.code.IResultCode;
+import github.sjroom.core.code.IErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -17,7 +17,7 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum ApiCode implements IResultCode {
+public enum ApiCode implements IErrorCode {
 	COMMON_VALIDATION_INCONSISTENT_LENGTH("00105", "长度为4至32个字符(包括字母、数字、下划线){0}"),
 
 	COMMON_UPDATE_OPERATE("00101", "仅启用或已禁用的状态方可操作"),

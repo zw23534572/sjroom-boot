@@ -10,16 +10,19 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+/**
+ * 文本范围
+ */
 @Target({ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = RangeValidatorHandler.class)
 public @interface Range {
 
-    String message() default "范围值错误";
+	String message() default "范围值错误";
 
-    String format() default "[\"email\",\"mobile\"]";
+	String format() default "[\"email\",\"mobile\"]";
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
 }

@@ -14,11 +14,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = DateTimeValidatorHandler.class)
 public @interface DateTime {
-    String message() default "格式错误";
+	String message() default "日志格式错误";
 
-    String format() default "yyyy-MM-dd";
+	String format() default "yyyy-MM-dd";
 
-    Class<?>[] groups() default {};
+	Class<?>[] groups() default {};
 
-    Class<? extends Payload>[] payload() default {};
+	Class<? extends Payload>[] payload() default {};
 }

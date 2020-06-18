@@ -20,7 +20,7 @@ public class JsonUtil {
 	}
 
 	/**
-	 * SerializerFeature.PrettyFormat -json 格式化
+	 * SerializerFeature.PrettyFormat -config 格式化
 	 * SerializerFeature.WriteDateUseDateFormat -时间格式转化
 	 * SerializerFeature.WriteMapNullValue -保留空的字段
 	 * SerializerFeature.WriteNullStringAsEmpty -String null -> ""

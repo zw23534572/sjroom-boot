@@ -4,6 +4,7 @@ package github.sjroom.core.mybatis.page;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.lang.Nullable;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 @Data
 @ApiModel(description = "分页查询模型")
+@EqualsAndHashCode(callSuper = false)
 public class PageReqParam extends PageParam {
 
 
