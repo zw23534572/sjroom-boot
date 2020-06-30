@@ -2,8 +2,8 @@ package github.sjroom.core.mybatis.generatecode;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import github.sjroom.core.utils.Exceptions;
 import github.sjroom.core.mybatis.enums.SystemEnum;
+import github.sjroom.core.utils.Exceptions;
 
 import java.io.File;
 import java.sql.ResultSet;

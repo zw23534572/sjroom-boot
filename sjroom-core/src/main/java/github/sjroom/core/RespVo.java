@@ -4,7 +4,6 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import github.sjroom.core.code.ErrorCode;
 import github.sjroom.core.code.I18nUtil;
-import github.sjroom.core.code.IErrorCode;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;

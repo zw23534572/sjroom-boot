@@ -1,8 +1,5 @@
 package github.sjroom.core.code;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * 业务 code，需要配置 code 前缀，业务只需要关心code中间5位
  *

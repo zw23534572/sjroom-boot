@@ -1,10 +1,10 @@
 package github.sjroom.core.mybatis.mapper;
 
-import github.sjroom.core.utils.Exceptions;
 import github.sjroom.core.mybatis.enums.SystemEnum;
 import github.sjroom.core.mybatis.generatecode.AutoGenerator;
 import github.sjroom.core.mybatis.generatecode.ConfigGenerator;
 import github.sjroom.core.mybatis.generatecode.EnumMethodModel;
+import github.sjroom.core.utils.Exceptions;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
@@ -49,7 +49,7 @@ public class GenerateCode {
 
         //  ---  需要更改的值
         // 包名
-        configGenerator.setBasePackage("github.sjroom.example");
+        configGenerator.setBasePackage("github.sjroom.admin");
         // 需要生成的表,多个为 "sys_msg_info,sys_msg_info12,sys_msg_info33"
         configGenerator.setGenerateTableName("plat_account");
         // 生成代码的系统的系统,如果是platform. entity继承的实体为PlatformEntity,  如果是platform. entity继承的实体为SystemEntity,
