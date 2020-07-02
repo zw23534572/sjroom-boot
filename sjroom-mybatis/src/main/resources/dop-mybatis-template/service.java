@@ -1,14 +1,20 @@
 package ${currentPackage};
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import ${config.boPackage}.${upperModelName}Bo;
-{config.entityPackage}.${upperModelName};
+import ${config.entityPackage}.${upperModelName};
+import github.sjroom.core.mybatis.service.BaseService;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * <B>说明：服务</B><BR>
  *
- * @author manson.zhou
- * @version 1.0.0
- * @since 2019-12-16 14:14
+ * @author ${config.author}
+ * @version 1.0.0.
+ * @date ${date}
  */
 public interface I${upperModelName}Service extends BaseService<${upperModelName}> {
 

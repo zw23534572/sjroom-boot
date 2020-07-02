@@ -23,9 +23,9 @@ import java.util.List;
 /**
  * <B>说明：</B><BR>
  *
- * @author manson.zhou
+ * @author ${config.author}
  * @version 1.0.0.
- * @date 2019-12-16 14:14
+ * @date ${date}
  */
 @Slf4j
 @Service

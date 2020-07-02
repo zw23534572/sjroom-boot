@@ -3,7 +3,9 @@ package ${currentPackage};
 /**
  * <B>说明：枚举类</B><BR>
  *
+ * @author ${config.author}
  * @version 1.0.0.
+ * @date ${date}
  */
 public enum ${className} {
 <% for(var item in statusList) { %>

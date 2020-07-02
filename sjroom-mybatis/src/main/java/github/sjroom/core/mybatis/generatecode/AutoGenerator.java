@@ -189,7 +189,6 @@ public class AutoGenerator {
 		data.put("lowerModelName", tableNameConvertLowerCamel(tableName));
 		data.put("controllerMappingHyphen", StringUtils.camelToHyphen(tableName));
 		data.put("config", config);
-		data.put("sys", Optional.ofNullable(config.getSystemEnum()).map(s -> s.getValue()).orElse(SystemEnum.BASE.getValue()));
 		data.put("orderBy", "${orderBy}");
 		data.put("asc", "${asc}");
 		return data;

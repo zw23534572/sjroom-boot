@@ -1,10 +1,11 @@
 package ${currentPackage};
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import github.sjroom.core.mybatis.core.${sys};
+import github.sjroom.core.mybatis.core.BaseEntity;
 import github.sjroom.core.mybatis.annotation.TableBId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import java.util.Date;
 
 /**
  * <B>说明：${dbTableInfo.comment}</B><BR>
@@ -16,7 +17,7 @@ import lombok.EqualsAndHashCode;
 @TableName("${dbTableName}")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ${upperModelName} extends ${sys} {
+public class ${upperModelName} extends BaseEntity {
 
 <% for(var item in dbTableFieldInfoList) {
 	var isIgore=false;

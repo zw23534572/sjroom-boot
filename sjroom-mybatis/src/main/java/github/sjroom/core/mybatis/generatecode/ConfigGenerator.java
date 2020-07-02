@@ -43,10 +43,6 @@ public class ConfigGenerator {
 	 */
 	private String dbPassword;
 	/**
-	 * 哪个系统生成代码
-	 */
-	private SystemEnum systemEnum;
-	/**
 	 * 数据库url
 	 */
 	private String dbUrl;

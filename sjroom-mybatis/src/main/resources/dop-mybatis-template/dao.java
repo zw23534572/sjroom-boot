@@ -1,9 +1,12 @@
 package ${currentPackage};
 
 import ${config.boPackage}.${upperModelName}Bo;
-{config.entityPackage}.${upperModelName};
+import ${config.entityPackage}.${upperModelName};
+import github.sjroom.core.mybatis.mapper.IMapper;
 import org.apache.ibatis.annotations.Mapper;
+<% if (config.xmlPaging == true) { %>
 import org.apache.ibatis.annotations.Param;
+<% } %>
 
 /**
  * <B>说明：${dbTableInfo.comment}</B><BR>
@@ -15,6 +18,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface I${upperModelName}${fileSuffix} extends IMapper<${upperModelName}> {
 
+	<% if (config.xmlPaging == true) { %>
 	/**
 	 * 查询分页信息
 	 *
@@ -22,4 +26,5 @@ public interface I${upperModelName}${fileSuffix} extends IMapper<${upperModelNam
 	 * @return
 	 */
 	IPage<${upperModelName}> findPage(IPage page, @Param(value = "model") ${upperModelName}Bo reqVo);
+	<% } %>
 }

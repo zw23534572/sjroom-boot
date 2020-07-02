@@ -1,7 +1,9 @@
 package ${currentPackage};
 
 import lombok.Data;
-
+import java.util.Date;
+import github.sjroom.core.mybatis.page.PageReqParam;
+import lombok.EqualsAndHashCode;
 
 /**
  * <B>说明：${dbTableInfo.comment}</B><BR>
@@ -11,6 +13,7 @@ import lombok.Data;
  * @date ${date}
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 public class ${upperModelName}${fileSuffix} extends PageReqParam {
 <% for(var item in dbTableFieldInfoList) { %>
 	/**

@@ -1,6 +1,5 @@
 package github.sjroom.core.mybatis.mapper;
 
-import github.sjroom.core.mybatis.enums.SystemEnum;
 import github.sjroom.core.mybatis.generatecode.AutoGenerator;
 import github.sjroom.core.mybatis.generatecode.ConfigGenerator;
 import github.sjroom.core.mybatis.generatecode.EnumMethodModel;
@@ -44,18 +43,16 @@ public class GenerateCode {
         configGenerator.setDbPassword(props.getProperty("spring.datasource.password"));
         configGenerator.setDbSchema(props.getProperty("spring.datasource.dbSchema"));
         configGenerator.setAuthor(System.getProperty("user.name"));
-		configGenerator.setXmlPaging(true);
+//		configGenerator.setXmlPaging(true);
 
 
         //  ---  需要更改的值
         // 包名
         configGenerator.setBasePackage("github.sjroom.admin");
         // 需要生成的表,多个为 "sys_msg_info,sys_msg_info12,sys_msg_info33"
-        configGenerator.setGenerateTableName("plat_account");
-        // 生成代码的系统的系统,如果是platform. entity继承的实体为PlatformEntity,  如果是platform. entity继承的实体为SystemEntity,
-        configGenerator.setSystemEnum(SystemEnum.BASE);
+        configGenerator.setGenerateTableName("sys_user");
         // 替换表名前缀
-        configGenerator.setPrefixTableName("plat_");
+        configGenerator.setPrefixTableName("sys_");
         new AutoGenerator(configGenerator).run();
     }
 
