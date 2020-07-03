@@ -2,12 +2,14 @@ package github.sjroom.core;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import github.sjroom.core.code.ErrorCode;
+import github.sjroom.core.code.BaseErrorCode;
 import github.sjroom.core.code.I18nUtil;
+import github.sjroom.core.utils.ObjectUtil;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 
@@ -21,6 +23,7 @@ import java.io.Serializable;
 @Setter
 @ToString
 @ApiModel(description = "返回信息")
+@Slf4j
 public class RespVo<T> implements Serializable {
 	/**
 	 * 返回代码
@@ -52,9 +55,13 @@ public class RespVo<T> implements Serializable {
 	}
 
 	public String getStateMsg() {
-		if (stateMsg == null) {
-			setStateMsg(I18nUtil.getMessage(stateCode, stateMsgArgs));
-		}
+//		if (ObjectUtil.isNotNull(stateCode)) {
+//			try {
+//				stateMsg = I18nUtil.getMessage(stateCode, stateMsgArgs);
+//			} catch (Exception ex) {
+//				log.warn("getStateMsg ex:{}", ex.getMessage());
+//			}
+//		}
 		return stateMsg;
 	}
 
@@ -88,7 +95,7 @@ public class RespVo<T> implements Serializable {
 	@JsonIgnore
 	@JSONField(serialize = false)
 	public boolean isSuccess() {
-		return ErrorCode.SUCCESS.equals(this.stateCode);
+		return BaseErrorCode.SUCCESS.equals(this.stateCode);
 	}
 
 	/**
@@ -109,7 +116,7 @@ public class RespVo<T> implements Serializable {
 	 */
 	public static RespVo success() {
 		RespVo respVo = new RespVo();
-		respVo.setStateCode(ErrorCode.SUCCESS);
+		respVo.setStateCode(BaseErrorCode.SUCCESS);
 		return respVo;
 	}
 
@@ -120,7 +127,7 @@ public class RespVo<T> implements Serializable {
 	 */
 	public static <T> RespVo<T> success(T data) {
 		RespVo<T> respVo = new RespVo<>();
-		respVo.setStateCode(ErrorCode.SUCCESS);
+		respVo.setStateCode(BaseErrorCode.SUCCESS);
 		respVo.setData(data);
 		return respVo;
 	}
@@ -130,21 +137,10 @@ public class RespVo<T> implements Serializable {
 	 *
 	 * @return RespVo
 	 */
-	public static RespVo failure(String stateCode) {
+	public static RespVo ok(String stateCode, String msg) {
 		RespVo respVo = new RespVo();
 		respVo.setStateCode(stateCode);
-		return respVo;
-	}
-
-	/**
-	 * 失败
-	 *
-	 * @return RespVo
-	 */
-	public static RespVo failure(String stateCode, Object... args) {
-		RespVo respVo = new RespVo();
-		respVo.setStateCode(stateCode);
-		respVo.setStateMsgArgs(args);
+		respVo.setStateMsg(msg);
 		return respVo;
 	}
 }

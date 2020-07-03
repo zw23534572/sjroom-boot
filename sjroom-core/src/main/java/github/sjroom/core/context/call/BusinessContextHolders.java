@@ -17,7 +17,7 @@ public class BusinessContextHolders {
 
     public static BusinessContext getBusinessContext(boolean check) {
         BusinessContext context = contextLocal.get();
-//        Assert.throwOnFalse(!check || context != null, ErrorCode.NO_CONTEXT);
+//        Assert.throwOnFalse(!check || context != null, BaseErrorCode.NO_CONTEXT);
         return context;
     }
 

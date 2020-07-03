@@ -33,13 +33,8 @@ public class BusinessException extends RuntimeException {
 	public BusinessException() {
 	}
 
-	public BusinessException(IErrorCode resultCode) {
-		this(resultCode.getCode(), resultCode.getMsg());
-	}
-
-	public BusinessException(IErrorCode resultCode, Object[] i18Args) {
-		this(resultCode);
-		setI18Args(i18Args);
+	public BusinessException(String code) {
+		this(code, null, null);
 	}
 
 	public BusinessException(String code, String msg) {

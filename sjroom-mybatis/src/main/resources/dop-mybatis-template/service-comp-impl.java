@@ -36,14 +36,12 @@ public class ${upperModelName}ServiceCompImpl implements I${upperModelName}Servi
 
 	@Override
 	public ${upperModelName}RespVo find(IdVo<Long> idVo) {
-		log.info("find params:{}", idVo);
 		${upperModelName}Bo ${lowerModelName}Bo = ${lowerModelName}Service.findByBId(idVo.getId());
 		return BeanUtil.copy(${lowerModelName}Bo, ${upperModelName}RespVo.class);
 	}
 
 	@Override
 	public IPage page(${upperModelName}PageReqVo reqVo) {
-		log.info("page params:{}", reqVo);
 		IPage<${upperModelName}Bo> ${lowerModelName}BoIPage = ${lowerModelName}Service.findPage(this.buildParams(reqVo));
 		this.buildResult(${lowerModelName}BoIPage.getRecords());
 		return ${lowerModelName}BoIPage;
@@ -51,14 +49,12 @@ public class ${upperModelName}ServiceCompImpl implements I${upperModelName}Servi
 
 	@Override
 	public List<${upperModelName}RespVo> list(${upperModelName}ReqVo reqVo) {
-		log.info("list params:{}", reqVo);
 		List<${upperModelName}Bo> ${lowerModelName}Bos = ${lowerModelName}Service.findList(BeanUtil.copy(reqVo, ${upperModelName}Bo.class));
 		return BeanUtil.copy(${lowerModelName}Bos, ${upperModelName}RespVo.class);
 	}
 
 	@Override
 	public Long create(${upperModelName}ReqVo reqVo) {
-		log.info("create params:{}", reqVo);
 		${upperModelName}Bo ${lowerModelName}Bo = this.validatedParams(reqVo);
 		${upperModelName} ${lowerModelName} = this.fetchEntityData(${lowerModelName}Bo);
 		${lowerModelName}Service.save(${lowerModelName});
@@ -67,7 +63,6 @@ public class ${upperModelName}ServiceCompImpl implements I${upperModelName}Servi
 
 	@Override
 	public void update(${upperModelName}ReqVo reqVo) {
-		log.info("update params:{}", reqVo);
 		${upperModelName}Bo ${lowerModelName}Bo = this.validatedParams(reqVo);
 		${upperModelName} ${lowerModelName} = this.fetchEntityData(${lowerModelName}Bo);
 		${lowerModelName}.setUpdatedAt(new Date());
@@ -76,8 +71,6 @@ public class ${upperModelName}ServiceCompImpl implements I${upperModelName}Servi
 
 	@Override
 	public void updateBatch(IdStatusListVo<Long, Integer> idStatusListVo) {
-		log.info("batchUpdate params:{}", idStatusListVo);
-
 		List<${upperModelName}> ${lowerModelName}s = ${lowerModelName}Service.getBatchBIds(idStatusListVo.getIdList());
 		if (CollectionUtil.isEmpty(${lowerModelName}s)) {
 			log.warn("${upperModelName}ServiceCompImpl ${lowerModelName}Bos is empty");

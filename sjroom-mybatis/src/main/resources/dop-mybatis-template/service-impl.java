@@ -42,28 +42,24 @@ public class ${upperModelName}ServiceImpl extends BaseServiceImpl<I${upperModelN
 
 	@Override
 	public ${upperModelName}Bo findByBId(Long bid) {
-		log.info("${upperModelName}ServiceImpl findByBId params:{}", bid);
 		${upperModelName} ${lowerModelName} = super.getByBId(bid);
 		return BeanUtil.copy(${lowerModelName}, ${upperModelName}Bo.class);
 	}
 
 	@Override
 	public List<${upperModelName}Bo> findByBIds(Set<Long> ${lowerModelName}Ids) {
-		log.info("${upperModelName}ServiceImpl findByBIds params:{}", ${lowerModelName}Ids);
 		List<${upperModelName}> ${lowerModelName}s = super.getBatchBIds(${lowerModelName}Ids);
 		return BeanUtil.copy(${lowerModelName}s, ${upperModelName}Bo.class);
 	}
 
 	@Override
 	public List<${upperModelName}Bo> findList(${upperModelName}Bo ${lowerModelName}Bo) {
-		log.info("${upperModelName}ServiceImpl findList params:{}", ${lowerModelName}Bo);
 		List<${upperModelName}> ${lowerModelName}s = super.list(this.query(${lowerModelName}Bo));
 		return BeanUtil.copy(${lowerModelName}s, ${upperModelName}Bo.class);
 	}
 
 	@Override
 	public Map<Long, ${upperModelName}Bo> findMap(${upperModelName}Bo ${lowerModelName}Bo) {
-		log.info("${upperModelName}ServiceImpl findMap params:{}", ${lowerModelName}Bo);
 		List<${upperModelName}Bo> ${lowerModelName}Bos = this.findList(${lowerModelName}Bo);
 		if (CollectionUtil.isEmpty(${lowerModelName}Bos)) {
 			log.warn("${upperModelName}ServiceImpl find ${lowerModelName}Bos is empty");
@@ -74,7 +70,6 @@ public class ${upperModelName}ServiceImpl extends BaseServiceImpl<I${upperModelN
 
 	@Override
 	public IPage<${upperModelName}Bo> findPage(${upperModelName}Bo model) {
-		log.info("${upperModelName}ServiceImpl findPage params:{}", model);
 		<% if (config.xmlPaging == true) { %>
 		IPage<${upperModelName}> modelPage = i${upperModelName}Dao.findPage(PageUtil.toPage(model), model);
 		<% } else { %>

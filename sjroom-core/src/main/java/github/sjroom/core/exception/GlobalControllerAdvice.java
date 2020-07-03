@@ -2,7 +2,7 @@ package github.sjroom.core.exception;
 
 import com.alibaba.fastjson.JSON;
 import github.sjroom.core.RespVo;
-import github.sjroom.core.code.ErrorCode;
+import github.sjroom.core.code.BaseErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 @Order(1)
 @Component
-@Slf4j(topic = "access.log")
+@Slf4j
 @RestControllerAdvice
 public class GlobalControllerAdvice {
 
@@ -40,7 +40,7 @@ public class GlobalControllerAdvice {
 	private HttpServletRequest request;
 
 	@Pointcut(
-		"execution(public !static * *(..)) && "
+		"execution(* *..controller..*(..)) && "
 			+ "(@within(org.springframework.stereotype.Controller)"
 			+ " || @within(org.springframework.web.bind.annotation.RestController) )"
 			+ " && (@annotation(org.springframework.web.bind.annotation.RequestMapping)"
@@ -66,31 +66,32 @@ public class GlobalControllerAdvice {
 
 	@ExceptionHandler(Throwable.class)
 	public RespVo handlerThrowable(Throwable e) {
-		RespVo respVo = RespVo.failure(ErrorCode.SYSTEM_ERROR, e.getMessage());
-		log.error(e.getMessage(), e);
+		log.error("handlerThrowable ex:{}", e);
+		RespVo respVo = RespVo.ok(BaseErrorCode.SYSTEM_ERROR, e.getMessage());
 		log.info("<<<<< {} << {}ms << {}", request.getServletPath(), time(), JSON.toJSONString(respVo));
 		return respVo;
 	}
 
 	@ExceptionHandler(BusinessException.class)
 	public RespVo handlerServiceException(BusinessException e) {
-		RespVo respVo = RespVo.failure(e.getCode(), e.getI18Args());
+		log.error("handlerServiceException ex:{}", e);
+		RespVo respVo = RespVo.ok(e.getCode(), e.getMessage());
 		log.info("<<<<< {} << {}ms << {}", request.getServletPath(), time(), JSON.toJSONString(respVo));
 		return respVo;
 	}
 
 	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
 	public RespVo handlerHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException e) {
-		log.error(e.getMessage(), e);
-		RespVo respVo = RespVo.failure(ErrorCode.PARAM_ERROR, e.getMessage());
+		log.error("handlerHttpRequestMethodNotSupportedException ex:{}", e);
+		RespVo respVo = RespVo.ok(BaseErrorCode.PARAM_ERROR, e.getMessage());
 		log.info("xxxxx {} << {}ms << {}", request.getServletPath(), time(), JSON.toJSONString(respVo));
 		return respVo;
 	}
 
 	@ExceptionHandler(HttpMessageNotReadableException.class)
 	public RespVo handlerHttpMessageNotReadableException(HttpMessageNotReadableException e) {
-		log.error(e.getMessage(), e);
-		RespVo respVo = RespVo.failure(ErrorCode.PARAM_ERROR, e.getMessage());
+		log.error("handlerHttpMessageNotReadableException ex:{}", e);
+		RespVo respVo = RespVo.ok(BaseErrorCode.PARAM_ERROR, e.getMessage());
 		log.info("xxxxx {} << {}ms << {}", request.getServletPath(), time(), JSON.toJSONString(respVo));
 		return respVo;
 	}
@@ -102,7 +103,8 @@ public class GlobalControllerAdvice {
 			builder.append(", [").append(error.getField()).append(":").append(error.getDefaultMessage()).append("]");
 		}
 		String msg = builder.substring(2);
-		RespVo respVo = RespVo.failure(ErrorCode.PARAM_ERROR, msg);
+		log.error("handlerMethodArgumentNotValidException ex:{}", e);
+		RespVo respVo = RespVo.ok(BaseErrorCode.PARAM_ERROR, msg);
 		log.info("xxxxx {} << {}ms << {}", request.getServletPath(), time(), JSON.toJSONString(respVo));
 		return respVo;
 	}

@@ -11,22 +11,22 @@ package github.sjroom.core.code;
  * @version 1.0.0
  * @since 2019-05-27 08:34
  */
-public interface ErrorCode extends IErrorCode {
+public interface BaseErrorCode extends IErrorCode {
 	/**
-	 * SYS00200-成功
+	 * 200-成功
 	 */
-	String SUCCESS = "SYS00200";
+	String SUCCESS = "200";
 	/**
-	 * SYS00400-参数错误
+	 * 400-参数错误
 	 */
-	String PARAM_ERROR = "SYS00400";
+	String PARAM_ERROR = "400";
 	/**
-	 * SYS00500-系统错误
+	 * 401-鉴权错误
 	 */
-	String SYSTEM_ERROR = "SYS00500";
+	String UNAUTHORIZED_ERROR = "401";
 	/**
-	 * SYS00201-平台调用上下文为空
+	 * 500-系统错误
 	 */
-	String NO_CONTEXT = "SYS00201";
+	String SYSTEM_ERROR = "500";
 
 }

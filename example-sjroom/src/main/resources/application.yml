@@ -8,3 +8,5 @@ spring:
   messages:
     basename: i18n/messages
     encoding: UTF-8
+  mvc:
+    static-path-pattern: /swagger-resources

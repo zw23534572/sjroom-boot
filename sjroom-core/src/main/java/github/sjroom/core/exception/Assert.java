@@ -1,6 +1,6 @@
 package github.sjroom.core.exception;
 
-import github.sjroom.core.code.IErrorCode;
+import github.sjroom.core.code.I18nUtil;
 import github.sjroom.core.utils.CollectionUtil;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 
 /**
  * @Author: manson.zhou
- * @Date: 2019/7/10 9:36
+ * @Date: 2020/7/03 11:07
  * @Desc: (业务代码)逻辑验证/断言工具类
  */
 public abstract class Assert {
@@ -21,58 +21,43 @@ public abstract class Assert {
 	/**
 	 * 异常抛出
 	 *
-	 * @param rCode
+	 * @param code 错误码
 	 */
-	public static void throwFail(IErrorCode rCode) throws BusinessException {
-		throwFail0(rCode,null);
+	public static void throwFail(String code) throws BusinessException {
+		throwFail0(code, null);
 	}
 
 	/**
-	 * 断言api异常,可输入国际化参数
+	 * 异常抛出
 	 *
-	 * @param expression
-	 * @param resultCode
-	 * @param i18Args
+	 * @param code     错误码
+	 * @param i18nArgs 参数
 	 */
-	public static void throwOnFalse(boolean expression, IErrorCode resultCode, Object... i18Args) throws BusinessException {
-		throwOnFalse0(expression, resultCode, null, i18Args);
+	public static void throwFail(String code, Object... i18nArgs) throws BusinessException {
+		throwFail0(code, null, i18nArgs);
 	}
 
-	public static void throwFail(IErrorCode rCode, Object... i18nArgs) throws BusinessException {
-		throwFail0(rCode, null, i18nArgs);
-	}
-
-	public static void throwOnFalseWithData(boolean expression, IErrorCode resultCode, DataPair... dataPairs) throws BusinessException {
-		throwOnFalse0(expression, resultCode, dataPairs);
-	}
-
-	public static void throwOnFalseWithData(boolean expression, IErrorCode resultCode, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
-		throwOnFalse0(expression, resultCode, dataPairs, i18Args);
-	}
-
-	public static void throwFailWithData(IErrorCode resultCode, DataPair... dataPairs) throws BusinessException {
-		throwFail0(resultCode, dataPairs);
-	}
 
 	/**
-	 * 断言api异常,可输入国际化参数
+	 * 异常抛出
 	 *
-	 * @param expression
-	 * @param code
-	 * @param message
-	 * @param i18Args    国际化参数
-	 * @throws BusinessException
+	 * @param code      错误码
+	 * @param dataPairs 消息
+	 * @param i18Args   参数
 	 */
-	public static void throwOnFalse(boolean expression, String code, String message, Object... i18Args) throws BusinessException {
-		throwOnFalse0(expression,
-			ResultCode.builder().code(code).msg(message).build(),
-			null, i18Args);
+	private static void throwFail0(String code, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
+		BusinessException exception = new BusinessException(code, I18nUtil.getMessage(code, i18Args));
+		exception.setI18Args(i18Args);
+		if (!CollectionUtil.isEmpty(dataPairs)) {
+			Map<String, Object> values = Stream.of(dataPairs)
+				.filter(v -> v != null && ObjectUtils.allNotNull(v.field, v.data))
+				.collect(Collectors.toMap(v -> v.field, v -> v.data));
+			exception.setValues(values);
+		}
+
+		throw exception;
 	}
 
-	public static void throwFail(String code, String message, Object... i18Args) {
-		throwFail0(ResultCode.builder().code(code).msg(message).build(),
-			null, i18Args);
-	}
 
 	/**
 	 * 断言api异常,全量参数
@@ -83,22 +68,21 @@ public abstract class Assert {
 	 * @param i18Args
 	 * @throws BusinessException
 	 */
-	private static void throwOnFalse0(boolean expression, IErrorCode resultCode, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
+	private static void throwOnFalse0(boolean expression, String resultCode, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
 		if (!expression) {
 			throwFail0(resultCode, dataPairs, i18Args);
 		}
 	}
 
-	private static void throwFail0(IErrorCode resultCode, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
-		BusinessException exception = new BusinessException(resultCode);
-		exception.setI18Args(i18Args);
-		if (!CollectionUtil.isEmpty(dataPairs)) {
-			Map<String, Object> values = Stream.of(dataPairs)
-				.filter(v -> v != null && ObjectUtils.allNotNull(v.field, v.data))
-				.collect(Collectors.toMap(v -> v.field, v -> v.data));
-			exception.setValues(values);
-		}
-		throw exception;
+	/**
+	 * 断言api异常,可输入国际化参数
+	 *
+	 * @param expression
+	 * @param resultCode
+	 * @param i18Args
+	 */
+	public static void throwOnFalse(boolean expression, String resultCode, Object... i18Args) throws BusinessException {
+		throwOnFalse0(expression, resultCode, null, i18Args);
 	}
 
 	public static void assertTrue(boolean expression, String message) {
@@ -113,13 +97,5 @@ public abstract class Assert {
 	public static class DataPair {
 		private String field; // 输出的key
 		private Object data; //输出的value
-	}
-
-	@Getter
-	@Setter
-	@Builder
-	public static class ResultCode implements IErrorCode {
-		private String code;
-		private String msg;
 	}
 }
