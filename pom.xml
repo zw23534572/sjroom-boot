@@ -37,6 +37,7 @@
         <module>sjroom-core</module>
         <module>sjroom-mybatis</module>
         <module>sjroom-boot-pom</module>
+        <module>sjroom-secrity</module>
     </modules>
 
     <dependencies>
@@ -102,6 +103,11 @@
             <dependency>
                 <groupId>github.sjroom</groupId>
                 <artifactId>sjroom-mybatis</artifactId>
+                <version>${sjroom.framework.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>github.sjroom</groupId>
+                <artifactId>sjroom-secrity</artifactId>
                 <version>${sjroom.framework.version}</version>
             </dependency>
             <dependency>
