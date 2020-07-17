@@ -38,10 +38,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException {
         try {
             String token = request.getHeader(JwtTokenUtil.HEADER_TOKEN);
-//            if (StringUtil.isBlank(token)) {
-//                chain.doFilter(request, response);
-//                return;
-//            }
+            if (StringUtil.isBlank(token)) {
+                chain.doFilter(request, response);
+                return;
+            }
             Assert.throwOnFalse(ObjectUtil.isNotNull(token), ISecrityErrorCode.TOKEN_NOT_NULL);
             Assert.throwOnFalse(!JwtTokenUtil.isTokenExpired(token), ISecrityErrorCode.TOKEN_EXPIRED);
 
