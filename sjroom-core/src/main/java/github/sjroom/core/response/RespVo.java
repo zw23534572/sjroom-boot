@@ -1,10 +1,9 @@
-package github.sjroom.core;
+package github.sjroom.core.response;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import github.sjroom.core.code.BaseErrorCode;
 import github.sjroom.core.code.I18nUtil;
-import github.sjroom.core.utils.ObjectUtil;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,13 +54,6 @@ public class RespVo<T> implements Serializable {
 	}
 
 	public String getStateMsg() {
-//		if (ObjectUtil.isNotNull(stateCode)) {
-//			try {
-//				stateMsg = I18nUtil.getMessage(stateCode, stateMsgArgs);
-//			} catch (Exception ex) {
-//				log.warn("getStateMsg ex:{}", ex.getMessage());
-//			}
-//		}
 		return stateMsg;
 	}
 
@@ -110,14 +102,22 @@ public class RespVo<T> implements Serializable {
 	}
 
 	/**
+	 * 失败
+	 *
+	 * @return RespVo<T>
+	 */
+	public static <T> RespVo<T> failure(String code, Object... stateMsgArgs) {
+		return ok(null, code, stateMsgArgs);
+	}
+
+
+	/**
 	 * 成功
 	 *
 	 * @return RespVo
 	 */
-	public static RespVo success() {
-		RespVo respVo = new RespVo();
-		respVo.setStateCode(BaseErrorCode.SUCCESS);
-		return respVo;
+	public static <T> RespVo<T> success() {
+		return ok(null, BaseErrorCode.SUCCESS, null);
 	}
 
 	/**
@@ -126,21 +126,21 @@ public class RespVo<T> implements Serializable {
 	 * @return RespVo<T>
 	 */
 	public static <T> RespVo<T> success(T data) {
-		RespVo<T> respVo = new RespVo<>();
-		respVo.setStateCode(BaseErrorCode.SUCCESS);
+		return ok(data, BaseErrorCode.SUCCESS, null);
+	}
+
+	/**
+	 * 成功
+	 *
+	 * @return RespVo<T>
+	 */
+	private static <T> RespVo<T> ok(T data, String code, Object... stateMsgArgs) {
+		RespVo respVo = new RespVo();
+		respVo.setStateCode(code);
+		respVo.setStateMsgArgs(stateMsgArgs);
+		respVo.setStateMsg(I18nUtil.getMessage(code, stateMsgArgs));
 		respVo.setData(data);
 		return respVo;
 	}
 
-	/**
-	 * 失败
-	 *
-	 * @return RespVo
-	 */
-	public static RespVo ok(String stateCode, String msg) {
-		RespVo respVo = new RespVo();
-		respVo.setStateCode(stateCode);
-		respVo.setStateMsg(msg);
-		return respVo;
-	}
 }

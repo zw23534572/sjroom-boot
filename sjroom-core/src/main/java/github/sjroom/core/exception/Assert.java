@@ -1,6 +1,5 @@
 package github.sjroom.core.exception;
 
-import github.sjroom.core.code.I18nUtil;
 import github.sjroom.core.utils.CollectionUtil;
 import lombok.Builder;
 import lombok.Getter;
@@ -46,7 +45,7 @@ public abstract class Assert {
 	 * @param i18Args   参数
 	 */
 	private static void throwFail0(String code, DataPair[] dataPairs, Object... i18Args) throws BusinessException {
-		BusinessException exception = new BusinessException(code, I18nUtil.getMessage(code, i18Args));
+		BusinessException exception = new BusinessException(code, i18Args);
 		exception.setI18Args(i18Args);
 		if (!CollectionUtil.isEmpty(dataPairs)) {
 			Map<String, Object> values = Stream.of(dataPairs)

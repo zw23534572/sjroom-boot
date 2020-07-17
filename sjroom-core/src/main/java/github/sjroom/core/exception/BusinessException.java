@@ -1,6 +1,6 @@
 package github.sjroom.core.exception;
 
-import github.sjroom.core.code.IErrorCode;
+import github.sjroom.core.code.I18nUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,10 +37,9 @@ public class BusinessException extends RuntimeException {
 		this(code, null, null);
 	}
 
-	public BusinessException(String code, String msg) {
-		this(code, msg, null);
+	public BusinessException(String code, Object... args) {
+		this(code, I18nUtil.getMessage(code, args), null);
 	}
-
 
 	public BusinessException(Exception cause) {
 		this(null, cause.getMessage(), cause);

@@ -1,6 +1,6 @@
 package github.sjroom.web.config;
 
-import github.sjroom.core.RespVo;
+import github.sjroom.core.response.RespVo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;
