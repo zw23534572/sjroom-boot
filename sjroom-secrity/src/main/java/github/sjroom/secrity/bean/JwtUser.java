@@ -14,58 +14,65 @@ import java.util.Collections;
 @Data
 public class JwtUser implements UserDetails {
 
-    private Long id;
-    private String username;
-    private String password;
-    private Collection<? extends GrantedAuthority> authorities;
+	private Long id;
+	private String username;
+	private String password;
+	private Collection<? extends GrantedAuthority> authorities;
 
-    public JwtUser() {
-    }
+	public JwtUser() {
+	}
 
-    // 写一个能直接使用user创建jwtUser的构造器
-    public JwtUser(Long id, String username, String password, String role) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.authorities = Collections.singleton(new SimpleGrantedAuthority(role));
-    }
+	// 写一个能直接使用user创建jwtUser的构造器
+	public JwtUser(Long id, String username, String password, String role) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.authorities = Collections.singleton(new SimpleGrantedAuthority(role));
+	}
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
-    }
+	public JwtUser(Long id, String username, String password, Collection<? extends GrantedAuthority> authorities) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.authorities = authorities;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return authorities;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public boolean isAccountNonExpired() {
-        return true;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public boolean isAccountNonLocked() {
-        return true;
-    }
+	public boolean isAccountNonExpired() {
+		return true;
+	}
 
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
+	public boolean isAccountNonLocked() {
+		return true;
+	}
 
-    public boolean isEnabled() {
-        return true;
-    }
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
 
-    @Override
-    public String toString() {
-        return "JwtUser{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", authorities=" + authorities +
-                '}';
-    }
+	public boolean isEnabled() {
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "JwtUser{" +
+			"id=" + id +
+			", username='" + username + '\'' +
+			", password='" + password + '\'' +
+			", authorities=" + authorities +
+			'}';
+	}
 
 }

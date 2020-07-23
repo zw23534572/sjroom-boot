@@ -6,10 +6,7 @@ import github.sjroom.core.exception.BusinessException;
 import github.sjroom.core.extension.SpringExtensionLoader;
 import github.sjroom.core.mybatis.annotation.FillFieldName;
 import github.sjroom.core.mybatis.page.PageResult;
-import github.sjroom.core.utils.AddPropertiesUtil;
-import github.sjroom.core.utils.CollectionUtil;
-import github.sjroom.core.utils.ObjectUtil;
-import github.sjroom.core.utils.StringPool;
+import github.sjroom.core.utils.*;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -90,6 +87,7 @@ public class FillFieldNameAspect {
 			fillFieldObject.setField(field);
 			fillFieldObject.setInvokeClass(fillFieldName.invoke());
 			fillFieldObject.setInvokeMethod(fillFieldName.invokeMethod());
+			fillFieldObject.setInvokeArg(fillFieldName.invokeArg());
 			fillFieldObjects.add(fillFieldObject);
 		}
 
@@ -112,22 +110,29 @@ public class FillFieldNameAspect {
 		retCollection.forEach(obj -> fillFieldObjects.forEach(fieldInfo -> {
 			Field field = fieldInfo.getField();
 			field.setAccessible(true);
-			try {
-				if (ObjectUtil.isNotNull(field.get(obj))) {
-					InvokeObject invokeObject = new InvokeObject(fieldInfo.getInvokeClass(), fieldInfo.getInvokeMethod());
-					boolean isOrg = false;
-					for (InvokeObject orgInvokeObject : invokeObjects) {
-						if (orgInvokeObject.equals(invokeObject)) {
-							orgInvokeObject.getInvokeArgs().add(field.get(obj));
-							isOrg = true;
+
+			if (StringUtil.isNotBlank(fieldInfo.getInvokeArg())) {
+				InvokeObject invokeObject = new InvokeObject(fieldInfo.getInvokeClass(), fieldInfo.getInvokeMethod(), fieldInfo.getInvokeArg());
+				invokeObjects.add(invokeObject);
+			} else {
+				try {
+					Object fieldValue = field.get(obj);
+					if (ObjectUtil.isNotNull(fieldValue)) {
+						InvokeObject invokeObject = new InvokeObject(fieldInfo.getInvokeClass(), fieldInfo.getInvokeMethod());
+						boolean isOrg = false;
+						for (InvokeObject orgInvokeObject : invokeObjects) {
+							if (orgInvokeObject.equals(invokeObject)) {
+								orgInvokeObject.getInvokeArgs().add(fieldValue);
+								isOrg = true;
+							}
+						}
+						if (!isOrg) {
+							invokeObjects.add(invokeObject);
 						}
 					}
-					if (!isOrg) {
-						invokeObjects.add(invokeObject);
-					}
+				} catch (IllegalAccessException e) {
+					throw new BusinessException(e);
 				}
-			} catch (IllegalAccessException e) {
-				throw new BusinessException(e);
 			}
 		}));
 
@@ -153,7 +158,7 @@ public class FillFieldNameAspect {
 					String fieldText = field.getName().endsWith("Id") ? field.getName().substring(0, field.getName().lastIndexOf("Id")) : field.getName();
 					fieldText = fieldText + "Name";
 //					log.debug("进行赋值操作 fieldName:{} fieldText:{} fieldGet:{}", field.getName(), fieldText, field.get(obj));
-					InvokeObject invokeObject = new InvokeObject(fieldInfo.getInvokeClass(), fieldInfo.getInvokeMethod());
+					InvokeObject invokeObject = new InvokeObject(fieldInfo.getInvokeClass(), fieldInfo.getInvokeMethod(), fieldInfo.getInvokeArg());
 					for (InvokeObject orgInvokeObject : invokeObjects) {
 						if (orgInvokeObject.equals(invokeObject)) {
 							Object fieldValue = orgInvokeObject.getMapData().get(field.get(obj));

@@ -106,8 +106,11 @@ public class RespVo<T> implements Serializable {
 	 *
 	 * @return RespVo<T>
 	 */
-	public static <T> RespVo<T> failure(String code, Object... stateMsgArgs) {
-		return ok(null, code, stateMsgArgs);
+	public static <T> RespVo<T> failure(String code, String msg) {
+		RespVo respVo = new RespVo();
+		respVo.setStateCode(code);
+		respVo.setStateMsg(msg);
+		return respVo;
 	}
 
 
@@ -134,7 +137,7 @@ public class RespVo<T> implements Serializable {
 	 *
 	 * @return RespVo<T>
 	 */
-	private static <T> RespVo<T> ok(T data, String code, Object... stateMsgArgs) {
+	public static <T> RespVo<T> ok(T data, String code, Object... stateMsgArgs) {
 		RespVo respVo = new RespVo();
 		respVo.setStateCode(code);
 		respVo.setStateMsgArgs(stateMsgArgs);

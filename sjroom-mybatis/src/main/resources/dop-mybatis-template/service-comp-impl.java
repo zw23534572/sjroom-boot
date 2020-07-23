@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import github.sjroom.web.vo.IdListVo;
 
 import java.util.Date;
 import java.util.List;
@@ -84,6 +85,22 @@ public class ${upperModelName}ServiceCompImpl implements I${upperModelName}Servi
 		return;
 	}
 
+	@Override
+	public void removeBatch(IdListVo<Long> idListVo) {
+		if (CollectionUtil.isEmpty(idListVo.getIdList())) {
+			log.warn("${upperModelName}ServiceCompImpl removeBatch idListVo is empty");
+			return;
+		}
+	
+		List<${upperModelName}Bo> ${lowerModelName}s = ${lowerModelName}Service.findByBIds(idListVo.getIdList());
+		if (CollectionUtil.isNotEmpty(${lowerModelName}s)) {
+			${lowerModelName}s = ${lowerModelName}s.stream().filter(x -> x.getStatus() == StatusEnum.UN_ENABLE).collect(Collectors.toList());
+			Assert.throwOnFalse(${lowerModelName}s.size() > 0, SjroomErrorCode.PARAM_ERROR, "必须有一个未启用状态，才能进行");
+		}
+	
+		${lowerModelName}Service.removeBatchBIds(idListVo.getIdList());
+	}
+	
 	/**
 	 * 构建参数
 	 *

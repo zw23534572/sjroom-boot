@@ -2,6 +2,7 @@ package ${currentPackage};
 
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 <% if (fileSuffix=='ReqVo') {%>import io.swagger.annotations.ApiModelProperty;<% } %>
 
@@ -25,8 +26,16 @@ public class ${upperModelName}${fileSuffix}  {
         if(isIgore) continue;
     %>
 
-<% if (fileSuffix=="ReqVo") {%>
+<% if (fileSuffix == "ReqVo") {%>
     @ApiModelProperty("${item.comment}")
+	<% if (item.isNull == false) {%>
+		<% if (item.propertyType == "String") {%>
+	@NotBlank
+		<% } %>
+		<% if (item.propertyType == "Integer" || item.propertyType == "Long" || item.propertyType == "Date") {%>
+	@NotNull
+		<% } %>
+	<% } %>
 <% } else {%>
     /**
      * ${item.comment}

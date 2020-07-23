@@ -8,11 +8,13 @@ import github.sjroom.core.mybatis.annotation.FillField;
 import github.sjroom.core.mybatis.page.PageResult;
 import github.sjroom.core.mybatis.page.PageUtil;
 import github.sjroom.web.vo.IdStatusListVo;
+import github.sjroom.web.vo.IdListVo;
 import github.sjroom.web.vo.IdVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -36,6 +38,7 @@ public class ${upperModelName}Controller {
 	@ApiOperation(value = "查看", notes = "传入id")
 	@PostMapping("find")
 	@FillField
+	@PreAuthorize("hasRole('ROLE_${strutil.toUpperCase(dbTableInfo.tableName)}_SELECT')")
 	public ${upperModelName}RespVo find(@Validated @RequestBody IdVo<Long> idVo) {
 		return i${upperModelName}ServiceComp.find(idVo);
 	}
@@ -43,6 +46,7 @@ public class ${upperModelName}Controller {
 	@ApiOperation("分页")
 	@PostMapping("page")
 	@FillField
+	@PreAuthorize("hasRole('ROLE_${strutil.toUpperCase(dbTableInfo.tableName)}_SELECT')")
 	public PageResult page(@Validated @RequestBody ${upperModelName}PageReqVo reqVo) {
 		return PageUtil.toPageResult(i${upperModelName}ServiceComp.page(reqVo), ${upperModelName}RespVo.class);
 	}
@@ -50,25 +54,36 @@ public class ${upperModelName}Controller {
 	@ApiOperation("列表")
 	@PostMapping("list")
 	@FillField
+	@PreAuthorize("hasRole('ROLE_${strutil.toUpperCase(dbTableInfo.tableName)}_SELECT')")
 	public List<${upperModelName}RespVo> list(@Validated @RequestBody ${upperModelName}ReqVo reqVo) {
 		return i${upperModelName}ServiceComp.list(reqVo);
 	}
 	
 	@ApiOperation("创建")
 	@PostMapping("create")
+	@PreAuthorize("hasRole('ROLE_${strutil.toUpperCase(dbTableInfo.tableName)}_CREATE')")
 	public Long create(@Validated @RequestBody ${upperModelName}ReqVo ${lowerModelName}ReqVo) {
 		return i${upperModelName}ServiceComp.create(${lowerModelName}ReqVo);
 	}
 	
 	@ApiOperation("更新")
 	@PostMapping("update")
+	@PreAuthorize("hasRole('ROLE_${strutil.toUpperCase(dbTableInfo.tableName)}_UPDATE')")
 	public void update(@Validated @RequestBody ${upperModelName}ReqVo ${lowerModelName}ReqVo) {
 		i${upperModelName}ServiceComp.update(${lowerModelName}ReqVo);
 	}
 	
 	@ApiOperation(value = "批量更新", notes = "传入id")
 	@PostMapping("batch-update")
+	@PreAuthorize("hasRole('ROLE_${strutil.toUpperCase(dbTableInfo.tableName)}_UPDATE')")
 	public void batchUpdate(@Validated @RequestBody IdStatusListVo idStatusListVo) {
 		i${upperModelName}ServiceComp.updateBatch(idStatusListVo);
+	}
+
+	@ApiOperation(value = "批量删除", notes = "传入id")
+	@PostMapping("batch-remove")
+	@PreAuthorize("hasRole('ROLE_${strutil.toUpperCase(dbTableInfo.tableName)}_REMOVE')")
+	public void removeUpdate(@Validated @RequestBody IdListVo<Long> idListVo) {
+		i${upperModelName}ServiceComp.removeBatch(idListVo);
 	}
 }

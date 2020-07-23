@@ -7,7 +7,7 @@ import ${config.voPackage}.${upperModelName}RespVo;
 import github.sjroom.web.vo.IdStatusListVo;
 import github.sjroom.web.vo.IdVo;
 import org.springframework.validation.annotation.Validated;
-
+import github.sjroom.web.vo.IdListVo;
 import java.util.List;
 
 /**
@@ -48,4 +48,9 @@ public interface I${upperModelName}ServiceComp {
 	 * 批量更新
 	 */
 	void updateBatch(IdStatusListVo<Long,Integer> idStatusListVo);
+
+	/**
+	 * 批量移除
+	 */
+	void removeBatch(IdListVo<Long> idListVo);
 }

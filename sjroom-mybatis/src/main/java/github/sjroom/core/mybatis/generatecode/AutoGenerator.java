@@ -248,6 +248,7 @@ public class AutoGenerator {
 
 		//数据库读取表的结构
 		DbTableInfo dbTableInfo = new DbTableInfo();
+		dbTableInfo.setTableName(tableName);
 		try {
 			while (rs.next()) {
 				String comment = rs.getString("TABLE_COMMENT");

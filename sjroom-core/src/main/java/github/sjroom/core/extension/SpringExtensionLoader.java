@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import java.util.Map;
  * @version 1.0.0
  * @date 2019/5/17 17:44
  */
+@Configuration
 public class SpringExtensionLoader implements ApplicationContextAware {
     private static final Logger logger = LoggerFactory.getLogger(SpringExtensionLoader.class);
 

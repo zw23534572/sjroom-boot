@@ -21,7 +21,7 @@ public class ResponseMessageResolver {
 
 	public static void failResolve(HttpServletRequest request, HttpServletResponse response, String code,
 								   Object... args) {
-		resolve(request, response, RespVo.failure(code, args));
+		resolve(request, response, RespVo.ok(null, code, args));
 	}
 
 	private static void resolve(HttpServletRequest request, HttpServletResponse response, Object data) {

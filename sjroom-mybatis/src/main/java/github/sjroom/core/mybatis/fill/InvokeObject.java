@@ -31,13 +31,21 @@ public class InvokeObject {
 		this.invokeMethod = invokeMethod;
 	}
 
+	public InvokeObject(Class invokeClass, String invokeMethod, String invokeArg) {
+		this.invokeClass = invokeClass;
+		this.invokeMethod = invokeMethod;
+		this.invokeArgs = Collections.singleton(invokeArg);
+	}
+
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 		InvokeObject that = (InvokeObject) o;
 		return Objects.equals(invokeClass, that.invokeClass) &&
-			Objects.equals(invokeMethod, that.invokeMethod);
+			Objects.equals(invokeMethod, that.invokeMethod) &&
+			Objects.equals(invokeArgs, that.invokeArgs);
 	}
 
 	@Override

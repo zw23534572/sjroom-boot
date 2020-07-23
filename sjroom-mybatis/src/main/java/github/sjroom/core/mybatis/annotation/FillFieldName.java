@@ -1,6 +1,7 @@
 package github.sjroom.core.mybatis.annotation;
 
 import java.lang.annotation.*;
+import java.util.Set;
 
 /**
  * @author george.ouyang
@@ -18,6 +19,11 @@ public @interface FillFieldName {
 	/**
 	 * 调用的方法名
 	 */
-	String invokeMethod() default "findMap";
+	String invokeMethod() default "fillFieldName";
+
+	/**
+	 * 参数
+	 */
+	String invokeArg() default "STATUS";
 
 }

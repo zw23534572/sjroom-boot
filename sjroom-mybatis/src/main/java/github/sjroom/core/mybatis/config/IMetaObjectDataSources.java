@@ -34,7 +34,7 @@ public interface IMetaObjectDataSources {
 	 * @return 账号id
 	 */
 	default Object getOperator() {
-		return BusinessContextHolders.getXSystemId();
+		return BusinessContextHolders.getXUserId();
 	}
 
 	/**
