@@ -17,6 +17,10 @@ public class BusinessContext<T> {
 	 */
 	private Long userId;
 	/**
+	 * 用户名称
+	 */
+	private String userName;
+	/**
 	 * 用户当前角色id
 	 */
 	private Long roleId;
@@ -36,4 +40,5 @@ public class BusinessContext<T> {
 	 * 扩展数据，用于传输
 	 */
 	private T obj;
+
 }

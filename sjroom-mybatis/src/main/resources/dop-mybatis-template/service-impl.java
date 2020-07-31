@@ -37,9 +37,6 @@ import java.util.stream.Collectors;
 @Validated
 public class ${upperModelName}ServiceImpl extends BaseServiceImpl<I${upperModelName}Dao, ${upperModelName}> implements I${upperModelName}Service {
 
-	@Autowired
-	I${upperModelName}Dao i${upperModelName}Dao;
-
 	@Override
 	public ${upperModelName}Bo findByBId(Long bid) {
 		${upperModelName} ${lowerModelName} = super.getByBId(bid);
@@ -78,6 +75,16 @@ public class ${upperModelName}ServiceImpl extends BaseServiceImpl<I${upperModelN
 		return PageUtil.toPage(modelPage, ${upperModelName}Bo.class);
 	}
 
+	@Override
+	public Map<Long, String> fillFieldName(Set<Long> bIds) {
+		List<${upperModelName}Bo> ${lowerModelName}Bos = this.findByBIds(bIds);
+		if (CollectionUtil.isEmpty(${lowerModelName}Bos)) {
+			log.warn("${upperModelName}ServiceImpl find ${lowerModelName}Bos is empty");
+			return Collections.emptyMap();
+		}
+		return ${lowerModelName}Bos.stream().collect(Collectors.toMap(${upperModelName}Bo::get${upperModelName}Id, ${upperModelName}Bo::get${upperModelName}Name));
+	}
+	
 	private LambdaQueryWrapper<${upperModelName}> query(${upperModelName}Bo model) {
 	    LambdaQueryWrapper<${upperModelName}> wrapper = new LambdaQueryWrapper<${upperModelName}>();
 		<% for(var item in dbTableFieldInfoList) {
@@ -95,4 +102,5 @@ public class ${upperModelName}ServiceImpl extends BaseServiceImpl<I${upperModelN
 		<% } %>
 		return wrapper;
 	}
+
 }

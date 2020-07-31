@@ -22,7 +22,6 @@ public class SpringExtensionLoader implements ApplicationContextAware {
 
     private static ApplicationContext applicationContext;
 
-
     public static <T> T getSpringBean(String beanName, Class<T> clazz) {
         Object obj = applicationContext.getBean(beanName);
         if(null == obj) {

@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public class JwtTokenUtil {
 
+
     private static final String CLAIM_KEY_USERNAME = "sub";
 
     /**
@@ -28,6 +29,13 @@ public class JwtTokenUtil {
      * token
      */
     public static final String HEADER_TOKEN = "token";
+	/**
+	 * token
+	 */
+	public static final String HEADER_EXPIRATION_DATE = "expirationDate";
+
+	public static final String CLAIM_INFO = "claimInfo";
+	public static final String CLAIM_ID = "claimId";
 
     /**
      * 签发JWT

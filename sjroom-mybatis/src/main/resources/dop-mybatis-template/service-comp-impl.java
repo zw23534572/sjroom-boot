@@ -1,6 +1,9 @@
 package ${currentPackage};
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import github.sjroom.admin.code.SjroomErrorCode;
+import github.sjroom.core.mybatis.enums.StatusEnum;
+import github.sjroom.core.exception.Assert;
 import github.sjroom.core.utils.BeanUtil;
 import github.sjroom.core.utils.CollectionUtil;
 import ${config.boPackage}.${upperModelName}Bo;
@@ -20,7 +23,7 @@ import github.sjroom.web.vo.IdListVo;
 
 import java.util.Date;
 import java.util.List;
-
+import java.util.stream.Collectors;
 /**
  * <B>说明：</B><BR>
  *

@@ -57,4 +57,12 @@ public interface I${upperModelName}Service extends BaseService<${upperModelName}
 	 * @return
 	 */
 	IPage<${upperModelName}Bo> findPage(${upperModelName}Bo ${lowerModelName}Bo);
+
+	/**
+	 * 注解：@fillFieldName，填充字段的专用方法
+	 *
+	 * @param bIds 业务model
+	 * @return 键值对
+	 */
+	Map<Long, String> fillFieldName(Set<Long> bIds);
 }

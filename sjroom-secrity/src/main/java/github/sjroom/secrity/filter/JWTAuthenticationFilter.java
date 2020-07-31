@@ -19,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -30,44 +31,51 @@ import java.util.HashMap;
 @Slf4j
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
-    private AuthenticationManager authenticationManager;
+	private AuthenticationManager authenticationManager;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
-        this.authenticationManager = authenticationManager;
-        super.setFilterProcessesUrl("/login");
-    }
+	private static final String OAUTH_LOGIN_URL = "/oauth/login";
 
-    @Override
-    public Authentication attemptAuthentication(HttpServletRequest request,
-                                                HttpServletResponse response) throws AuthenticationException {
 
-        // 从输入流中获取到登录的信息
-        try {
-            UserReqVo loginUser = new ObjectMapper().readValue(request.getInputStream(), UserReqVo.class);
-            return authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword())
-            );
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+	public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
+		this.authenticationManager = authenticationManager;
+		super.setFilterProcessesUrl(OAUTH_LOGIN_URL);
+	}
 
-    // 成功验证后调用的方法
-    // 如果验证成功，就生成token并返回
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
-        JwtUser jwtUser = (JwtUser) authResult.getPrincipal();
-        String token = JwtTokenUtil.generateToken(jwtUser.getUsername());
-        log.info("successfulAuthentication jwtUser:{} token:{}", jwtUser, token);
-        HashMap result = new HashMap();
-        result.put(JwtTokenUtil.HEADER_TOKEN, token);
-        ResponseMessageResolver.successResolve(request, response, RespVo.success(result));
-    }
+	@Override
+	public Authentication attemptAuthentication(HttpServletRequest request,
+												HttpServletResponse response) throws AuthenticationException {
 
-    @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException, ServletException {
-        log.error("JWTAuthenticationFilter unsuccessfulAuthentication ex:{}", ex);
-        ResponseMessageResolver.failResolve(request, response, BaseErrorCode.UNAUTHORIZED_ERROR, ex.getMessage());
-    }
+		// 从输入流中获取到登录的信息
+		try {
+			UserReqVo loginUser = new ObjectMapper().readValue(request.getInputStream(), UserReqVo.class);
+			return authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword())
+			);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	// 成功验证后调用的方法
+	// 如果验证成功，就生成token并返回
+	@Override
+	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
+		JwtUser jwtUser = (JwtUser) authResult.getPrincipal();
+		String token = JwtTokenUtil.generateToken(jwtUser.getUsername());
+		Date expirationDate = JwtTokenUtil.getExpirationDateFromToken(token);
+		log.info("successfulAuthentication jwtUser:{} token:{} expirationDate:{}", jwtUser, token, expirationDate);
+		HashMap result = new HashMap();
+		result.put(JwtTokenUtil.HEADER_TOKEN, token);
+		result.put(JwtTokenUtil.HEADER_EXPIRATION_DATE, expirationDate.getTime());
+		result.put(JwtTokenUtil.CLAIM_INFO, jwtUser);
+		result.put(JwtTokenUtil.CLAIM_ID, jwtUser.getId());
+		ResponseMessageResolver.successResolve(request, response, RespVo.success(result));
+	}
+
+	@Override
+	protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex) throws IOException, ServletException {
+		log.error("JWTAuthenticationFilter unsuccessfulAuthentication ex:{}", ex);
+		ResponseMessageResolver.failResolve(request, response, BaseErrorCode.UNAUTHORIZED_ERROR, ex.getMessage());
+	}
 }
