@@ -55,7 +55,7 @@ public class ${upperModelName}Controller {
 	@PostMapping("list")
 	@FillField
 	@PreAuthorize("hasRole('ROLE_${strutil.toUpperCase(dbTableInfo.tableName)}_SELECT')")
-	public List<${upperModelName}RespVo> list(@Validated @RequestBody ${upperModelName}ReqVo reqVo) {
+	public List<${upperModelName}RespVo> list(@RequestBody ${upperModelName}ReqVo reqVo) {
 		return i${upperModelName}ServiceComp.list(reqVo);
 	}
 	

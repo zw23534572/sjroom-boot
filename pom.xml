@@ -255,15 +255,6 @@
                     </plugin>
                 </plugins>
             </build>
-            <!--  配置构建新数字化运营平台项目时的仓库地址  2-->
-            <!--  snapshot版本不需要授权，开发人员可以根据情况自由构建  -->
-            <!--  release版本需要授权，应由版本管理人员进行构建，因此版本管理人员应在自己本地配置远程仓库的认证  -->
-            <distributionManagement>
-                <snapshotRepository>
-                    <id>dop-snapshots</id>
-                    <url>${dop-snapshots-repo}</url>
-                </snapshotRepository>
-            </distributionManagement>
         </profile>
     </profiles>
 </project>

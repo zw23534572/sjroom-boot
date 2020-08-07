@@ -43,7 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	//忽略需要认证的路径
 	private List<String> noAuthentication = new ArrayList<>(16);
 
-
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new PasswordEncoder() {

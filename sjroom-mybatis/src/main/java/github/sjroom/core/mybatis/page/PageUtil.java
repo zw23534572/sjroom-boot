@@ -33,8 +33,12 @@ public class PageUtil {
 		if (pageParam instanceof PageReqParam) {
 			PageReqParam pageReqParam = (PageReqParam) pageParam;
 			List<OrderItem> orders = new ArrayList<>();
-			orders.addAll(OrderItem.ascs(pageReqParam.getAscs().toArray(new String[pageReqParam.getAscs().size()])));
-			orders.addAll(OrderItem.descs(pageReqParam.getDescs().toArray(new String[pageReqParam.getDescs().size()])));
+			if (CollectionUtil.isNotEmpty(pageReqParam.getAscs())){
+				orders.addAll(OrderItem.ascs(pageReqParam.getAscs().toArray(new String[pageReqParam.getAscs().size()])));
+			}
+			if (CollectionUtil.isNotEmpty(pageReqParam.getDescs())){
+				orders.addAll(OrderItem.descs(pageReqParam.getDescs().toArray(new String[pageReqParam.getDescs().size()])));
+			}
 			page.setOrders(orders);
 		}
 		return page;

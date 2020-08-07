@@ -2,6 +2,9 @@ package github.sjroom.core.context.call;
 
 import lombok.Data;
 
+import java.util.List;
+import java.util.Set;
+
 /**
  * 业务访问请求的上下文
  *
@@ -23,7 +26,7 @@ public class BusinessContext<T> {
 	/**
 	 * 用户当前角色id
 	 */
-	private Long roleId;
+	private Set<Long> roleIds;
 	/**
 	 * 访问的菜单
 	 */

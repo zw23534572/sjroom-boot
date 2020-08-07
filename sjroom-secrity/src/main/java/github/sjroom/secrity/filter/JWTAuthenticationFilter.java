@@ -5,7 +5,7 @@ import github.sjroom.core.code.BaseErrorCode;
 import github.sjroom.core.response.RespVo;
 import github.sjroom.core.response.ResponseMessageResolver;
 import github.sjroom.secrity.bean.JwtUser;
-import github.sjroom.secrity.bean.UserReqVo;
+import github.sjroom.secrity.bean.JwtUserVo;
 import github.sjroom.secrity.utils.JwtTokenUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,7 +47,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 		// 从输入流中获取到登录的信息
 		try {
-			UserReqVo loginUser = new ObjectMapper().readValue(request.getInputStream(), UserReqVo.class);
+			JwtUserVo loginUser = new ObjectMapper().readValue(request.getInputStream(), JwtUserVo.class);
 			return authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword())
 			);
