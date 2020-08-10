@@ -4,7 +4,6 @@ import ${config.voPackage}.${upperModelName}PageReqVo;
 import ${config.voPackage}.${upperModelName}ReqVo;
 import ${config.voPackage}.${upperModelName}RespVo;
 import ${config.servicePackage}.I${upperModelName}ServiceComp;
-import github.sjroom.core.mybatis.annotation.FillField;
 import github.sjroom.core.mybatis.page.PageResult;
 import github.sjroom.core.mybatis.page.PageUtil;
 import github.sjroom.web.vo.IdStatusListVo;
@@ -37,7 +36,6 @@ public class ${upperModelName}Controller {
 	
 	@ApiOperation(value = "查看", notes = "传入id")
 	@PostMapping("find")
-	@FillField
 	@PreAuthorize("hasRole('ROLE_${strutil.toUpperCase(dbTableInfo.tableName)}_SELECT')")
 	public ${upperModelName}RespVo find(@Validated @RequestBody IdVo<Long> idVo) {
 		return i${upperModelName}ServiceComp.find(idVo);
@@ -45,7 +43,6 @@ public class ${upperModelName}Controller {
 	
 	@ApiOperation("分页")
 	@PostMapping("page")
-	@FillField
 	@PreAuthorize("hasRole('ROLE_${strutil.toUpperCase(dbTableInfo.tableName)}_SELECT')")
 	public PageResult page(@Validated @RequestBody ${upperModelName}PageReqVo reqVo) {
 		return PageUtil.toPageResult(i${upperModelName}ServiceComp.page(reqVo), ${upperModelName}RespVo.class);
@@ -53,7 +50,6 @@ public class ${upperModelName}Controller {
 	
 	@ApiOperation("列表")
 	@PostMapping("list")
-	@FillField
 	@PreAuthorize("hasRole('ROLE_${strutil.toUpperCase(dbTableInfo.tableName)}_SELECT')")
 	public List<${upperModelName}RespVo> list(@RequestBody ${upperModelName}ReqVo reqVo) {
 		return i${upperModelName}ServiceComp.list(reqVo);

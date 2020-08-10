@@ -29,4 +29,9 @@ public interface BaseErrorCode extends IErrorCode {
 	 */
 	String SYSTEM_ERROR = "500";
 
+	/**
+	 * 501-系统错误,添加
+	 */
+	String SYSTEM_ERROR_ADD_01 = "501"; //该数据已经添存在不能再次重复添加{0}
+
 }
