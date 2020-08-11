@@ -29,36 +29,36 @@ import java.io.IOException;
  */
 @Slf4j
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
-    private UserDetailsService userDetailsService;
+	private UserDetailsService userDetailsService;
 
-    public JWTAuthorizationFilter(AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
-        super(authenticationManager);
-        this.userDetailsService = userDetailsService;
-    }
+	public JWTAuthorizationFilter(AuthenticationManager authenticationManager, UserDetailsService userDetailsService) {
+		super(authenticationManager);
+		this.userDetailsService = userDetailsService;
+	}
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException {
-        try {
-            String token = request.getHeader(JwtTokenUtil.HEADER_TOKEN);
-            if (StringUtil.isBlank(token)) {
-                chain.doFilter(request, response);
-                return;
-            }
-            Assert.throwOnFalse(ObjectUtil.isNotNull(token), ISecrityErrorCode.TOKEN_NOT_NULL);
-            Assert.throwOnFalse(!JwtTokenUtil.isTokenExpired(token), ISecrityErrorCode.TOKEN_EXPIRED);
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException {
+		try {
+			String token = request.getHeader(JwtTokenUtil.HEADER_TOKEN);
+			if (StringUtil.isBlank(token) || token.equals("null")) {
+				chain.doFilter(request, response);
+				return;
+			}
 
-            String username = JwtTokenUtil.getUsernameFromToken(token);
-            Assert.throwOnFalse(StringUtil.isNotBlank(username), ISecrityErrorCode.TOKEN_NOT_NULL_NAME);
+			Assert.throwOnFalse(!JwtTokenUtil.isTokenExpired(token), ISecrityErrorCode.TOKEN_EXPIRED);
 
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities());
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            chain.doFilter(request, response);
-        } catch (Exception ex) {
-            log.error("JWTAuthenticationFilter unsuccessfulAuthentication ex:{}", ex);
-            ResponseMessageResolver.failResolve(request, response, BaseErrorCode.UNAUTHORIZED_ERROR, ex.getMessage());
-        }
-    }
+			String username = JwtTokenUtil.getUsernameFromToken(token);
+			Assert.throwOnFalse(StringUtil.isNotBlank(username), ISecrityErrorCode.TOKEN_NOT_NULL_NAME);
+
+			UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+			UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+				userDetails, null, userDetails.getAuthorities());
+			authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			chain.doFilter(request, response);
+		} catch (Exception ex) {
+			log.error("JWTAuthenticationFilter unsuccessfulAuthentication ex:{}", ex);
+			ResponseMessageResolver.failResolve(request, response, BaseErrorCode.UNAUTHORIZED_ERROR, ex.getMessage());
+		}
+	}
 }
