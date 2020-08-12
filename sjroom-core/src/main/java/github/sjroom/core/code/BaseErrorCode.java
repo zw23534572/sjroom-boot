@@ -12,26 +12,11 @@ package github.sjroom.core.code;
  * @since 2019-05-27 08:34
  */
 public interface BaseErrorCode extends IErrorCode {
-	/**
-	 * 200-成功
-	 */
-	String SUCCESS = "200";
-	/**
-	 * 400-参数错误
-	 */
-	String PARAM_ERROR = "400";
-	/**
-	 * 401-鉴权错误
-	 */
-	String UNAUTHORIZED_ERROR = "401";
-	/**
-	 * 500-系统错误
-	 */
-	String SYSTEM_ERROR = "500";
-
-	/**
-	 * 501-系统错误,添加
-	 */
-	String SYSTEM_ERROR_ADD_01 = "501"; //该数据已经添存在不能再次重复添加{0}
+	String SUCCESS = "200"; //成功
+	String PARAM_ERROR = "400"; //参数错误：{0}
+	String PARAM_ERROR_01 = "40001";  //参数错误：{0}不能为空
+	String UNAUTHORIZED_ERROR = "401"; //鉴权错误
+	String SYSTEM_ERROR = "500"; //500-系统错误
+	String SYSTEM_ERROR_ADD_01 = "501"; //系统错误,添加
 
 }

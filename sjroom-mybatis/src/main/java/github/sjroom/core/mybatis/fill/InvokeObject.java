@@ -44,8 +44,7 @@ public class InvokeObject {
 		if (o == null || getClass() != o.getClass()) return false;
 		InvokeObject that = (InvokeObject) o;
 		return Objects.equals(invokeClass, that.invokeClass) &&
-			Objects.equals(invokeMethod, that.invokeMethod) &&
-			Objects.equals(invokeArgs, that.invokeArgs);
+			Objects.equals(invokeMethod, that.invokeMethod);
 	}
 
 	@Override

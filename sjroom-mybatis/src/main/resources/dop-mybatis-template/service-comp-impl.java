@@ -45,10 +45,10 @@ public class ${upperModelName}ServiceCompImpl implements I${upperModelName}Servi
 	}
 
 	@Override
-	public IPage page(${upperModelName}PageReqVo reqVo) {
+	public IPage<${upperModelName}RespVo> page(${upperModelName}PageReqVo reqVo) {
 		IPage<${upperModelName}Bo> ${lowerModelName}BoIPage = ${lowerModelName}Service.findPage(this.buildParams(reqVo));
 		this.buildResult(${lowerModelName}BoIPage.getRecords());
-		return ${lowerModelName}BoIPage;
+		return PageUtil.toPage(${lowerModelName}BoIPage, ${upperModelName}RespVo.class);
 	}
 
 	@Override
@@ -94,16 +94,16 @@ public class ${upperModelName}ServiceCompImpl implements I${upperModelName}Servi
 			log.warn("${upperModelName}ServiceCompImpl removeBatch idListVo is empty");
 			return;
 		}
-	
+
 		List<${upperModelName}Bo> ${lowerModelName}s = ${lowerModelName}Service.findByBIds(idListVo.getIdList());
 		if (CollectionUtil.isNotEmpty(${lowerModelName}s)) {
 			${lowerModelName}s = ${lowerModelName}s.stream().filter(x -> x.getStatus() == StatusEnum.UN_ENABLE).collect(Collectors.toList());
 			Assert.throwOnFalse(${lowerModelName}s.size() > 0, SjroomErrorCode.PARAM_ERROR, "必须有一个未启用状态，才能进行");
 		}
-	
+
 		${lowerModelName}Service.removeBatchBIds(idListVo.getIdList());
 	}
-	
+
 	/**
 	 * 构建参数
 	 *

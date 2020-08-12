@@ -27,7 +27,7 @@ public interface I${upperModelName}ServiceComp {
 	/**
 	 * 分页
 	 */
-	IPage page(${upperModelName}PageReqVo reqVo);
+	IPage<${upperModelName}RespVo> page(${upperModelName}PageReqVo reqVo);
 
 	/**
 	 * 列表

@@ -2,7 +2,11 @@ package github.sjroom.core.context.call;
 
 import org.springframework.lang.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Function;
 
 /**
@@ -12,52 +16,65 @@ import java.util.function.Function;
  */
 public class BusinessContextHolders {
 
-    private static final ThreadLocal<BusinessContext> contextLocal = new ThreadLocal<>();
+	private static final ThreadLocal<BusinessContext> contextLocal = new ThreadLocal<>();
 
+	private static ConcurrentMap<String, BusinessContext> map = new ConcurrentHashMap<>();
 
-    public static BusinessContext getBusinessContext(boolean check) {
-        BusinessContext context = contextLocal.get();
+	public static void setMap(String key, BusinessContext businessContext) {
+		map.put(key, businessContext);
+	}
+
+	public static void clearMap(String key) {
+		map.remove(key);
+	}
+
+	public static BusinessContext getMap(String key) {
+		return map.get(key);
+	}
+
+	public static BusinessContext getBusinessContext(boolean check) {
+		BusinessContext context = contextLocal.get();
 //        Assert.throwOnFalse(!check || context != null, BaseErrorCode.NO_CONTEXT);
-        return context;
-    }
+		return context;
+	}
 
-    public static BusinessContext getBusinessContext() {
-        return getBusinessContext(false);
-    }
+	public static BusinessContext getBusinessContext() {
+		return getBusinessContext(false);
+	}
 
-    /**
-     * 为什么暴露给外界：让外界能在自启动线程中正确设定callcontext
-     */
-    public static void setContext(BusinessContext callContext) {
-        if (callContext == null) {
-            contextLocal.remove();
-        } else {
-            contextLocal.set(callContext);
-        }
-    }
+	/**
+	 * 为什么暴露给外界：让外界能在自启动线程中正确设定callcontext
+	 */
+	public static void setContext(BusinessContext callContext) {
+		if (callContext == null) {
+			contextLocal.remove();
+		} else {
+			contextLocal.set(callContext);
+		}
+	}
 
-    public static void removeContext() {
-        contextLocal.remove();
-    }
+	public static void removeContext() {
+		contextLocal.remove();
+	}
 
-    @Nullable
-    public static Long getXSystemId() {
-        return getAttrByFunc(BusinessContext::getSystemId);
-    }
+	@Nullable
+	public static Long getXSystemId() {
+		return getAttrByFunc(BusinessContext::getSystemId);
+	}
 
-    @Nullable
-    public static Long getXUserId() {
-        return getAttrByFunc(BusinessContext::getUserId);
-    }
+	@Nullable
+	public static Long getXUserId() {
+		return getAttrByFunc(BusinessContext::getUserId);
+	}
 
-    @Nullable
-    public static Long getXCompanyId() {
-        return getAttrByFunc(BusinessContext::getCompanyId);
-    }
+	@Nullable
+	public static Long getXCompanyId() {
+		return getAttrByFunc(BusinessContext::getCompanyId);
+	}
 
-    public static <T> T getAttrByFunc(Function<BusinessContext,T> supplier) {
-        return Optional.ofNullable(getBusinessContext())
-            .map(supplier)
-            .orElse(null);
-    }
+	public static <T> T getAttrByFunc(Function<BusinessContext, T> supplier) {
+		return Optional.ofNullable(getBusinessContext())
+			.map(supplier)
+			.orElse(null);
+	}
 }

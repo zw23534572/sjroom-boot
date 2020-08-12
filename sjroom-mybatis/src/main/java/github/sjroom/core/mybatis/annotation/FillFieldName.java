@@ -24,6 +24,6 @@ public @interface FillFieldName {
 	/**
 	 * 参数
 	 */
-	String invokeArg() default "STATUS";
+	String invokeArg() default "";
 
 }
