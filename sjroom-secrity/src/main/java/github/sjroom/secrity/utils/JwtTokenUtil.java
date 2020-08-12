@@ -94,6 +94,7 @@ public class JwtTokenUtil {
 //        claims = checkJWT("eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE1OTQyMDEyMzAsImlhdCI6MTU5MzU5NjQzMCwicm9sIjoiUk9MRV9VU0VSIiwidXNlcm5hbWUiOiJtYW5zb24ifQ.lKsOYDLBB-yt-IvGac0nWoyYwdjxmSGp6S8oEIPJEas");
 //        System.out.println("claims:" + claims);
 
+		System.out.println(generateToken("manson"));
     }
 
 }

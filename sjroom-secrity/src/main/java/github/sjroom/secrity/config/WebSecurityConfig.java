@@ -23,10 +23,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.SessionManagementFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -66,6 +70,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 	}
 
+	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.addAllowedOrigin("*");//修改为添加而不是设置，* 最好改为实际的需要，我这是非生产配置，所以粗暴了一点
+		configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE", "PATCH"));
+		configuration.addAllowedHeader("*");//这里很重要，起码需要允许 Access-Control-Allow-Origin
+		// The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+		configuration.setAllowCredentials(true);
+		configuration.setAllowedHeaders(Arrays.asList("token", "Cache-Control", "X-User-Agent", "Content-Type"));
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
+
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers(this.noAuthentication.toArray(new String[this.noAuthentication.size()]));
@@ -88,6 +106,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.addFilterAfter(new JWTAuthorizationFilter(authenticationManager(), userDetailsService), SessionManagementFilter.class);
 		// 禁用缓存
 		http.headers().cacheControl();
+		// 开启跨域
+		http.cors();
 		// 由于使用的是JWT，我们这里不需要csrf
 		http.csrf().disable();
 		// 基于token，所以不需要session
