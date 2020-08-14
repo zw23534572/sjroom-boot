@@ -18,7 +18,9 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 填充字典值和用户名称
@@ -94,6 +96,10 @@ public class FillFieldNameAspect {
 		return fillVal(retVal, retCollection, fillFieldObjects);
 	}
 
+	private static String fetchGroupKey(InvokeObject invokeObject){
+		return invokeObject.getInvokeClass() +"#"+ invokeObject.getInvokeMethod();
+	}
+
 
 	/**
 	 * 开始反射赋值
@@ -110,31 +116,32 @@ public class FillFieldNameAspect {
 		retCollection.forEach(obj -> fillFieldObjects.forEach(fieldInfo -> {
 			Field field = fieldInfo.getField();
 			field.setAccessible(true);
-
-			if (StringUtil.isNotBlank(fieldInfo.getInvokeArg())) {
-				InvokeObject invokeObject = new InvokeObject(fieldInfo.getInvokeClass(), fieldInfo.getInvokeMethod(), fieldInfo.getInvokeArg());
-				invokeObjects.add(invokeObject);
-			} else {
-				try {
-					Object fieldValue = field.get(obj);
-					if (ObjectUtil.isNotNull(fieldValue)) {
-						InvokeObject invokeObject = new InvokeObject(fieldInfo.getInvokeClass(), fieldInfo.getInvokeMethod());
-						boolean isOrg = false;
-						for (InvokeObject orgInvokeObject : invokeObjects) {
-							if (orgInvokeObject.equals(invokeObject)) {
-								orgInvokeObject.getInvokeArgs().add(fieldValue);
-								isOrg = true;
-							}
-						}
-						if (!isOrg) {
-							invokeObjects.add(invokeObject);
-						}
-					}
-				} catch (IllegalAccessException e) {
-					throw new BusinessException(e);
-				}
-			}
+			InvokeObject invokeObject = new InvokeObject(fieldInfo.getInvokeClass(), fieldInfo.getInvokeMethod(), fieldInfo.getInvokeArg());
+			invokeObjects.add(invokeObject);
 		}));
+
+		 invokeObjects.stream().collect(
+		 	Collectors.groupingBy(e-> this.fetchGroupKey(e),
+				Collectors.mapping(InvokeObject::getInvokeArgs, Collectors.toSet())
+			)
+		 );
+//		List<InvokeObject> newInvokeObjects = new ArrayList<>();
+//		// 将调用同个方法的入参进行合并
+//		invokeObjects.forEach(invokeObject -> {
+//			boolean isOrg = false;
+//			if (newInvokeObjects.contains(invokeObject)){
+//				newInvokeObjects.get(invokeObject)
+//			}
+//			for (InvokeObject orgInvokeObject : invokeObjects) {
+//				if (orgInvokeObject.equals(invokeObject)) {
+//					orgInvokeObject.getInvokeArgs().add(fieldValue);
+//					isOrg = true;
+//				}
+//			}
+//			if (!isOrg) {
+//				invokeObjects.add(invokeObject);
+//			}
+//		});
 
 		// 获取所有值,调用第三方法返回的值
 		invokeObjects.forEach(invokeObject -> {
@@ -190,6 +197,7 @@ public class FillFieldNameAspect {
 			return objects.get(0);
 		}
 	}
+
 
 	/**
 	 * 获取该类的所有属性列表
