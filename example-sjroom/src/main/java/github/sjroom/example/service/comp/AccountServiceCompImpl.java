@@ -35,8 +35,8 @@ public class AccountServiceCompImpl implements IAccountServiceComp {
 	private IAccountService accountService;
 
 	@Override
-	public AccountRespVo find(IdVo<Long> idVo) {
-		AccountBo accountBo = accountService.findByBId(idVo.getId());
+	public AccountRespVo find(Long id) {
+		AccountBo accountBo = accountService.findByBId(id);
 		return BeanUtil.copy(accountBo, AccountRespVo.class);
 	}
 

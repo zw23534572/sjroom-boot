@@ -22,7 +22,7 @@ public interface IAccountServiceComp {
 	/**
 	 * 查看
 	 */
-	AccountRespVo find(IdVo<Long> idVo);
+	AccountRespVo find(Long id);
 
 	/**
 	 * 分页
