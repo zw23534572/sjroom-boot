@@ -81,8 +81,6 @@ public class AutoGenerator {
 			buildClass("bean.vo", "entity-response.java", "RespVo");
 			buildClass("bean.bo", "entity-bo.java", "Bo");
 			buildClass("dao", "dao.java", "Dao");
-			buildClass("dao", "dao-comp.java", "DaoComp");
-			buildClass("dao.comp", "dao-comp-impl.java", "DaoCompImpl");
 			if (this.config.getXmlPaging()) {
 				buildClass("dao", "dao.xml", "Dao");
 			}

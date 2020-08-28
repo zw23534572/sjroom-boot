@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="${config.daoPackage}.I${upperModelName}${fileSuffix}">
+
+    <sql id="Base_Column_List">
+        <% for(var item in dbTableFieldInfoList) {%>${itemLP.index!=itemLP.size?item.column+",":item.column}<% } %>
+    </sql>
+
+    <select id="findPage" resultType="${config.entityPackage}.${upperModelName}"
+            parameterType="${config.boPackage}.${upperModelName}Bo">
+        select
+        <include refid="Base_Column_List" />
+        from ${dbTableName}
+        <where>
+            <% for(var item in dbTableFieldInfoList) {
+                var isIgore=false;
+                for(var igoreitem in config.ignoreFieldArr){
+                if(item.column==igoreitem && igoreitem!="create_time" && igoreitem!="create_date"){
+                    isIgore = true;
+                    break;
+                  }
+                }
+                if(isIgore) continue;
+            %>
+                <% if (item.propertyType=='String') {%>
+                <if test="model.${item.property} != null and model.${item.property} != ''">
+                    and ${item.column} = #{model.${item.property}}
+                </if>
+                <% } else if(item.propertyType=='Long' || item.propertyType=='Integer' || item.propertyType=='Byte') {%>
+                <if test="model.${item.property} != null and model.${item.property} >= 0">
+                    and ${item.column} = #{model.${item.property}}
+                </if>
+                <% } else {%>
+                <if test="model.${item.property} != null">
+                    and ${item.column} = #{model.${item.property}}
+                </if>
+                <% } %>
+            <% } %>
+        </where>
+    </select>
+</mapper>

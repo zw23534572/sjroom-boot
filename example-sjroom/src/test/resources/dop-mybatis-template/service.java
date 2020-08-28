@@ -60,7 +60,6 @@ public interface I${upperModelName}Service extends BaseService<${upperModelName}
 
 	/**
 	 * 注解：@fillFieldName，填充字段的专用方法
-	 * 如果不需要用该注解，直接删除该方法即可
 	 *
 	 * @param bIds 业务model
 	 * @return 键值对

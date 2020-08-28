@@ -1,6 +1,10 @@
 package github.sjroom.example.service.comp;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import github.sjroom.core.code.BaseErrorCode;
+import github.sjroom.core.mybatis.enums.StatusEnum;
+import github.sjroom.core.exception.Assert;
+import github.sjroom.core.mybatis.page.PageUtil;
 import github.sjroom.core.utils.BeanUtil;
 import github.sjroom.core.utils.CollectionUtil;
 import github.sjroom.example.bean.bo.AccountBo;
@@ -16,16 +20,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import github.sjroom.web.vo.IdListVo;
 
 import java.util.Date;
 import java.util.List;
-
+import java.util.stream.Collectors;
 /**
  * <B>说明：</B><BR>
  *
  * @author manson.zhou
  * @version 1.0.0.
- * @date 2019-12-16 14:14
+ * @date 2020-08-28 14:49
  */
 @Slf4j
 @Service
@@ -35,16 +40,16 @@ public class AccountServiceCompImpl implements IAccountServiceComp {
 	private IAccountService accountService;
 
 	@Override
-	public AccountRespVo find(Long id) {
-		AccountBo accountBo = accountService.findByBId(id);
+	public AccountRespVo find(IdVo<Long> idVo) {
+		AccountBo accountBo = accountService.findByBId(idVo.getId());
 		return BeanUtil.copy(accountBo, AccountRespVo.class);
 	}
 
 	@Override
-	public IPage page(AccountPageReqVo reqVo) {
+	public IPage<AccountRespVo> page(AccountPageReqVo reqVo) {
 		IPage<AccountBo> accountBoIPage = accountService.findPage(this.buildParams(reqVo));
 		this.buildResult(accountBoIPage.getRecords());
-		return accountBoIPage;
+		return PageUtil.toPage(accountBoIPage, AccountRespVo.class);
 	}
 
 	@Override
@@ -82,6 +87,22 @@ public class AccountServiceCompImpl implements IAccountServiceComp {
 		});
 		accountService.updateBatchByBIds(accounts);
 		return;
+	}
+
+	@Override
+	public void removeBatch(IdListVo<Long> idListVo) {
+		if (CollectionUtil.isEmpty(idListVo.getIdList())) {
+			log.warn("AccountServiceCompImpl removeBatch idListVo is empty");
+			return;
+		}
+
+		List<AccountBo> accounts = accountService.findByBIds(idListVo.getIdList());
+		if (CollectionUtil.isNotEmpty(accounts)) {
+			accounts = accounts.stream().filter(x -> x.getStatus() == StatusEnum.UN_ENABLE).collect(Collectors.toList());
+			Assert.throwOnFalse(accounts.size() > 0, BaseErrorCode.PARAM_ERROR, "必须有一个未启用状态，才能进行");
+		}
+
+		accountService.removeBatchBIds(idListVo.getIdList());
 	}
 
 	/**

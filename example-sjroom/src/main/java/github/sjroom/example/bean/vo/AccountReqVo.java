@@ -2,19 +2,21 @@ package github.sjroom.example.bean.vo;
 
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import io.swagger.annotations.ApiModelProperty;
 /**
- * <B>说明：</B><BR>
+ * <B>说明：平台账号表</B><BR>
  *
  * @author manson.zhou
  * @version 1.0.0.
- * @date 2020-06-15 16:23
+ * @date 2020-08-28 14:49
  */
 @Data
 public class AccountReqVo  {
 
     @ApiModelProperty("业务主键")
+	@NotNull
     private Long accountId;
 
     @ApiModelProperty("账号类型（0.超级管理员，1.普通管理员，2.业务管理员，3.业务人员）")
@@ -24,9 +26,11 @@ public class AccountReqVo  {
     private String mobile;
 
     @ApiModelProperty("邮箱")
+	@NotBlank
     private String email;
 
     @ApiModelProperty("登录用户名")
+	@NotBlank
     private String loginName;
 
     @ApiModelProperty("密码")
@@ -63,5 +67,6 @@ public class AccountReqVo  {
     private Integer loginStatus;
 
     @ApiModelProperty("最近登录时间")
+	@NotNull
     private Date lastLoginTime;
 }

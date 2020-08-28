@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * <B>说明：${dbTableInfo.comment} 控制器</B><BR>
  *
- * @author ${config.author}
+ * @author ${config.author} manson
  * @version 1.0.0
  * @since ${date}
  */

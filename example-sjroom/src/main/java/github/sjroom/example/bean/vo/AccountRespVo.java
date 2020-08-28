@@ -1,15 +1,16 @@
 package github.sjroom.example.bean.vo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import java.util.Date;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
- * <B>说明：</B><BR>
+ * <B>说明：平台账号表</B><BR>
  *
  * @author manson.zhou
  * @version 1.0.0.
- * @date 2020-06-15 16:23
+ * @date 2020-08-28 14:49
  */
 @Data
 public class AccountRespVo  {

@@ -13,8 +13,8 @@ import java.util.Set;
  * <B>说明：服务</B><BR>
  *
  * @author manson.zhou
- * @version 1.0.0
- * @since 2019-12-16 14:14
+ * @version 1.0.0.
+ * @date 2020-08-28 14:49
  */
 public interface IAccountService extends BaseService<Account> {
 
@@ -57,4 +57,5 @@ public interface IAccountService extends BaseService<Account> {
 	 * @return
 	 */
 	IPage<AccountBo> findPage(AccountBo accountBo);
+
 }

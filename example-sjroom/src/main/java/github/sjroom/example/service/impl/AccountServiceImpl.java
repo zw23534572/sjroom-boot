@@ -2,16 +2,16 @@ package github.sjroom.example.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import github.sjroom.core.mybatis.page.PageUtil;
-import github.sjroom.core.utils.BeanUtil;
-import github.sjroom.core.utils.CollectionUtil;
-import github.sjroom.core.utils.ObjectUtil;
-import github.sjroom.core.utils.StringUtil;
 import github.sjroom.example.bean.bo.AccountBo;
 import github.sjroom.example.bean.entity.Account;
 import github.sjroom.example.dao.IAccountDao;
 import github.sjroom.example.service.IAccountService;
+import github.sjroom.core.mybatis.page.PageUtil;
 import github.sjroom.core.mybatis.service.impl.BaseServiceImpl;
+import github.sjroom.core.utils.BeanUtil;
+import github.sjroom.core.utils.CollectionUtil;
+import github.sjroom.core.utils.ObjectUtil;
+import github.sjroom.core.utils.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,20 +24,18 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+
 /**
  * <B>说明：服务实现</B><BR>
  *
  * @author manson.zhou
- * @version 1.0.0
- * @since 2019-12-16 14:14
+ * @version 1.0.0.
+ * @date 2020-08-28 14:49
  */
 @Slf4j
 @Service
 @Validated
 public class AccountServiceImpl extends BaseServiceImpl<IAccountDao, Account> implements IAccountService {
-
-	@Autowired
-	IAccountDao iAccountDao;
 
 	@Override
 	public AccountBo findByBId(Long bid) {
@@ -69,7 +67,7 @@ public class AccountServiceImpl extends BaseServiceImpl<IAccountDao, Account> im
 
 	@Override
 	public IPage<AccountBo> findPage(AccountBo model) {
-		IPage<Account> modelPage = iAccountDao.findPage(PageUtil.toPage(model), model);
+		IPage<Account> modelPage = super.page(PageUtil.toPage(model), this.query(model));
 		return PageUtil.toPage(modelPage, AccountBo.class);
 	}
 
@@ -94,4 +92,5 @@ public class AccountServiceImpl extends BaseServiceImpl<IAccountDao, Account> im
 			wrapper.eq(ObjectUtil.isNotNull(model.getLastLoginTime()), Account::getLastLoginTime, model.getLastLoginTime());
 		return wrapper;
 	}
+
 }

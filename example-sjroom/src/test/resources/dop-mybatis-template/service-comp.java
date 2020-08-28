@@ -1,9 +1,9 @@
-package github.sjroom.example.service;
+package ${currentPackage};
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import github.sjroom.example.bean.vo.AccountPageReqVo;
-import github.sjroom.example.bean.vo.AccountReqVo;
-import github.sjroom.example.bean.vo.AccountRespVo;
+import ${config.voPackage}.${upperModelName}PageReqVo;
+import ${config.voPackage}.${upperModelName}ReqVo;
+import ${config.voPackage}.${upperModelName}RespVo;
 import github.sjroom.web.vo.IdStatusListVo;
 import github.sjroom.web.vo.IdVo;
 import org.springframework.validation.annotation.Validated;
@@ -13,36 +13,36 @@ import java.util.List;
 /**
  * <B>说明：</B><BR>
  *
- * @author manson.zhou
+ * @author ${config.author}
  * @version 1.0.0.
- * @date 2020-08-28 14:49
+ * @date ${date}
  */
 @Validated
-public interface IAccountServiceComp {
+public interface I${upperModelName}ServiceComp {
 	/**
 	 * 查看
 	 */
-	AccountRespVo find(IdVo<Long> idVo);
+	${upperModelName}RespVo find(IdVo<Long> idVo);
 
 	/**
 	 * 分页
 	 */
-	IPage<AccountRespVo> page(AccountPageReqVo reqVo);
+	IPage<${upperModelName}RespVo> page(${upperModelName}PageReqVo reqVo);
 
 	/**
 	 * 列表
 	 */
-	List<AccountRespVo> list(AccountReqVo reqVo);
+	List<${upperModelName}RespVo> list(${upperModelName}ReqVo reqVo);
 
 	/**
 	 * 创建
 	 */
-	Long create(AccountReqVo accountReqVo);
+	Long create(${upperModelName}ReqVo accountReqVo);
 
 	/**
 	 * 更新
 	 */
-	void update(AccountReqVo accountReqVo);
+	void update(${upperModelName}ReqVo accountReqVo);
 
 	/**
 	 * 批量更新

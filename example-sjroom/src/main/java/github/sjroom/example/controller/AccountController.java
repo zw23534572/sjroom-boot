@@ -1,13 +1,13 @@
 package github.sjroom.example.controller;
 
-import github.sjroom.core.mybatis.page.PageResult;
-import github.sjroom.core.mybatis.page.PageUtil;
 import github.sjroom.example.bean.vo.AccountPageReqVo;
 import github.sjroom.example.bean.vo.AccountReqVo;
 import github.sjroom.example.bean.vo.AccountRespVo;
 import github.sjroom.example.service.IAccountServiceComp;
-import github.sjroom.core.mybatis.annotation.FillField;
+import github.sjroom.core.mybatis.page.PageResult;
+import github.sjroom.core.mybatis.page.PageUtil;
 import github.sjroom.web.vo.IdStatusListVo;
+import github.sjroom.web.vo.IdListVo;
 import github.sjroom.web.vo.IdVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,43 +15,39 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 /**
- * <B>说明： 控制器</B><BR>
+ * <B>说明：平台账号表 控制器</B><BR>
  *
  * @author manson.zhou
  * @version 1.0.0
- * @since 2020-06-15 16:23
+ * @since 2020-08-28 14:49
  */
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("api/account")
-@Api(" 控制器")
+@RequestMapping("account")
+@Api("平台账号表 控制器")
 public class AccountController {
 	@Autowired
 	private IAccountServiceComp iAccountServiceComp;
 
 	@ApiOperation(value = "查看", notes = "传入id")
-	@GetMapping("find")
-	@FillField
-	public AccountRespVo find(Long id) {
-		return iAccountServiceComp.find(id);
+	@PostMapping("find")
+	public AccountRespVo find(@Validated @RequestBody IdVo<Long> idVo) {
+		return iAccountServiceComp.find(idVo);
 	}
 
 	@ApiOperation("分页")
 	@PostMapping("page")
-	@FillField
 	public PageResult page(@Validated @RequestBody AccountPageReqVo reqVo) {
 		return PageUtil.toPageResult(iAccountServiceComp.page(reqVo), AccountRespVo.class);
 	}
 
 	@ApiOperation("列表")
 	@PostMapping("list")
-	@FillField
-	public List<AccountRespVo> list(@Validated @RequestBody AccountReqVo reqVo) {
+	public List<AccountRespVo> list(@RequestBody AccountReqVo reqVo) {
 		return iAccountServiceComp.list(reqVo);
 	}
 
@@ -71,5 +67,11 @@ public class AccountController {
 	@PostMapping("batch-update")
 	public void batchUpdate(@Validated @RequestBody IdStatusListVo idStatusListVo) {
 		iAccountServiceComp.updateBatch(idStatusListVo);
+	}
+
+	@ApiOperation(value = "批量删除", notes = "传入id")
+	@PostMapping("batch-remove")
+	public void removeUpdate(@Validated @RequestBody IdListVo<Long> idListVo) {
+		iAccountServiceComp.removeBatch(idListVo);
 	}
 }
